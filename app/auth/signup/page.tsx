@@ -41,6 +41,9 @@ export default function SignUpPage() {
     setLoading(true);
 
     try {
+      console.log('Attempting signup with:', { email });
+      console.log('Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
+      
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -49,8 +52,11 @@ export default function SignUpPage() {
         },
       });
 
+      console.log('Signup response:', { data, error });
+
       if (error) {
-        setError(error.message);
+        console.error('Signup error:', error);
+        setError(`${error.message} (${error.status || 'unknown status'})`);
         setLoading(false);
         return;
       }
@@ -72,9 +78,9 @@ export default function SignUpPage() {
           }, 2000);
         }
       }
-    } catch (err) {
-      setError('An unexpected error occurred');
-      console.error(err);
+    } catch (err: any) {
+      console.error('Unexpected error:', err);
+      setError(`Unexpected error: ${err.message || 'Unknown error'}`);
     } finally {
       setLoading(false);
     }
