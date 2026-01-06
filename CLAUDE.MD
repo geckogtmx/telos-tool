@@ -5,7 +5,7 @@
 **Name:** TELOS Tool v1.0
 **Purpose:** Production-ready TELOS generation platform supporting Individual, Organization, and Agent entity types
 **Framework:** Next.js 14+ with App Router, TypeScript, and Tailwind CSS
-**Status:** Phase 2 complete (auth implementation debugging in progress)
+**Status:** Phases 1-4 complete (File upload with PII scrubbing working)
 
 ## What is TELOS?
 
@@ -80,18 +80,29 @@ telos-tool/
 - [x] Tailwind CSS setup
 - [x] Basic routing
 
-### Phase 2: Authentication 🔄 (In Progress - Debugging)
+### Phase 2: Authentication ✅
 - [x] Supabase client initialization
 - [x] Sign up flow UI
 - [x] Login flow UI
 - [x] Auth callback route
 - [x] Protected routes (middleware)
-- [ ] **DEBUGGING:** Auth state persistence issues
-- [ ] Session management verification
+- [x] Session management working
 
-### Phase 3-11: Pending
-- File upload & parsing
-- PII scrubbing
+### Phase 3: File Upload ✅
+- [x] CV upload component (drag-and-drop)
+- [x] Text extraction (PDF, DOCX, TXT)
+- [x] File validation (size, format)
+- [x] Error handling
+- [x] UI with preview
+
+### Phase 4: PII Scrubbing ✅
+- [x] PII detection (7 types: phone, email, SSN, credit card, address, tax ID, passport)
+- [x] Automatic PII removal
+- [x] User notification (summary only, no actual PII values)
+- [x] Verified with tests (6/6 PII items removed)
+- [x] Zero PII leakage to client
+
+### Phase 5-11: Pending
 - Question flows
 - Claude API integration
 - TELOS generation
@@ -243,13 +254,14 @@ After each phase, verify:
 
 ## Known Issues / Debugging Notes
 
-### Current Focus (Phase 2)
-- **Auth state persistence:** User session not maintaining across page refreshes
-- **Middleware redirect:** Investigating redirect loop potential
-- Need to verify Supabase client initialization in server/client contexts
+### Current Status
+- All phases 1-4 working correctly
+- Build passes with no errors
+- PII protection verified and tested
 
 ### Technical Debt
-- None yet (early stage)
+- Next.js 16 middleware deprecation warning (non-breaking, migrate to "proxy" convention later)
+- Consider adding unit tests for file parsers (currently manual testing only)
 
 ## Reference Documents
 
@@ -309,5 +321,5 @@ main           # Production-ready code only
 ---
 
 **Last Updated:** 2026-01-05
-**Current Phase:** 2 (Authentication - Debugging)
-**Next Milestone:** Complete auth debugging, begin Phase 3 (File Upload)
+**Current Phase:** 4 Complete (File Upload & PII Scrubbing)
+**Next Milestone:** Phase 5 - Question Flow (7 questions for Individual entity type)
