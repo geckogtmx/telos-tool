@@ -215,7 +215,9 @@ export default function IndividualPage() {
               />
             </div>
 
-            {Object.keys(answers).length === individualQuestions.filter(q => q.required).length && (
+            {individualQuestions
+              .filter(q => q.required)
+              .every(q => answers[q.id] && answers[q.id].trim().length >= q.minLength) && (
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex items-center justify-between">
                   <div>
