@@ -3,9 +3,20 @@
 // Top navigation bar
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { APP_NAME } from '@/config/constants';
+import { useAuth } from '@/lib/contexts/AuthContext';
+import Button from './ui/Button';
 
 export default function NavigationBar() {
+  const { user, loading, signOut } = useAuth();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push('/');
+  };
+
   return (
     <nav className="bg-white border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -20,12 +31,42 @@ export default function NavigationBar() {
             <Link href="/generate" className="text-gray-700 hover:text-blue-600 font-medium">
               Generate
             </Link>
-            <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium">
-              Dashboard
-            </Link>
-            <Link href="/auth/login" className="text-gray-700 hover:text-blue-600 font-medium">
-              Login
-            </Link>
+            {user && (
+              <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium">
+                Dashboard
+              </Link>
+            )}
+            {!loading && (
+              <>
+                {user ? (
+                  <div className="flex items-center space-x-4">
+                    <span className="text-sm text-gray-600">
+                      {user.email}
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleSignOut}
+                    >
+                      Sign Out
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-3">
+                    <Link href="/auth/login">
+                      <Button variant="outline" size="sm">
+                        Login
+                      </Button>
+                    </Link>
+                    <Link href="/auth/signup">
+                      <Button size="sm">
+                        Sign Up
+                      </Button>
+                    </Link>
+                  </div>
+                )}
+              </>
+            )}
           </div>
 
           {/* Mobile menu button placeholder */}
