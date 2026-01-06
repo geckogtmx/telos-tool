@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { parseCV, CVParseException } from '@/lib/parsers/cv-parser';
+import { scrubPII, formatPIISummary } from '@/lib/parsers/pii-scrubber';
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,16 +14,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Parse the file
     const parsed = await parseCV(file);
+
+    // Scrub PII from the extracted text
+    const scrubResult = scrubPII(parsed.text);
 
     return NextResponse.json({
       success: true,
       data: {
-        text: parsed.text,
+        text: scrubResult.cleaned,
         filename: parsed.filename,
         fileType: parsed.fileType,
-        wordCount: parsed.text.split(/\s+/).length,
-        charCount: parsed.text.length
+        wordCount: scrubResult.cleaned.split(/\s+/).length,
+        charCount: scrubResult.cleaned.length,
+        piiRemoved: scrubResult.found,
+        piiSummary: formatPIISummary(scrubResult.found),
+        totalPIIRemoved: scrubResult.totalRemoved
       }
     });
 

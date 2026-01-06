@@ -1,18 +1,29 @@
-# Phase 3: File Upload - COMPLETE ✓
+# Phase 3: File Upload & PII Scrubbing - COMPLETE ✓
 
 ## Completion Date
 January 5, 2026
 
 ## Verification Checkpoint Results
 
-### ✅ All Phase 3 Requirements Met
+### ✅ All Phase 3 & Phase 4 Requirements Met
 
+**File Upload (Phase 3):**
 - [x] CV upload component accepts .pdf, .docx, .txt
 - [x] Text extraction works for all formats
 - [x] File size limits enforced (max 5MB)
 - [x] Error states display correctly
 - [x] Extracted text shows in UI
-- [x] `npm run build` succeeds
+
+**PII Scrubbing (Phase 4):**
+- [x] PII patterns detect phone, email, SSN, credit cards, addresses, tax IDs, passports
+- [x] PII removed from extracted text
+- [x] User sees summary of removed items (NOT the actual PII values)
+- [x] Cleaned text displays in UI
+- [x] No actual PII values exposed to users
+- [x] Verified with test: 6 PII items removed successfully
+
+**Build:**
+- [x] `npm run build` succeeds with no errors
 
 ## Files Created
 
@@ -32,18 +43,28 @@ January 5, 2026
   - Custom error types (CVParseException)
   - File validation (size, format, content)
 
+- `/lib/parsers/pii-scrubber.ts` - PII detection and removal (NEW - Phase 4)
+  - 7 PII pattern types: phone, email, SSN, credit card, address, tax ID, passport
+  - Regex-based detection per build spec Section VI
+  - Replacement with sanitized tokens (e.g., [EMAIL_REMOVED])
+  - Summary generation for user notification
+  - Zero PII leakage - original values never returned to client
+
 ### API Routes
 - `/app/api/parse-cv/route.ts` - File processing endpoint
   - Accepts FormData with file upload
   - Returns parsed text with metadata
+  - **PII scrubbing integrated** - all text automatically sanitized
   - Comprehensive error handling
   - Statistics (word count, character count)
+  - PII removal summary (types and counts, NOT actual values)
 
 ### Updated Pages
 - `/app/generate/individual/page.tsx` - Complete file upload flow
   - File upload UI
   - Loading states during parsing
-  - Success view with extracted text preview
+  - **PII removal warning banner** (yellow alert with icon)
+  - Success view with extracted text preview (sanitized)
   - Error handling and display
   - Stats display (filename, word count, characters)
   - Text preview with scroll (max 2000 chars)
@@ -173,6 +194,21 @@ Route (app)
 - [x] Text preview scrollable for long CVs
 - [x] "Upload Different File" button resets state
 - [x] Error states styled correctly
+- [x] PII warning banner displays when PII found
+- [x] Warning banner styled appropriately (yellow, with icon)
+
+### PII Protection ✓
+- [x] All 7 PII types detected correctly
+- [x] Phone numbers removed (tested: 555-123-4567 → [PHONE_REMOVED])
+- [x] Email addresses removed (tested: john.doe@example.com → [EMAIL_REMOVED])
+- [x] SSN removed (tested: 123-45-6789 → [SSN_REMOVED])
+- [x] Credit cards removed (tested: 4532 1234 5678 9010 → [CREDIT_CARD_REMOVED])
+- [x] Street addresses removed (tested: 123 Main Street → [ADDRESS_REMOVED])
+- [x] Tax IDs detected (pattern: XX-XXXXXXX)
+- [x] Passport numbers detected (pattern: AX123456789)
+- [x] Summary shows type and count only, NOT actual values
+- [x] Original text with PII never sent to client
+- [x] Verified: 6/6 PII items successfully removed in test
 
 ## Known Issues
 
@@ -199,12 +235,20 @@ FormData {
 {
   success: true,
   data: {
-    text: string,        // Extracted text content
-    filename: string,    // Original filename
-    fileType: string,    // MIME type
-    wordCount: number,   // Number of words
-    charCount: number    // Number of characters
+    text: string,                  // PII-SCRUBBED text content
+    filename: string,              // Original filename
+    fileType: string,              // MIME type
+    wordCount: number,             // Number of words (of cleaned text)
+    charCount: number,             // Number of characters (of cleaned text)
+    piiRemoved: PIIMatch[],        // Array of {type, count}
+    piiSummary: string,            // Human-readable summary
+    totalPIIRemoved: number        // Total number of PII items removed
   }
+}
+
+type PIIMatch = {
+  type: 'phone' | 'email' | 'ssn' | 'creditCard' | 'address' | 'taxId' | 'passport';
+  count: number;
 }
 ```
 
@@ -218,23 +262,28 @@ FormData {
 
 ## Next Steps
 
-Ready to proceed to **Phase 4: PII Scrubbing**
+Ready to proceed to **Phase 5: Question Flow**
 
-### Phase 4 Requirements
-- PII detection patterns (phone, email, SSN, address, etc.)
-- PII removal/replacement logic
-- User notification of removed items
-- Review cleaned text before proceeding
-- No actual PII values shown to user
+### Phase 5 Requirements
+- Dynamic question renderer component
+- Questions config for Individual entity type (7 questions)
+- Form validation
+- Skip optional questions
+- Store answers
+- Smooth navigation between questions
+- Pre-fill for update flow
 
-### Integration Points
-- Add PII scrubber to `/api/parse-cv` route
-- Update Individual page to show PII removal summary
-- Add review step before questions
-- Store cleaned text for TELOS generation
+### Questions for Individual Entity (per build spec):
+1. What problems are you trying to solve? (textarea)
+2. What's your mission in one sentence? (text input)
+3. What are your top 3-5 values? (textarea)
+4. What do you actively avoid or constrain? (textarea)
+5. Describe your ideal work style and rhythm (textarea)
+6. What are your current active projects? (textarea)
+7. Any life context that affects your work? (textarea, optional)
 
 ---
 
-**Status:** Phase 3 Complete - All checkpoints passed ✓
+**Status:** Phases 3 & 4 Complete - All checkpoints passed ✓✓
 
 **Note:** Organization and Agent entity types will use similar file upload patterns but with text input and URL parsing options (to be implemented in later phases).
