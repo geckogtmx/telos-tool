@@ -47,6 +47,13 @@ const REPLACEMENT_TEXT: Record<PIIType, string> = {
 };
 
 export function scrubPII(text: string): ScrubResult {
+  console.log('[pii-scrubber] Starting PII scrub, text length:', text.length);
+
+  // Safety check: if text is extremely long, log warning
+  if (text.length > 500000) {
+    console.warn('[pii-scrubber] WARNING: Very large text detected:', text.length, 'chars');
+  }
+
   let cleaned = text;
   const found: Map<PIIType, number> = new Map();
   let totalRemoved = 0;
@@ -54,18 +61,27 @@ export function scrubPII(text: string): ScrubResult {
   // Process each PII type
   Object.entries(PII_PATTERNS).forEach(([type, pattern]) => {
     const piiType = type as PIIType;
+
+    console.time(`pii-${piiType}`);
+    console.log(`[pii-scrubber] Testing for ${piiType}...`);
+
     const matches = text.match(pattern);
+    console.timeEnd(`pii-${piiType}`);
 
     if (matches && matches.length > 0) {
       // Count unique matches
       const uniqueMatches = new Set(matches);
       const count = uniqueMatches.size;
 
+      console.log(`[pii-scrubber] Found ${count} unique ${piiType} match(es)`);
+
       found.set(piiType, count);
       totalRemoved += count;
 
       // Replace all occurrences with sanitized text
       cleaned = cleaned.replace(pattern, REPLACEMENT_TEXT[piiType]);
+    } else {
+      console.log(`[pii-scrubber] No ${piiType} found`);
     }
   });
 
@@ -74,6 +90,8 @@ export function scrubPII(text: string): ScrubResult {
     type,
     count
   }));
+
+  console.log('[pii-scrubber] Scrubbing complete, total removed:', totalRemoved);
 
   return {
     cleaned,
