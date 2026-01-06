@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import FileUpload from '@/components/FileUpload';
+import QuestionFlow from '@/components/QuestionFlow';
+import { individualQuestions, type QuestionAnswers } from '@/config/questions/individual';
 
 type PIIMatch = {
   type: string;
@@ -24,6 +26,8 @@ export default function IndividualPage() {
   const [parsedData, setParsedData] = useState<ParsedData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showQuestions, setShowQuestions] = useState(false);
+  const [answers, setAnswers] = useState<QuestionAnswers>({});
 
   const handleFileSelect = async (selectedFile: File) => {
     setFile(selectedFile);
@@ -58,6 +62,22 @@ export default function IndividualPage() {
     setFile(null);
     setParsedData(null);
     setError(null);
+    setShowQuestions(false);
+    setAnswers({});
+  };
+
+  const handleContinueToQuestions = () => {
+    setShowQuestions(true);
+  };
+
+  const handleQuestionComplete = (completedAnswers: QuestionAnswers) => {
+    setAnswers(completedAnswers);
+    // TODO: Phase 6 - Generate TELOS with Claude API
+    console.log('Answers completed:', completedAnswers);
+  };
+
+  const handleBackToPreview = () => {
+    setShowQuestions(false);
   };
 
   return (
@@ -96,7 +116,7 @@ export default function IndividualPage() {
               </div>
             )}
           </div>
-        ) : (
+        ) : !showQuestions ? (
           <div className="bg-white rounded-lg shadow-sm p-8">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-gray-900">
@@ -161,15 +181,63 @@ export default function IndividualPage() {
               <div className="pt-4">
                 <button
                   className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors font-medium"
-                  onClick={() => {
-                    // TODO: Move to question flow (Phase 5)
-                    alert('Question flow coming in Phase 5!');
-                  }}
+                  onClick={handleContinueToQuestions}
                 >
                   Continue to Questions
                 </button>
               </div>
             </div>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            <div className="bg-white rounded-lg shadow-sm p-8">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-900">
+                    Step 2: Answer Questions
+                  </h2>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Help us understand your professional identity and goals
+                  </p>
+                </div>
+                <button
+                  onClick={handleBackToPreview}
+                  className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                >
+                  Back to CV Preview
+                </button>
+              </div>
+
+              <QuestionFlow
+                questions={individualQuestions}
+                onComplete={handleQuestionComplete}
+                initialAnswers={answers}
+              />
+            </div>
+
+            {Object.keys(answers).length === individualQuestions.filter(q => q.required).length && (
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                      Ready to Generate Your TELOS
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      All required questions answered. Click below to create your TELOS file.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      // TODO: Phase 6 - Generate TELOS
+                      alert('TELOS generation will be implemented in Phase 6!');
+                    }}
+                    className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
+                  >
+                    Generate TELOS
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

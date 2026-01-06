@@ -5,7 +5,7 @@
 **Name:** TELOS Tool v1.0
 **Purpose:** Production-ready TELOS generation platform supporting Individual, Organization, and Agent entity types
 **Framework:** Next.js 14+ with App Router, TypeScript, and Tailwind CSS
-**Status:** Phases 1-4 complete (File upload with PII scrubbing working)
+**Status:** Phases 1-5 complete (Question flow for Individual entity working)
 
 ## What is TELOS?
 
@@ -60,6 +60,8 @@ telos-tool/
 ├── components/
 │   ├── ui/                           # Reusable UI components
 │   ├── EntitySelector.tsx            # Entity type chooser
+│   ├── FileUpload.tsx                # CV upload with drag-drop
+│   ├── QuestionFlow.tsx              # Dynamic question renderer with validation
 │   ├── NavigationBar.tsx             # Top navigation
 │   └── ProtectedRoute.tsx            # Auth guard
 ├── lib/
@@ -72,7 +74,9 @@ telos-tool/
 ├── types/
 │   └── index.ts                      # TypeScript type definitions
 ├── config/
-│   └── constants.ts                  # App-wide constants
+│   ├── constants.ts                  # App-wide constants
+│   └── questions/
+│       └── individual.ts             # Individual entity questions (7 total)
 └── middleware.ts                     # Auth middleware
 ```
 
@@ -110,8 +114,19 @@ telos-tool/
 - [x] Verified with tests (6/6 PII items removed)
 - [x] Zero PII leakage to client
 
-### Phase 5-11: Pending
-- Question flows
+### Phase 5: Question Flow ✅
+- [x] QuestionFlow component with dynamic rendering
+- [x] 7 questions for Individual entity type
+- [x] Form validation (required fields, min length)
+- [x] Progress tracking and visual indicators
+- [x] Question navigation (jump to any question)
+- [x] Skip button for optional question #7
+- [x] Real-time inline validation
+- [x] Integration with Individual page flow
+- [x] Answers stored in component state
+- [x] Build succeeds with no TypeScript errors
+
+### Phase 6-11: Pending
 - Claude API integration
 - TELOS generation
 - Hosting options
@@ -263,18 +278,30 @@ After each phase, verify:
 ## Known Issues / Debugging Notes
 
 ### Current Status
-- All phases 1-4 working correctly
+- All phases 1-5 working correctly
 - Build passes with no errors
 - PII protection verified and tested
+- Question flow fully functional for Individual entity type
 
 ### Technical Debt
 - Next.js 16 middleware deprecation warning (non-breaking, migrate to "proxy" convention later)
-- Consider adding unit tests for file parsers (currently manual testing only)
+- Consider adding unit tests for file parsers and question flow (currently manual testing only)
+- Question flows for Organization and Agent entity types not yet implemented (Phase 5 only covers Individual)
 
 ### Bug Fixes (Phase 3)
 - Fixed PDF parsing by switching from pdf-parse to pdf2json with `needRawText: true`
 - Fixed DOCX parsing by converting ArrayBuffer to Buffer before passing to mammoth
 - Both PDF and DOCX extraction now working correctly
+
+### Phase 5 Implementation Details
+- 7 questions configured per build spec Section V
+- Question types: 6 required + 1 optional (life context)
+- Validation: min 10 chars for textarea, min 5 chars for text input
+- Navigation: progress bar, question navigator (numbered buttons), previous/next/skip
+- Visual feedback: answered (green), error (red), current (blue)
+- Skip button only shown for optional questions
+- Inline validation with error messages
+- "Generate TELOS" button appears when all required questions answered
 
 ## Reference Documents
 
@@ -334,6 +361,6 @@ main           # Production-ready code only
 
 ---
 
-**Last Updated:** 2026-01-05
-**Current Phase:** 4 Complete (File Upload & PII Scrubbing)
-**Next Milestone:** Phase 5 - Question Flow (7 questions for Individual entity type)
+**Last Updated:** 2026-01-06
+**Current Phase:** 5 Complete (Question Flow for Individual Entity)
+**Next Milestone:** Phase 6 - Claude API Integration & TELOS Generation
