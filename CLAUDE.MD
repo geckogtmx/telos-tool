@@ -28,7 +28,10 @@ TELOS (Teleological Operating System) is a framework for documenting an entity's
   "@supabase/ssr": "^0.8.0",
   "@supabase/supabase-js": "^2.89.0",
   "next": "16.1.1",
-  "react": "19.2.3"
+  "react": "19.2.3",
+  "mammoth": "^1.9.1",
+  "pdf2json": "^4.0.0",
+  "react-dropzone": "^14.2.3"
 }
 ```
 
@@ -60,9 +63,12 @@ telos-tool/
 │   ├── NavigationBar.tsx             # Top navigation
 │   └── ProtectedRoute.tsx            # Auth guard
 ├── lib/
-│   └── supabase/
-│       ├── client.ts                 # Browser Supabase client
-│       └── server.ts                 # Server Supabase client
+│   ├── supabase/
+│   │   ├── client.ts                 # Browser Supabase client
+│   │   └── server.ts                 # Server Supabase client
+│   └── parsers/
+│       ├── cv-parser.ts              # CV text extraction (PDF/DOCX/TXT)
+│       └── pii-scrubber.ts           # PII detection and removal
 ├── types/
 │   └── index.ts                      # TypeScript type definitions
 ├── config/
@@ -88,12 +94,14 @@ telos-tool/
 - [x] Protected routes (middleware)
 - [x] Session management working
 
-### Phase 3: File Upload ✅
+### Phase 3: File Upload ✅ (FIXED - pdf2json)
 - [x] CV upload component (drag-and-drop)
-- [x] Text extraction (PDF, DOCX, TXT)
+- [x] Text extraction (PDF via pdf2json, DOCX via mammoth, TXT)
 - [x] File validation (size, format)
 - [x] Error handling
 - [x] UI with preview
+- [x] PDF parsing fixed with pdf2json library
+- [x] DOCX parsing fixed with proper Buffer conversion
 
 ### Phase 4: PII Scrubbing ✅
 - [x] PII detection (7 types: phone, email, SSN, credit card, address, tax ID, passport)
@@ -216,9 +224,9 @@ git commit -m "Description"
 git push origin feature/feature-name
 ```
 
-## API Routes (Planned)
+## API Routes
 
-### `/api/parse-cv` - CV Text Extraction + PII Removal
+### `/api/parse-cv` - CV Text Extraction + PII Removal ✅
 - Accepts file upload
 - Extracts text from PDF/DOCX/TXT
 - Runs PII scrubbing
@@ -263,12 +271,18 @@ After each phase, verify:
 - Next.js 16 middleware deprecation warning (non-breaking, migrate to "proxy" convention later)
 - Consider adding unit tests for file parsers (currently manual testing only)
 
+### Bug Fixes (Phase 3)
+- Fixed PDF parsing by switching from pdf-parse to pdf2json with `needRawText: true`
+- Fixed DOCX parsing by converting ArrayBuffer to Buffer before passing to mammoth
+- Both PDF and DOCX extraction now working correctly
+
 ## Reference Documents
 
 1. `TELOS_TOOL_V1_BUILD_SPEC.md` - Complete technical specification
 2. `PHASE_1_COMPLETE.md` - Phase 1 completion notes
 3. `PHASE_2_COMPLETE.md` - Phase 2 completion notes
-4. Daniel Miessler's TELOS Framework: https://github.com/danielmiessler/Telos
+4. `PHASE_3_COMPLETE.md` - Phase 3 & 4 completion notes (file upload + PII scrubbing)
+5. Daniel Miessler's TELOS Framework: https://github.com/danielmiessler/Telos
 
 ## Git Workflow
 

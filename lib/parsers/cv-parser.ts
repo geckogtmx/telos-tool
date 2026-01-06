@@ -1,5 +1,5 @@
 import mammoth from 'mammoth';
-import * as pdfParse from 'pdf-parse';
+import PDFParser from 'pdf2json';
 
 export type ParsedCV = {
   text: string;
@@ -70,14 +70,29 @@ export async function parseCV(file: File): Promise<ParsedCV> {
 async function parsePDF(file: File): Promise<string> {
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
-  const pdf = (pdfParse as any).default || pdfParse;
-  const data = await pdf(buffer);
-  return data.text;
+
+  return new Promise((resolve, reject) => {
+    // Second parameter (needRawText) must be true to enable text extraction
+    const pdfParser = new (PDFParser as any)(null, true);
+
+    pdfParser.on('pdfParser_dataError', (errMsg: Error | { parserError: Error }) => {
+      const error = errMsg instanceof Error ? errMsg : errMsg.parserError;
+      reject(error);
+    });
+
+    pdfParser.on('pdfParser_dataReady', () => {
+      const text = pdfParser.getRawTextContent();
+      resolve(text);
+    });
+
+    pdfParser.parseBuffer(buffer);
+  });
 }
 
 async function parseDOCX(file: File): Promise<string> {
   const arrayBuffer = await file.arrayBuffer();
-  const result = await mammoth.extractRawText({ arrayBuffer });
+  const buffer = Buffer.from(arrayBuffer);
+  const result = await mammoth.extractRawText({ buffer });
   return result.value;
 }
 
