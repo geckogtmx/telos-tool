@@ -5,6 +5,7 @@ import FileUpload from '@/components/FileUpload';
 import QuestionFlow from '@/components/QuestionFlow';
 import TELOSPreview from '@/components/TELOSPreview';
 import { individualQuestions, type QuestionAnswers } from '@/config/questions/individual';
+import { HostingType } from '@/types';
 
 type PIIMatch = {
   type: string;
@@ -37,6 +38,9 @@ export default function IndividualPage() {
   const [answers, setAnswers] = useState<QuestionAnswers>({});
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedTELOS, setGeneratedTELOS] = useState<GeneratedTELOS | null>(null);
+  
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const handleFileSelect = async (selectedFile: File) => {
     setFile(selectedFile);
@@ -141,6 +145,45 @@ export default function IndividualPage() {
 
   const handleBackToQuestions = () => {
     setGeneratedTELOS(null);
+  };
+
+  const handleSaveTELOS = async (hostingType: HostingType, password?: string) => {
+    if (!generatedTELOS || !parsedData) return;
+    setIsSaving(true);
+    setSaveError(null);
+
+    try {
+      const response = await fetch('/api/save-telos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          entityType: 'individual',
+          entityName: generatedTELOS.entityName,
+          rawInput: {
+            filename: parsedData.filename,
+            parsedText: parsedData.text,
+            answers: answers,
+          },
+          generatedContent: generatedTELOS.content,
+          hostingType,
+          password
+        })
+      });
+
+      const result = await response.json();
+      if (!result.success) {
+         throw new Error(result.error || 'Failed to save');
+      }
+
+      // Redirect to the hosted page
+      window.location.href = `/t/${result.data.public_id}`;
+
+    } catch (err) {
+      setSaveError(err instanceof Error ? err.message : 'Failed to save');
+      alert(`Error: ${err instanceof Error ? err.message : 'Failed to save'}`);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -257,6 +300,8 @@ export default function IndividualPage() {
             entityName={generatedTELOS.entityName}
             onDownload={handleDownloadTELOS}
             onBack={handleBackToQuestions}
+            onSave={handleSaveTELOS}
+            isSaving={isSaving}
           />
         ) : (
           <div className="space-y-6">

@@ -1,7 +1,9 @@
 // Main TELOS generation logic
 import { EntityType } from '@/types';
 import { callClaudeAPI, ClaudeAPIException, ERROR_MESSAGES } from './claude-api';
+import { generateWithGemini } from './gemini-api';
 import { buildIndividualPrompt } from './templates/individual';
+import { AI_CONFIG } from '@/config/ai-model';
 
 export type GenerateTELOSInput = {
   entityType: EntityType;
@@ -44,10 +46,23 @@ export async function generateTELOS(
         };
     }
 
-    const content = await callClaudeAPI(prompt, {
-      maxTokens: 4096,
-      temperature: 0.7,
-    });
+    let content: string;
+
+    if (AI_CONFIG.provider === 'gemini') {
+      // Gemini expects a system prompt and user prompt.
+      // Our buildIndividualPrompt returns a single large prompt.
+      // We'll pass an empty system prompt and the full prompt as user message,
+      // or split it if we refactor. For now, full prompt as user message works.
+      content = await generateWithGemini(
+        'You are an expert at creating TELOS documents. Return only the markdown content.',
+        prompt
+      );
+    } else {
+      content = await callClaudeAPI(prompt, {
+        maxTokens: 4096,
+        temperature: 0.7,
+      });
+    }
 
     return {
       success: true,
@@ -59,6 +74,14 @@ export async function generateTELOS(
         success: false,
         error: ERROR_MESSAGES[error.type],
       };
+    }
+    
+    // Check if it's a Gemini error (usually just Error with message)
+    if (error instanceof Error && error.message.includes('Gemini API')) {
+         return {
+            success: false,
+            error: error.message
+         };
     }
 
     console.error('TELOS generation error:', error);

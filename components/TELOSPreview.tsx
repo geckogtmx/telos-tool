@@ -1,12 +1,16 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import HostingOptions from './HostingOptions';
+import { HostingType } from '@/types';
 
 type TELOSPreviewProps = {
   content: string;
   entityName: string;
   onDownload: () => void;
-  onBack: () => void;
+  onBack?: () => void;
+  onSave?: (hostingType: HostingType, password?: string) => Promise<void>;
+  isSaving?: boolean;
 };
 
 type Section = {
@@ -20,6 +24,8 @@ export default function TELOSPreview({
   entityName,
   onDownload,
   onBack,
+  onSave,
+  isSaving = false,
 }: TELOSPreviewProps) {
   const [copied, setCopied] = useState(false);
   const [viewMode, setViewMode] = useState<'preview' | 'raw'>('preview');
@@ -275,12 +281,14 @@ export default function TELOSPreview({
               {entityName}&apos;s TELOS file is ready
             </p>
           </div>
-          <button
-            onClick={onBack}
-            className="text-sm text-blue-400 hover:text-blue-300 font-medium"
-          >
-            Edit Answers
-          </button>
+          {onBack && (
+            <button
+              onClick={onBack}
+              className="text-sm text-blue-400 hover:text-blue-300 font-medium"
+            >
+              Edit Answers
+            </button>
+          )}
         </div>
 
         {/* Action buttons */}
@@ -416,25 +424,10 @@ export default function TELOSPreview({
         )}
       </div>
 
-      {/* Future hosting options placeholder */}
-      <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
-        <div className="flex items-start gap-4">
-          <div className="p-2 bg-blue-500/10 rounded-lg">
-            <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold text-gray-100 mb-1">
-              Coming Soon: Host Your TELOS
-            </h3>
-            <p className="text-sm text-gray-400">
-              In the next phase, you&apos;ll be able to host your TELOS file with a unique URL.
-              Choose between public access or password-protected hosting.
-            </p>
-          </div>
-        </div>
-      </div>
+      {/* Hosting Options */}
+      {onSave && (
+        <HostingOptions onSave={onSave} isSaving={isSaving} />
+      )}
     </div>
   );
 }

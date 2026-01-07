@@ -118,8 +118,12 @@ export default function QuestionFlow({ questions, onComplete, initialAnswers = {
   };
 
   const handleSkip = () => {
-    if (!currentQuestion.required && !isLastQuestion) {
-      setCurrentQuestionIndex(prev => prev + 1);
+    if (!currentQuestion.required) {
+      if (isLastQuestion) {
+        handleFinish();
+      } else {
+        setCurrentQuestionIndex(prev => prev + 1);
+      }
     }
   };
 
@@ -267,7 +271,7 @@ export default function QuestionFlow({ questions, onComplete, initialAnswers = {
         </button>
 
         <div className="flex items-center gap-3">
-          {!currentQuestion.required && !isLastQuestion && (
+          {!currentQuestion.required && (
             <button
               onClick={handleSkip}
               className="px-6 py-3 rounded-lg font-medium text-gray-400 hover:text-gray-200 hover:bg-gray-800 transition-colors"
