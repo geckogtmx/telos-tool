@@ -9,13 +9,14 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.71.2",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.89.0",
     "@types/pdf-parse": "^1.1.5",
     "mammoth": "^1.11.0",
     "nanoid": "^5.1.6",
     "next": "16.1.1",
-    "pdf2json": "^4.0.0",
+    "pdf-parse": "^1.1.4",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-dropzone": "^14.3.8",

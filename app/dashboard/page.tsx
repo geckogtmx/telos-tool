@@ -13,20 +13,20 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">
+        <h1 className="text-3xl font-bold text-gray-100 mb-4">
           Dashboard
         </h1>
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <p className="text-gray-700 mb-2">
+        <div className="bg-gray-900 border border-gray-700 rounded-lg shadow-md p-6 mb-6">
+          <p className="text-gray-300 mb-2">
             Welcome, <strong>{user.email}</strong>!
           </p>
-          <p className="text-gray-600 text-sm">
+          <p className="text-gray-400 text-sm">
             User ID: {user.id}
           </p>
         </div>
-        <p className="text-gray-600">
+        <p className="text-gray-400">
           Coming in Phase 10: Your TELOS files list
         </p>
       </div>

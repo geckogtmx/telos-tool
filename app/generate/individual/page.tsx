@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import FileUpload from '@/components/FileUpload';
 import QuestionFlow from '@/components/QuestionFlow';
+import TELOSPreview from '@/components/TELOSPreview';
 import { individualQuestions, type QuestionAnswers } from '@/config/questions/individual';
 
 type PIIMatch = {
@@ -21,6 +22,12 @@ type ParsedData = {
   totalPIIRemoved?: number;
 };
 
+type GeneratedTELOS = {
+  content: string;
+  entityName: string;
+  generatedAt: string;
+};
+
 export default function IndividualPage() {
   const [file, setFile] = useState<File | null>(null);
   const [parsedData, setParsedData] = useState<ParsedData | null>(null);
@@ -28,6 +35,8 @@ export default function IndividualPage() {
   const [error, setError] = useState<string | null>(null);
   const [showQuestions, setShowQuestions] = useState(false);
   const [answers, setAnswers] = useState<QuestionAnswers>({});
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedTELOS, setGeneratedTELOS] = useState<GeneratedTELOS | null>(null);
 
   const handleFileSelect = async (selectedFile: File) => {
     setFile(selectedFile);
@@ -72,29 +81,83 @@ export default function IndividualPage() {
 
   const handleQuestionComplete = (completedAnswers: QuestionAnswers) => {
     setAnswers(completedAnswers);
-    // TODO: Phase 6 - Generate TELOS with Claude API
-    console.log('Answers completed:', completedAnswers);
   };
 
   const handleBackToPreview = () => {
     setShowQuestions(false);
   };
 
+  const handleGenerateTELOS = async () => {
+    if (!parsedData) return;
+
+    setIsGenerating(true);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/generate-telos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          entityType: 'individual',
+          parsedInput: parsedData.text,
+          answers,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to generate TELOS');
+      }
+
+      setGeneratedTELOS({
+        content: result.data.content,
+        entityName: result.data.entityName,
+        generatedAt: result.data.generatedAt,
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred during generation');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleDownloadTELOS = () => {
+    if (!generatedTELOS) return;
+
+    const filename = `TELOS_${generatedTELOS.entityName.replace(/\s+/g, '_')}.md`;
+    const blob = new Blob([generatedTELOS.content], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleBackToQuestions = () => {
+    setGeneratedTELOS(null);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-gray-100 mb-2">
             Individual TELOS Generation
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-400">
             Upload your CV to get started. We'll extract the information and guide you through creating your TELOS file.
           </p>
         </div>
 
         {!parsedData ? (
-          <div className="bg-white rounded-lg shadow-sm p-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+          <div className="bg-gray-900 border border-gray-700 rounded-lg shadow-sm p-8">
+            <h2 className="text-xl font-semibold text-gray-100 mb-4">
               Step 1: Upload Your CV
             </h2>
             <FileUpload
@@ -105,26 +168,26 @@ export default function IndividualPage() {
 
             {isLoading && (
               <div className="mt-6 text-center">
-                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                <p className="mt-2 text-sm text-gray-600">Extracting text from your CV...</p>
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                <p className="mt-2 text-sm text-gray-400">Extracting text from your CV...</p>
               </div>
             )}
 
             {error && (
-              <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-md">
-                <p className="text-sm text-red-600">{error}</p>
+              <div className="mt-4 p-4 bg-red-950 border border-red-800 rounded-md">
+                <p className="text-sm text-red-300">{error}</p>
               </div>
             )}
           </div>
         ) : !showQuestions ? (
-          <div className="bg-white rounded-lg shadow-sm p-8">
+          <div className="bg-gray-900 border border-gray-700 rounded-lg shadow-sm p-8">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-gray-900">
+              <h2 className="text-xl font-semibold text-gray-100">
                 CV Extracted Successfully
               </h2>
               <button
                 onClick={handleReset}
-                className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                className="text-sm text-blue-400 hover:text-blue-300 font-medium"
               >
                 Upload Different File
               </button>
@@ -132,19 +195,19 @@ export default function IndividualPage() {
 
             <div className="space-y-4">
               {parsedData.totalPIIRemoved && parsedData.totalPIIRemoved > 0 && (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-md p-4">
+                <div className="bg-yellow-950 border border-yellow-800 rounded-md p-4">
                   <div className="flex items-start">
-                    <svg className="w-5 h-5 text-yellow-600 mt-0.5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-yellow-400 mt-0.5 mr-3" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                     </svg>
                     <div>
-                      <h3 className="text-sm font-medium text-yellow-800 mb-1">
+                      <h3 className="text-sm font-medium text-yellow-200 mb-1">
                         Sensitive Information Removed
                       </h3>
-                      <p className="text-sm text-yellow-700">
+                      <p className="text-sm text-yellow-300">
                         {parsedData.piiSummary}
                       </p>
-                      <p className="text-xs text-yellow-600 mt-2">
+                      <p className="text-xs text-yellow-400 mt-2">
                         Your privacy is protected. The text below has been sanitized and is safe to use.
                       </p>
                     </div>
@@ -152,25 +215,25 @@ export default function IndividualPage() {
                 </div>
               )}
 
-              <div className="grid grid-cols-3 gap-4 pb-4 border-b border-gray-200">
+              <div className="grid grid-cols-3 gap-4 pb-4 border-b border-gray-700">
                 <div>
                   <p className="text-sm text-gray-500">Filename</p>
-                  <p className="font-medium text-gray-900">{parsedData.filename}</p>
+                  <p className="font-medium text-gray-200">{parsedData.filename}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Word Count</p>
-                  <p className="font-medium text-gray-900">{parsedData.wordCount.toLocaleString()}</p>
+                  <p className="font-medium text-gray-200">{parsedData.wordCount.toLocaleString()}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Characters</p>
-                  <p className="font-medium text-gray-900">{parsedData.charCount.toLocaleString()}</p>
+                  <p className="font-medium text-gray-200">{parsedData.charCount.toLocaleString()}</p>
                 </div>
               </div>
 
               <div>
                 <p className="text-sm text-gray-500 mb-2">Extracted Text Preview</p>
-                <div className="bg-gray-50 rounded-md p-4 max-h-96 overflow-y-auto">
-                  <pre className="text-sm text-gray-700 whitespace-pre-wrap font-sans">
+                <div className="bg-gray-800 border border-gray-700 rounded-md p-4 max-h-96 overflow-y-auto">
+                  <pre className="text-sm text-gray-300 whitespace-pre-wrap font-sans">
                     {parsedData.text.length > 2000
                       ? parsedData.text.substring(0, 2000) + '...'
                       : parsedData.text}
@@ -180,7 +243,7 @@ export default function IndividualPage() {
 
               <div className="pt-4">
                 <button
-                  className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                  className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-500 transition-colors font-medium"
                   onClick={handleContinueToQuestions}
                 >
                   Continue to Questions
@@ -188,21 +251,28 @@ export default function IndividualPage() {
               </div>
             </div>
           </div>
+        ) : generatedTELOS ? (
+          <TELOSPreview
+            content={generatedTELOS.content}
+            entityName={generatedTELOS.entityName}
+            onDownload={handleDownloadTELOS}
+            onBack={handleBackToQuestions}
+          />
         ) : (
           <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow-sm p-8">
+            <div className="bg-gray-900 border border-gray-700 rounded-lg shadow-sm p-8">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="text-xl font-semibold text-gray-900">
+                  <h2 className="text-xl font-semibold text-gray-100">
                     Step 2: Answer Questions
                   </h2>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-sm text-gray-400 mt-1">
                     Help us understand your professional identity and goals
                   </p>
                 </div>
                 <button
                   onClick={handleBackToPreview}
-                  className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                  className="text-sm text-blue-400 hover:text-blue-300 font-medium"
                 >
                   Back to CV Preview
                 </button>
@@ -215,28 +285,59 @@ export default function IndividualPage() {
               />
             </div>
 
+            {error && (
+              <div className="bg-red-950 border border-red-800 rounded-lg p-4">
+                <div className="flex items-start">
+                  <svg className="w-5 h-5 text-red-400 mt-0.5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                  <div>
+                    <h3 className="text-sm font-medium text-red-200 mb-1">Generation Failed</h3>
+                    <p className="text-sm text-red-300">{error}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {individualQuestions
               .filter(q => q.required)
               .every(q => answers[q.id] && answers[q.id].trim().length >= q.minLength) && (
-              <div className="bg-white rounded-lg shadow-sm p-6">
+              <div className="bg-gray-900 border border-gray-700 rounded-lg shadow-sm p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                    <h3 className="text-lg font-semibold text-gray-100 mb-1">
                       Ready to Generate Your TELOS
                     </h3>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-400">
                       All required questions answered. Click below to create your TELOS file.
                     </p>
                   </div>
                   <button
-                    onClick={() => {
-                      // TODO: Phase 6 - Generate TELOS
-                      alert('TELOS generation will be implemented in Phase 6!');
-                    }}
-                    className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
+                    onClick={handleGenerateTELOS}
+                    disabled={isGenerating}
+                    className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-500 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                   >
-                    Generate TELOS
+                    {isGenerating ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                        Generating...
+                      </>
+                    ) : (
+                      'Generate TELOS'
+                    )}
                   </button>
+                </div>
+              </div>
+            )}
+
+            {isGenerating && (
+              <div className="bg-blue-950 border border-blue-800 rounded-lg p-6">
+                <div className="flex items-center justify-center gap-4">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
+                  <div>
+                    <p className="text-blue-200 font-medium">Generating your TELOS file...</p>
+                    <p className="text-sm text-blue-300 mt-1">This may take 10-15 seconds</p>
+                  </div>
                 </div>
               </div>
             )}

@@ -71,17 +71,17 @@ export default function FileUpload({
           border-2 border-dashed rounded-lg p-12 text-center cursor-pointer
           transition-colors duration-200
           ${isDragActive
-            ? 'border-blue-500 bg-blue-50'
-            : 'border-gray-300 hover:border-gray-400 bg-white'
+            ? 'border-blue-500 bg-blue-950'
+            : 'border-gray-700 hover:border-gray-600 bg-gray-900'
           }
-          ${error ? 'border-red-500 bg-red-50' : ''}
+          ${error ? 'border-red-500 bg-red-950' : ''}
         `}
       >
         <input {...getInputProps()} />
 
         <div className="flex flex-col items-center gap-3">
           <svg
-            className={`w-12 h-12 ${isDragActive ? 'text-blue-500' : 'text-gray-400'}`}
+            className={`w-12 h-12 ${isDragActive ? 'text-blue-400' : 'text-gray-500'}`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -95,23 +95,23 @@ export default function FileUpload({
           </svg>
 
           <div>
-            <p className="text-lg font-medium text-gray-700">
+            <p className="text-lg font-medium text-gray-200">
               {isDragActive ? 'Drop file here' : getPlaceholderText()}
             </p>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-gray-400 mt-1">
               or click to browse
             </p>
           </div>
 
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-gray-500">
             Max file size: {maxSize / (1024 * 1024)}MB
           </p>
         </div>
       </div>
 
       {error && (
-        <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-md">
-          <p className="text-sm text-red-600">{error}</p>
+        <div className="mt-3 p-3 bg-red-950 border border-red-800 rounded-md">
+          <p className="text-sm text-red-300">{error}</p>
         </div>
       )}
     </div>

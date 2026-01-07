@@ -1,5 +1,5 @@
 import mammoth from 'mammoth';
-import PDFParser from 'pdf2json';
+import pdfParse from 'pdf-parse';
 
 export type ParsedCV = {
   text: string;
@@ -86,35 +86,9 @@ export async function parseCV(file: File): Promise<ParsedCV> {
 }
 
 async function parsePDF(file: File): Promise<string> {
-  console.log('[parsePDF] Converting file to buffer...');
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
-  console.log('[parsePDF] Buffer created, size:', buffer.length);
-
-  return new Promise((resolve, reject) => {
-    console.log('[parsePDF] Creating PDFParser instance...');
-    // Second parameter (needRawText) must be true to enable text extraction
-    const pdfParser = new (PDFParser as any)(null, true);
-
-    console.log('[parsePDF] Setting up event handlers...');
-
-    pdfParser.on('pdfParser_dataError', (errMsg: Error | { parserError: Error }) => {
-      console.error('[parsePDF] PDF parsing error:', errMsg);
-      const error = errMsg instanceof Error ? errMsg : errMsg.parserError;
-      reject(error);
-    });
-
-    pdfParser.on('pdfParser_dataReady', () => {
-      console.log('[parsePDF] PDF data ready, extracting text...');
-      const text = pdfParser.getRawTextContent();
-      console.log('[parsePDF] Text extracted, length:', text.length);
-      resolve(text);
-    });
-
-    console.log('[parsePDF] Starting parseBuffer...');
-    pdfParser.parseBuffer(buffer);
-    console.log('[parsePDF] parseBuffer called, waiting for event...');
-  });
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const data = await pdfParse(buffer);
+  return data.text;
 }
 
 async function parseDOCX(file: File): Promise<string> {

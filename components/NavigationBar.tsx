@@ -18,21 +18,21 @@ export default function NavigationBar() {
   };
 
   return (
-    <nav className="bg-white border-b border-gray-200">
+    <nav className="bg-gray-900 border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
-              <span className="text-2xl font-bold text-blue-600">{APP_NAME}</span>
+              <span className="text-2xl font-bold text-blue-400">{APP_NAME}</span>
             </Link>
           </div>
 
           <div className="hidden md:flex items-center space-x-6">
-            <Link href="/generate" className="text-gray-700 hover:text-blue-600 font-medium">
+            <Link href="/generate" className="text-gray-300 hover:text-blue-400 font-medium">
               Generate
             </Link>
             {user && (
-              <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium">
+              <Link href="/dashboard" className="text-gray-300 hover:text-blue-400 font-medium">
                 Dashboard
               </Link>
             )}
@@ -40,7 +40,7 @@ export default function NavigationBar() {
               <>
                 {user ? (
                   <div className="flex items-center space-x-4">
-                    <span className="text-sm text-gray-600">
+                    <span className="text-sm text-gray-400">
                       {user.email}
                     </span>
                     <Button
@@ -71,7 +71,7 @@ export default function NavigationBar() {
 
           {/* Mobile menu button placeholder */}
           <div className="md:hidden">
-            <button className="text-gray-700 hover:text-blue-600">
+            <button className="text-gray-300 hover:text-blue-400">
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>

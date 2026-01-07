@@ -15,8 +15,8 @@ export default function Card({
   hover = false,
   onClick
 }: CardProps) {
-  const baseStyles = 'bg-white rounded-lg border border-gray-200 shadow-sm';
-  const hoverStyles = hover ? 'hover:shadow-md hover:border-blue-300 transition-all cursor-pointer' : '';
+  const baseStyles = 'bg-gray-900 rounded-lg border border-gray-700 shadow-sm';
+  const hoverStyles = hover ? 'hover:shadow-md hover:border-blue-500 transition-all cursor-pointer' : '';
 
   return (
     <div

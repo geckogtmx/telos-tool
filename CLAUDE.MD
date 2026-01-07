@@ -5,7 +5,7 @@
 **Name:** TELOS Tool v1.0
 **Purpose:** Production-ready TELOS generation platform supporting Individual, Organization, and Agent entity types
 **Framework:** Next.js 14+ with App Router, TypeScript, and Tailwind CSS
-**Status:** Phases 1-5 complete (Question flow for Individual entity working)
+**Status:** Phases 1-7 complete (Preview & Download enhancements working)
 
 ## What is TELOS?
 
@@ -20,17 +20,18 @@ TELOS (Teleological Operating System) is a framework for documenting an entity's
 - **Database:** Supabase (PostgreSQL with RLS)
 - **Auth:** Supabase Auth
 - **File Storage:** Vercel Blob Storage (planned)
-- **AI:** Anthropic Claude API Sonnet 4 (planned)
+- **AI:** Anthropic Claude API (Claude Sonnet 4) ✅
 
 ### Key Packages
 ```json
 {
+  "@anthropic-ai/sdk": "latest",
   "@supabase/ssr": "^0.8.0",
   "@supabase/supabase-js": "^2.89.0",
   "next": "16.1.1",
   "react": "19.2.3",
   "mammoth": "^1.9.1",
-  "pdf2json": "^4.0.0",
+  "pdf-parse": "^1.1.1",
   "react-dropzone": "^14.2.3"
 }
 ```
@@ -62,15 +63,21 @@ telos-tool/
 │   ├── EntitySelector.tsx            # Entity type chooser
 │   ├── FileUpload.tsx                # CV upload with drag-drop
 │   ├── QuestionFlow.tsx              # Dynamic question renderer with validation
+│   ├── TELOSPreview.tsx              # Generated TELOS preview with markdown rendering
 │   ├── NavigationBar.tsx             # Top navigation
 │   └── ProtectedRoute.tsx            # Auth guard
 ├── lib/
 │   ├── supabase/
 │   │   ├── client.ts                 # Browser Supabase client
 │   │   └── server.ts                 # Server Supabase client
-│   └── parsers/
-│       ├── cv-parser.ts              # CV text extraction (PDF/DOCX/TXT)
-│       └── pii-scrubber.ts           # PII detection and removal
+│   ├── parsers/
+│   │   ├── cv-parser.ts              # CV text extraction (PDF/DOCX/TXT)
+│   │   └── pii-scrubber.ts           # PII detection and removal
+│   └── generators/
+│       ├── claude-api.ts             # Claude API wrapper with retry logic
+│       ├── telos-generator.ts        # Main TELOS generation logic
+│       └── templates/
+│           └── individual.ts         # Individual entity TELOS prompt template
 ├── types/
 │   └── index.ts                      # TypeScript type definitions
 ├── config/
@@ -98,13 +105,13 @@ telos-tool/
 - [x] Protected routes (middleware)
 - [x] Session management working
 
-### Phase 3: File Upload ✅ (FIXED - pdf2json)
+### Phase 3: File Upload ✅ (FIXED - pdf-parse)
 - [x] CV upload component (drag-and-drop)
-- [x] Text extraction (PDF via pdf2json, DOCX via mammoth, TXT)
+- [x] Text extraction (PDF via pdf-parse, DOCX via mammoth, TXT)
 - [x] File validation (size, format)
 - [x] Error handling
 - [x] UI with preview
-- [x] PDF parsing fixed with pdf2json library
+- [x] PDF parsing fixed by switching from pdf2json to pdf-parse v1.1.1
 - [x] DOCX parsing fixed with proper Buffer conversion
 
 ### Phase 4: PII Scrubbing ✅
@@ -120,18 +127,49 @@ telos-tool/
 - [x] Form validation (required fields, min length)
 - [x] Progress tracking and visual indicators
 - [x] Question navigation (jump to any question)
-- [x] Skip button for optional question #7
+- [x] Skip button for optional questions (not shown on last question)
 - [x] Real-time inline validation
+- [x] "Finish" button on last question that validates all required fields
 - [x] Integration with Individual page flow
 - [x] Answers stored in component state
 - [x] Build succeeds with no TypeScript errors
+- [x] "Generate TELOS" section appears after finishing questions
 
-### Phase 6-11: Pending
-- Claude API integration
-- TELOS generation
-- Hosting options
+### Phase 5.5: Dark Mode Implementation ✅
+- [x] Full dark mode theme across all pages
+- [x] Consistent color scheme: black/gray-900 backgrounds, gray-700 borders, light text
+- [x] Improved input readability: dark backgrounds with high-contrast text
+- [x] Question inputs: gray-800 background, gray-100 text, blue-400 caret
+- [x] All UI components updated (Button, Card, Input, FileUpload)
+- [x] Navigation, landing page, auth pages, dashboard all dark mode
+- [x] Enhanced accessibility with proper contrast ratios
+
+### Phase 6: Claude API Integration & TELOS Generation ✅
+- [x] Anthropic SDK installed and configured
+- [x] Claude API wrapper with error handling and retry logic
+- [x] Individual TELOS prompt template
+- [x] `/api/generate-telos` API route
+- [x] TELOS generation working for Individual entity type
+- [x] TELOSPreview component with markdown rendering
+- [x] Download .md functionality
+- [x] Copy to clipboard functionality
+- [x] Loading states and error handling
+- [x] Build passes with no TypeScript errors
+
+### Phase 7: Preview & Download ✅
+- [x] Raw markdown toggle view (Preview/Raw modes)
+- [x] Table of contents with section navigation
+- [x] Enhanced markdown rendering (blockquotes, horizontal rules, links)
+- [x] Print functionality with styled output
+- [x] Smooth scroll to sections
+- [x] Responsive button layout
+- [x] Build passes with no TypeScript errors
+
+### Phase 8-11: Pending
+- Hosting options (open vs encrypted)
 - Dashboard functionality
 - Update flows
+- Organization and Agent entity types
 
 ## Environment Variables
 
@@ -247,10 +285,12 @@ git push origin feature/feature-name
 - Runs PII scrubbing
 - Returns cleaned text + summary
 
-### `/api/generate-telos` - TELOS Generation
+### `/api/generate-telos` - TELOS Generation ✅
 - Receives entity type, parsed input, user answers
-- Calls Claude API with appropriate template
-- Returns formatted markdown
+- Validates input with Zod schema
+- Calls Claude API with appropriate template (Individual implemented)
+- Returns formatted markdown with entity name
+- Includes error handling and retry logic for rate limits
 
 ### `/api/save-telos` - Database Storage
 - Saves to database
@@ -278,30 +318,53 @@ After each phase, verify:
 ## Known Issues / Debugging Notes
 
 ### Current Status
-- All phases 1-5 working correctly
+- All phases 1-7 working correctly
 - Build passes with no errors
 - PII protection verified and tested
 - Question flow fully functional for Individual entity type
+- Full dark mode implemented and consistent across all pages
+- TELOS generation with Claude API working for Individual entity
+- Enhanced preview with raw markdown toggle, table of contents, and print functionality
 
 ### Technical Debt
 - Next.js 16 middleware deprecation warning (non-breaking, migrate to "proxy" convention later)
 - Consider adding unit tests for file parsers and question flow (currently manual testing only)
 - Question flows for Organization and Agent entity types not yet implemented (Phase 5 only covers Individual)
+- TELOS prompt templates for Organization and Agent entity types not yet implemented (Phase 6 only covers Individual)
 
-### Bug Fixes (Phase 3)
-- Fixed PDF parsing by switching from pdf-parse to pdf2json with `needRawText: true`
+### Bug Fixes
+
+**Phase 3 - PDF Parsing:**
+- Fixed PDF parsing by switching from pdf2json (v2.x, caused "Invalid count value: Infinity" errors) to pdf-parse v1.1.1 (per build spec)
+- pdf-parse provides simple async/await API vs pdf2json's complex event-based parsing
 - Fixed DOCX parsing by converting ArrayBuffer to Buffer before passing to mammoth
 - Both PDF and DOCX extraction now working correctly
+
+**Phase 5.5 - UI/UX Improvements:**
+- Fixed question completion flow: removed redundant "Complete" button on last question
+- Added "Finish" button on last question that validates all required fields before showing "Generate TELOS" section
+- Fixed home page CTA button styling for dark mode (consistent with rest of page)
+- Improved input field readability with high-contrast dark mode colors
+- Skip button now hidden on last question (even if optional)
 
 ### Phase 5 Implementation Details
 - 7 questions configured per build spec Section V
 - Question types: 6 required + 1 optional (life context)
 - Validation: min 10 chars for textarea, min 5 chars for text input
-- Navigation: progress bar, question navigator (numbered buttons), previous/next/skip
+- Navigation: progress bar, question navigator (numbered buttons), previous/next/finish
 - Visual feedback: answered (green), error (red), current (blue)
-- Skip button only shown for optional questions
+- Skip button shown for optional questions (except on last question)
+- "Finish" button on last question validates all required questions
 - Inline validation with error messages
-- "Generate TELOS" button appears when all required questions answered
+- "Generate TELOS" section appears after clicking "Finish" with all required fields complete
+
+### Dark Mode Color Scheme
+- **Backgrounds:** Black (#0a0a0a) or gray-900 for main content
+- **Cards/Panels:** Gray-900 with gray-700 borders
+- **Text:** Gray-100 (headings), gray-300/400 (body), gray-500 (labels)
+- **Inputs:** Gray-800 background, gray-100 text, blue-400 caret, gray-500 placeholder
+- **Accents:** Blue-400/500 (links, buttons), green-600 (success), red-950 (errors)
+- **Navigation:** Gray-900 background with gray-800 border
 
 ## Reference Documents
 
@@ -362,5 +425,5 @@ main           # Production-ready code only
 ---
 
 **Last Updated:** 2026-01-06
-**Current Phase:** 5 Complete (Question Flow for Individual Entity)
-**Next Milestone:** Phase 6 - Claude API Integration & TELOS Generation
+**Current Phase:** 7 Complete (Preview & Download with Enhanced Features)
+**Next Milestone:** Phase 8 - Hosting Options (Open vs Encrypted)

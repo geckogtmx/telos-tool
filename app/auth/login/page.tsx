@@ -54,21 +54,21 @@ function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-gray-100 mb-2">
             Welcome Back
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-400">
             Login to your TELOS Tool account
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-8">
+        <div className="bg-gray-900 border border-gray-700 rounded-lg shadow-md p-8">
           <form onSubmit={handleLogin} className="space-y-6">
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+              <div className="bg-red-950 border border-red-800 text-red-300 px-4 py-3 rounded-lg">
                 {error}
               </div>
             )}
@@ -95,7 +95,7 @@ function LoginForm() {
 
             <div className="flex items-center justify-between">
               <div className="text-sm">
-                <Link href="/auth/reset-password" className="text-blue-600 hover:text-blue-700">
+                <Link href="/auth/reset-password" className="text-blue-400 hover:text-blue-300">
                   Forgot password?
                 </Link>
               </div>
@@ -111,9 +111,9 @@ function LoginForm() {
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-gray-600">
+            <p className="text-gray-400">
               Don't have an account?{' '}
-              <Link href="/auth/signup" className="text-blue-600 hover:text-blue-700 font-medium">
+              <Link href="/auth/signup" className="text-blue-400 hover:text-blue-300 font-medium">
                 Sign up
               </Link>
             </p>
@@ -127,10 +127,10 @@ function LoginForm() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Loading...</h1>
+            <h1 className="text-3xl font-bold text-gray-100 mb-2">Loading...</h1>
           </div>
         </div>
       </div>

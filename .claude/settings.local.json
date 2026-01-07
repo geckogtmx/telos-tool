@@ -11,7 +11,8 @@
       "Bash(git commit -m \"$\\(cat <<''EOF''\nCRITICAL FIX: Add PII scrubbing \\(Phase 4\\)\n\nPhase 3 was incomplete - missing PII protection entirely.\n\nAdded:\n- lib/parsers/pii-scrubber.ts with 7 PII pattern types\n- Integration into /api/parse-cv route\n- PII warning banner in Individual page UI\n- Test suite for PII detection\n\nPII types protected:\n- Phone numbers, emails, SSN, credit cards\n- Street addresses, tax IDs, passport numbers\n\nVerified:\n- Test shows 6/6 PII items successfully removed\n- No actual PII values sent to client\n- Summary shows type/count only\n\nBuild passes. All Phase 3 & 4 checkpoints met.\n\n🤖 Generated with Claude Code \\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(git commit:*)",
       "Bash(cat:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(mkdir:*)"
     ]
   }
 }
