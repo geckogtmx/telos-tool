@@ -47,6 +47,7 @@ function IndividualFlow() {
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [isInitialLoading, setIsInitialLoading] = useState(!!editingId);
+  const [initialHostingType, setInitialHostingType] = useState<HostingType | undefined>(undefined);
 
   // Load existing data if editingId is present
   useEffect(() => {
@@ -71,6 +72,7 @@ function IndividualFlow() {
               charCount: data.raw_input.parsedText.length
             });
             setAnswers(data.raw_input.answers || {});
+            setInitialHostingType(data.hosting_type as HostingType);
             setShowQuestions(true); // Jump straight to questions for updates
           }
         } catch (err) {
@@ -357,6 +359,7 @@ function IndividualFlow() {
             onBack={handleBackToQuestions}
             onSave={handleSaveTELOS}
             isSaving={isSaving}
+            initialHostingType={initialHostingType}
           />
         ) : (
           <div className="space-y-6">
@@ -384,6 +387,7 @@ function IndividualFlow() {
                 questions={individualQuestions}
                 onComplete={handleQuestionComplete}
                 initialAnswers={answers}
+                showFinishButton={!editingId}
               />
             </div>
 
@@ -401,9 +405,9 @@ function IndividualFlow() {
               </div>
             )}
 
-            {individualQuestions
+            {(editingId || (individualQuestions
               .filter(q => q.required)
-              .every(q => answers[q.id] && answers[q.id].trim().length >= q.minLength) && (
+              .every(q => answers[q.id] && answers[q.id].trim().length >= q.minLength))) && (
               <div className="bg-gray-900 border border-gray-700 rounded-lg shadow-sm p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -411,7 +415,7 @@ function IndividualFlow() {
                       Ready to {editingId ? 'Update' : 'Generate'} Your TELOS
                     </h3>
                     <p className="text-sm text-gray-400">
-                      All required questions answered. Click below to {editingId ? 'update' : 'create'} your TELOS file.
+                      {editingId ? 'Changes detected.' : 'All required questions answered.'} Click below to {editingId ? 'update' : 'create'} your TELOS file.
                     </p>
                   </div>
                   <button

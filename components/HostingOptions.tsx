@@ -10,10 +10,11 @@ type HostingType = 'open' | 'encrypted' | 'private';
 type HostingOptionsProps = {
   onSave: (hostingType: HostingType, password?: string) => Promise<void>;
   isSaving: boolean;
+  initialHostingType?: HostingType;
 };
 
-export default function HostingOptions({ onSave, isSaving }: HostingOptionsProps) {
-  const [hostingType, setHostingType] = useState<HostingType | null>(null);
+export default function HostingOptions({ onSave, isSaving, initialHostingType }: HostingOptionsProps) {
+  const [hostingType, setHostingType] = useState<HostingType | null>(initialHostingType || null);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);

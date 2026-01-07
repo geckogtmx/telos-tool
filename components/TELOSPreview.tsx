@@ -11,6 +11,7 @@ type TELOSPreviewProps = {
   onBack?: () => void;
   onSave?: (hostingType: HostingType, password?: string) => Promise<void>;
   isSaving?: boolean;
+  initialHostingType?: HostingType;
 };
 
 type Section = {
@@ -26,6 +27,7 @@ export default function TELOSPreview({
   onBack,
   onSave,
   isSaving = false,
+  initialHostingType,
 }: TELOSPreviewProps) {
   const [copied, setCopied] = useState(false);
   const [viewMode, setViewMode] = useState<'preview' | 'raw'>('preview');
@@ -176,7 +178,7 @@ export default function TELOSPreview({
       // Code
       text = text.replace(/`(.+?)`/g, '<code class="bg-gray-700 text-blue-300 px-1.5 py-0.5 rounded text-sm font-mono">$1</code>');
       // Links
-      text = text.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" class="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">$1</a>');
+      text = text.replace(/\\\[(.+?)\\\]\((.+?)\\\\/g, '<a href="$2" class="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">$1</a>');
       return text;
     };
 
@@ -339,21 +341,13 @@ export default function TELOSPreview({
         <div className="flex items-center gap-2 bg-gray-900 border border-gray-700 rounded-lg p-1">
           <button
             onClick={() => setViewMode('preview')}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-              viewMode === 'preview'
-                ? 'bg-blue-600 text-white'
-                : 'text-gray-400 hover:text-gray-200'
-            }`}
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${ viewMode === 'preview' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-gray-200'}`}
           >
             Preview
           </button>
           <button
             onClick={() => setViewMode('raw')}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-              viewMode === 'raw'
-                ? 'bg-blue-600 text-white'
-                : 'text-gray-400 hover:text-gray-200'
-            }`}
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${ viewMode === 'raw' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-gray-200'}`}
           >
             Raw Markdown
           </button>
@@ -383,9 +377,7 @@ export default function TELOSPreview({
               <button
                 key={section.id}
                 onClick={() => scrollToSection(section.id)}
-                className={`block w-full text-left text-sm transition-colors hover:text-blue-400 ${
-                  section.level === 2 ? 'text-gray-300 font-medium' : 'text-gray-500 pl-4'
-                }`}
+                className={`block w-full text-left text-sm transition-colors hover:text-blue-400 ${ section.level === 2 ? 'text-gray-300 font-medium' : 'text-gray-500 pl-4'}`}
               >
                 {section.title}
               </button>
@@ -426,7 +418,7 @@ export default function TELOSPreview({
 
       {/* Hosting Options */}
       {onSave && (
-        <HostingOptions onSave={onSave} isSaving={isSaving} />
+        <HostingOptions onSave={onSave} isSaving={isSaving} initialHostingType={initialHostingType} />
       )}
     </div>
   );

@@ -7,13 +7,19 @@ type QuestionFlowProps = {
   questions: Question[];
   onComplete: (answers: QuestionAnswers) => void;
   initialAnswers?: QuestionAnswers;
+  showFinishButton?: boolean;
 };
 
 type ValidationErrors = {
   [key: string]: string;
 };
 
-export default function QuestionFlow({ questions, onComplete, initialAnswers = {} }: QuestionFlowProps) {
+export default function QuestionFlow({ 
+  questions, 
+  onComplete, 
+  initialAnswers = {},
+  showFinishButton = true
+}: QuestionFlowProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<QuestionAnswers>(initialAnswers);
   const [errors, setErrors] = useState<ValidationErrors>({});
@@ -120,6 +126,7 @@ export default function QuestionFlow({ questions, onComplete, initialAnswers = {
   const handleSkip = () => {
     if (!currentQuestion.required) {
       if (isLastQuestion) {
+        // Even if Finish button is hidden, skipping last question should trigger completion
         handleFinish();
       } else {
         setCurrentQuestionIndex(prev => prev + 1);
@@ -281,12 +288,14 @@ export default function QuestionFlow({ questions, onComplete, initialAnswers = {
           )}
 
           {isLastQuestion ? (
-            <button
-              onClick={handleFinish}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors font-medium"
-            >
-              Finish
-            </button>
+            showFinishButton && (
+              <button
+                onClick={handleFinish}
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors font-medium"
+              >
+                Finish
+              </button>
+            )
           ) : (
             <button
               onClick={handleNext}
