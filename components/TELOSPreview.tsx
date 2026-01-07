@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import DOMPurify from 'isomorphic-dompurify';
 import HostingOptions from './HostingOptions';
 import { HostingType } from '@/types';
 
