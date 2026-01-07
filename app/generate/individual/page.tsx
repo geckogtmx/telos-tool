@@ -1,11 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import FileUpload from '@/components/FileUpload';
 import QuestionFlow from '@/components/QuestionFlow';
 import TELOSPreview from '@/components/TELOSPreview';
 import { individualQuestions, type QuestionAnswers } from '@/config/questions/individual';
 import { HostingType } from '@/types';
+import { createClient } from '@/lib/supabase/client';
 
 type PIIMatch = {
   type: string;
@@ -29,7 +31,10 @@ type GeneratedTELOS = {
   generatedAt: string;
 };
 
-export default function IndividualPage() {
+function IndividualFlow() {
+  const searchParams = useSearchParams();
+  const editingId = searchParams?.get('id');
+
   const [file, setFile] = useState<File | null>(null);
   const [parsedData, setParsedData] = useState<ParsedData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,6 +46,44 @@ export default function IndividualPage() {
   
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [isInitialLoading, setIsInitialLoading] = useState(!!editingId);
+
+  // Load existing data if editingId is present
+  useEffect(() => {
+    if (editingId) {
+      const loadExistingData = async () => {
+        try {
+          const supabase = createClient();
+          const { data, error: fetchError } = await supabase
+            .from('telos_files')
+            .select('*')
+            .eq('id', editingId)
+            .single();
+
+          if (fetchError) throw fetchError;
+
+          if (data) {
+            setParsedData({
+              text: data.raw_input.parsedText,
+              filename: data.raw_input.filename || 'Existing File',
+              fileType: 'text/plain',
+              wordCount: data.raw_input.parsedText.split(/\s+/).length,
+              charCount: data.raw_input.parsedText.length
+            });
+            setAnswers(data.raw_input.answers || {});
+            setShowQuestions(true); // Jump straight to questions for updates
+          }
+        } catch (err) {
+          console.error('Error loading existing TELOS:', err);
+          setError('Failed to load existing TELOS data.');
+        } finally {
+          setIsInitialLoading(false);
+        }
+      };
+
+      loadExistingData();
+    }
+  }, [editingId]);
 
   const handleFileSelect = async (selectedFile: File) => {
     setFile(selectedFile);
@@ -153,10 +196,12 @@ export default function IndividualPage() {
     setSaveError(null);
 
     try {
-      const response = await fetch('/api/save-telos', {
+      const apiEndpoint = editingId ? '/api/update-telos' : '/api/save-telos';
+      const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          id: editingId, // Ignored by save-telos, required by update-telos
           entityType: 'individual',
           entityName: generatedTELOS.entityName,
           rawInput: {
@@ -186,15 +231,25 @@ export default function IndividualPage() {
     }
   };
 
+  if (isInitialLoading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-black py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-100 mb-2">
-            Individual TELOS Generation
+            {editingId ? 'Update TELOS' : 'Individual TELOS Generation'}
           </h1>
           <p className="text-gray-400">
-            Upload your CV to get started. We'll extract the information and guide you through creating your TELOS file.
+            {editingId 
+              ? 'Update your answers and re-generate your TELOS file.' 
+              : 'Upload your CV to get started. We\'ll extract the information and guide you through creating your TELOS file.'}
           </p>
         </div>
 
@@ -309,18 +364,20 @@ export default function IndividualPage() {
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h2 className="text-xl font-semibold text-gray-100">
-                    Step 2: Answer Questions
+                    Step {editingId ? '1' : '2'}: {editingId ? 'Review' : 'Answer'} Questions
                   </h2>
                   <p className="text-sm text-gray-400 mt-1">
                     Help us understand your professional identity and goals
                   </p>
                 </div>
-                <button
-                  onClick={handleBackToPreview}
-                  className="text-sm text-blue-400 hover:text-blue-300 font-medium"
-                >
-                  Back to CV Preview
-                </button>
+                {!editingId && (
+                  <button
+                    onClick={handleBackToPreview}
+                    className="text-sm text-blue-400 hover:text-blue-300 font-medium"
+                  >
+                    Back to CV Preview
+                  </button>
+                )}
               </div>
 
               <QuestionFlow
@@ -351,10 +408,10 @@ export default function IndividualPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-lg font-semibold text-gray-100 mb-1">
-                      Ready to Generate Your TELOS
+                      Ready to {editingId ? 'Update' : 'Generate'} Your TELOS
                     </h3>
                     <p className="text-sm text-gray-400">
-                      All required questions answered. Click below to create your TELOS file.
+                      All required questions answered. Click below to {editingId ? 'update' : 'create'} your TELOS file.
                     </p>
                   </div>
                   <button
@@ -368,7 +425,7 @@ export default function IndividualPage() {
                         Generating...
                       </>
                     ) : (
-                      'Generate TELOS'
+                      editingId ? 'Re-generate TELOS' : 'Generate TELOS'
                     )}
                   </button>
                 </div>
@@ -390,5 +447,17 @@ export default function IndividualPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function IndividualPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    }>
+      <IndividualFlow />
+    </Suspense>
   );
 }
