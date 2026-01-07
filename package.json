@@ -2,6 +2,16 @@
   "name": "telos-tool",
   "version": "0.1.0",
   "private": true,
+  "contributors": [
+    {
+      "name": "Claude",
+      "email": "noreply@anthropic.com"
+    },
+    {
+      "name": "Gemini",
+      "email": "noreply@google.com"
+    }
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
