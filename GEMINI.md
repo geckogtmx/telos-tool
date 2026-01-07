@@ -4,7 +4,7 @@
 
 **Name:** TELOS Tool v1.0
 **Purpose:** Production-ready TELOS generation platform
-**Current Status:** Phases 1-9 Complete
+**Current Status:** Phases 1-11 Complete
 **AI Integration:** Dual-provider support (Anthropic Claude & Google Gemini)
 
 ## Gemini Integration Details
@@ -35,7 +35,7 @@ export const AI_CONFIG = {
 
 1.  **Wrapper:** `lib/generators/gemini-api.ts`
     *   Uses `@google/generative-ai` SDK.
-    *   Configured to use `gemini-2.0-flash` (via config) which offers high speed and reliability.
+    *   Configured to use `gemini-2.0-flash` which offers high speed and reliability.
     *   Handles content generation requests.
 
 2.  **Generator Logic:** `lib/generators/telos-generator.ts`
@@ -43,16 +43,11 @@ export const AI_CONFIG = {
     *   Routes requests to `generateWithGemini` if provider is 'gemini'.
     *   Passes the constructed prompt (parsed CV + answers) to the model.
 
-### Troubleshooting
+## Recent Updates (Phases 10-11)
 
-*   **404 Model Not Found:** Ensure you are using a model available to your API key. `gemini-2.0-flash` is currently the stable choice for this codebase. Older keys might need `gemini-pro`.
-*   **API Key:** Ensure `GEMINI_API_KEY` is set in `.env.local` and the key has "Generative Language API" enabled in Google Cloud Console.
-
-## Recent Updates (Phase 9)
-
-*   **Hosting:** Securely save generated files (Open, Encrypted, Private).
-*   **Viewer:** Public viewer at `/t/[id]` with password protection.
-*   **UI/UX:** Improved navigation logic and form controls (Skip button, Password toggles).
+*   **Dashboard:** View all your TELOS files, filter by type, and delete unwanted files.
+*   **Update Flow:** Edit previous answers and re-generate your TELOS while keeping the same link.
+*   **UX Refinements:** Hidden "Finish" button on edits, pre-selected hosting status, and "Time Ago" formatting.
 
 ---
 **Last Updated:** 2026-01-06

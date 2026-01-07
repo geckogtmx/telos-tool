@@ -5,7 +5,7 @@
 **Name:** TELOS Tool v1.0
 **Purpose:** Production-ready TELOS generation platform supporting Individual, Organization, and Agent entity types
 **Framework:** Next.js 14+ with App Router, TypeScript, and Tailwind CSS
-**Status:** Phases 1-9 complete (Hosting, Public Viewer & Gemini Integration)
+**Status:** Phases 1-11 complete (Dashboard & Update Flow implemented)
 
 ## What is TELOS?
 
@@ -35,7 +35,8 @@ TELOS (Teleological Operating System) is a framework for documenting an entity's
   "react": "19.2.3",
   "mammoth": "^1.9.1",
   "pdf-parse": "^1.1.1",
-  "react-dropzone": "^14.2.3"
+  "react-dropzone": "^14.2.3",
+  "date-fns": "^4.1.0"
 }
 ```
 
@@ -50,9 +51,9 @@ telos-tool/
 │   ├── auth/...                      # Authentication pages
 │   ├── generate/
 │   │   ├── page.tsx                  # Entity type selector
-│   │   ├── individual/page.tsx       # Individual entity flow
-│   │   ├── organization/page.tsx     # Organization entity flow
-│   │   └── agent/page.tsx            # Agent entity flow
+│   │   ├── individual/page.tsx       # Individual entity flow (Create/Edit)
+│   │   ├── organization/page.tsx     # Organization entity flow (Planned)
+│   │   └── agent/page.tsx            # Agent entity flow (Planned)
 │   ├── dashboard/
 │   │   ├── page.tsx                  # User's TELOS files list
 │   │   └── layout.tsx                # Dashboard layout
@@ -64,7 +65,8 @@ telos-tool/
 │   ├── TELOSViewer.tsx               # Secure file viewer with password protection
 │   ├── TELOSPreview.tsx              # Markdown previewer
 │   ├── QuestionFlow.tsx              # Dynamic question renderer
-│   └── ...
+│   ├── DashboardFileList.tsx         # List of user files with filtering
+│   └── DashboardFileCard.tsx         # Individual file card with actions
 ├── lib/
 │   ├── generators/
 │   │   ├── claude-api.ts             # Anthropic API wrapper
@@ -115,14 +117,21 @@ telos-tool/
 - [x] Public viewer route (`/t/[id]`)
 - [x] Secure fetching logic (Service Role)
 - [x] Password unlock UI with visibility toggle
-- [x] Conditional UI (hide nav/edit buttons for public visitors)
 - [x] Gemini API integration (`lib/generators/gemini-api.ts`)
-- [x] AI Provider configuration (`config/ai-model.ts`)
 
-### Phase 10-11: Pending
-- Dashboard functionality
-- Update flows
-- Organization and Agent entity types
+### Phase 10: Dashboard ✅
+- [x] File listing with filtering
+- [x] Delete functionality
+- [x] Redesigned card UI with top-aligned badges
+
+### Phase 11: Update Flow ✅
+- [x] Edit existing TELOS files
+- [x] Version tracking
+- [x] Refined UX (hidden finish button on edit, pre-selected hosting status)
+
+## Next Milestone
+- Organization entity type (Input parsing, Questions, Template)
+- Agent entity type (Input parsing, Questions, Template)
 
 ## Environment Variables
 
@@ -134,8 +143,8 @@ NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 SUPABASE_SERVICE_ROLE_KEY=...
 
-# AI Providers (Select one via AI_PROVIDER)
-AI_PROVIDER=claude # or 'gemini'
+# AI Providers
+AI_PROVIDER=gemini # or 'claude'
 ANTHROPIC_API_KEY=...
 GEMINI_API_KEY=...
 
@@ -143,21 +152,8 @@ GEMINI_API_KEY=...
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-## AI Configuration
-
-To switch between AI providers, update `config/ai-model.ts` or set `AI_PROVIDER` in `.env.local`.
-
-```typescript
-// config/ai-model.ts
-export const AI_CONFIG = {
-  provider: 'gemini', // or 'claude'
-  claudeModel: 'claude-3-5-sonnet-20240620',
-  geminiModel: 'gemini-2.0-flash',
-};
-```
-
 ---
 
 **Last Updated:** 2026-01-06
-**Current Phase:** 9 Complete (Hosting, Viewer & Gemini)
-**Next Milestone:** Phase 10 - Dashboard Functionality
+**Current Phase:** 11 Complete (Update Flow Refinements)
+**Next Milestone:** Organization & Agent Entity Types
