@@ -26,6 +26,7 @@ export interface QuestionAnswer {
 }
 
 export interface TELOSData {
+  id?: string;
   entityType: EntityType;
   entityName: string;
   rawInput: Record<string, unknown>;
