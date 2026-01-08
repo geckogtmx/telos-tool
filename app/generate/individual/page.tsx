@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import FileUpload from '@/components/FileUpload';
 import QuestionFlow from '@/components/QuestionFlow';
 import TELOSPreview from '@/components/TELOSPreview';
-import { individualQuestions, type QuestionAnswers } from '@/config/questions/individual';
+import { individualCombinedQuestions, IndividualQuestionAnswers } from '@/config/questions/individual-combined';
 import { HostingType } from '@/types';
 import { createClient } from '@/lib/supabase/client';
 
@@ -40,7 +40,7 @@ function IndividualFlow() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showQuestions, setShowQuestions] = useState(false);
-  const [answers, setAnswers] = useState<QuestionAnswers>({});
+  const [answers, setAnswers] = useState<IndividualQuestionAnswers>({});
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedTELOS, setGeneratedTELOS] = useState<GeneratedTELOS | null>(null);
   
@@ -128,19 +128,28 @@ function IndividualFlow() {
     setShowQuestions(true);
   };
 
-  const handleQuestionComplete = (completedAnswers: QuestionAnswers) => {
+  const handleQuestionComplete = (completedAnswers: IndividualQuestionAnswers) => {
     setAnswers(completedAnswers);
+    handleGenerateTELOS(completedAnswers, 'full');
   };
+
+  const handleCheckpoint = (currentAnswers: IndividualQuestionAnswers) => {
+    setAnswers(currentAnswers);
+    handleGenerateTELOS(currentAnswers, 'quick');
+  }
 
   const handleBackToPreview = () => {
     setShowQuestions(false);
   };
 
-  const handleGenerateTELOS = async () => {
-    if (!parsedData) return;
-
+  const handleGenerateTELOS = async (currentAnswers: IndividualQuestionAnswers, mode: 'quick' | 'full') => {
     setIsGenerating(true);
     setError(null);
+
+    // Filter answers if Quick mode (just in case extra keys exist)
+    const payloadAnswers = mode === 'quick' 
+        ? Object.fromEntries(Object.entries(currentAnswers).filter(([key]) => ['q1','q2','q3','q4','q5'].includes(key)))
+        : currentAnswers;
 
     try {
       const response = await fetch('/api/generate-telos', {
@@ -149,9 +158,10 @@ function IndividualFlow() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          entityType: 'individual',
-          parsedInput: parsedData.text,
-          answers,
+          entityType: 'individual', // Unified type
+          parsedInput: parsedData?.text || '',
+          answers: payloadAnswers,
+          mode: mode // Hint to the backend
         }),
       });
 
@@ -193,7 +203,7 @@ function IndividualFlow() {
   };
 
   const handleSaveTELOS = async (hostingType: HostingType, password?: string) => {
-    if (!generatedTELOS || !parsedData) return;
+    if (!generatedTELOS) return;
     setIsSaving(true);
     setSaveError(null);
 
@@ -203,12 +213,12 @@ function IndividualFlow() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          id: editingId, // Ignored by save-telos, required by update-telos
+          id: editingId,
           entityType: 'individual',
           entityName: generatedTELOS.entityName,
           rawInput: {
-            filename: parsedData.filename,
-            parsedText: parsedData.text,
+            filename: parsedData?.filename,
+            parsedText: parsedData?.text,
             answers: answers,
           },
           generatedContent: generatedTELOS.content,
@@ -222,7 +232,6 @@ function IndividualFlow() {
          throw new Error(result.error || 'Failed to save');
       }
 
-      // Redirect to the hosted page
       window.location.href = `/t/${result.data.public_id}`;
 
     } catch (err) {
@@ -246,12 +255,12 @@ function IndividualFlow() {
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-100 mb-2">
-            {editingId ? 'Update TELOS' : 'Individual TELOS Generation'}
+            {editingId ? 'Update TELOS' : 'Individual TELOS'}
           </h1>
           <p className="text-gray-400">
             {editingId 
               ? 'Update your answers and re-generate your TELOS file.' 
-              : 'Upload your CV to get started. We\'ll extract the information and guide you through creating your TELOS file.'}
+              : 'Create your professional operating system. Start with 5 quick questions.'}
           </p>
         </div>
 
@@ -260,6 +269,9 @@ function IndividualFlow() {
             <h2 className="text-xl font-semibold text-gray-100 mb-4">
               Step 1: Upload Your CV
             </h2>
+            <p className="text-sm text-gray-400 mb-6">
+                Upload your CV to help the AI generate more accurate responses.
+            </p>
             <FileUpload
               onFileSelect={handleFileSelect}
               entityType="individual"
@@ -330,17 +342,6 @@ function IndividualFlow() {
                 </div>
               </div>
 
-              <div>
-                <p className="text-sm text-gray-500 mb-2">Extracted Text Preview</p>
-                <div className="bg-gray-800 border border-gray-700 rounded-md p-4 max-h-96 overflow-y-auto">
-                  <pre className="text-sm text-gray-300 whitespace-pre-wrap font-sans">
-                    {parsedData.text.length > 2000
-                      ? parsedData.text.substring(0, 2000) + '...'
-                      : parsedData.text}
-                  </pre>
-                </div>
-              </div>
-
               <div className="pt-4">
                 <button
                   className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-500 transition-colors font-medium"
@@ -384,10 +385,12 @@ function IndividualFlow() {
               </div>
 
               <QuestionFlow
-                questions={individualQuestions}
+                questions={individualCombinedQuestions}
                 onComplete={handleQuestionComplete}
                 initialAnswers={answers}
                 showFinishButton={!editingId}
+                breakpointIndex={4} // After 5th question (index 4)
+                onCheckpoint={handleCheckpoint}
               />
             </div>
 
@@ -405,45 +408,12 @@ function IndividualFlow() {
               </div>
             )}
 
-            {(editingId || (individualQuestions
-              .filter(q => q.required)
-              .every(q => answers[q.id] && answers[q.id].trim().length >= (q.minLength || 0)))) && (
-              <div className="bg-gray-900 border border-gray-700 rounded-lg shadow-sm p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-100 mb-1">
-                      Ready to {editingId ? 'Update' : 'Generate'} Your TELOS
-                    </h3>
-                    <p className="text-sm text-gray-400">
-                      {editingId ? 'Changes detected.' : 'All required questions answered.'} Click below to {editingId ? 'update' : 'create'} your TELOS file.
-                    </p>
-                  </div>
-                  <button
-                    onClick={handleGenerateTELOS}
-                    disabled={isGenerating}
-                    className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-500 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                  >
-                    {isGenerating ? (
-                      <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                        Generating...
-                      </>
-                    ) : (
-                      editingId ? 'Re-generate TELOS' : 'Generate TELOS'
-                    )}
-                  </button>
-                </div>
-              </div>
-            )}
-
             {isGenerating && (
-              <div className="bg-blue-950 border border-blue-800 rounded-lg p-6">
-                <div className="flex items-center justify-center gap-4">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
-                  <div>
-                    <p className="text-blue-200 font-medium">Generating your TELOS file...</p>
-                    <p className="text-sm text-blue-300 mt-1">This may take 10-15 seconds</p>
-                  </div>
+              <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div className="bg-gray-900 border border-gray-700 rounded-2xl p-8 max-w-sm w-full text-center">
+                  <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto mb-6"></div>
+                  <h3 className="text-xl font-bold text-white mb-2">Generating TELOS</h3>
+                  <p className="text-gray-400">Synthesizing your professional profile...</p>
                 </div>
               </div>
             )}

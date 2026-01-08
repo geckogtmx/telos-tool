@@ -7,20 +7,11 @@ export const APP_DESCRIPTION = 'Generate comprehensive TELOS files for Individua
 
 export const ENTITY_TYPES: EntityTypeInfo[] = [
   {
-    id: 'individual_quick',
-    name: 'Individual - Quick Start',
-    description: 'Generate a basic TELOS in 3-5 minutes (5 questions)',
-    icon: '⚡',
-    inputType: 'CV Upload (optional) + 5 Questions',
-    badge: 'Fastest'
-  },
-  {
-    id: 'individual_full',
-    name: 'Individual - Full Profile',
-    description: 'Build a comprehensive, deep-dive TELOS (18 questions)',
+    id: 'individual',
+    name: 'Individual',
+    description: 'Create a personal TELOS. Start with a 5-question Quick Start, then optionally expand to the Full Profile.',
     icon: '👤',
-    inputType: 'CV Upload + 18 Questions',
-    badge: 'Recommended'
+    inputType: 'CV Upload + Questions',
   },
   {
     id: 'organization',

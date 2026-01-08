@@ -10,6 +10,8 @@ type QuestionFlowProps = {
   onComplete: (answers: QuestionAnswers) => void;
   initialAnswers?: QuestionAnswers;
   showFinishButton?: boolean;
+  breakpointIndex?: number;
+  onCheckpoint?: (answers: QuestionAnswers) => void;
 };
 
 type ValidationErrors = {
@@ -20,7 +22,9 @@ export default function QuestionFlow({
   questions, 
   onComplete, 
   initialAnswers = {},
-  showFinishButton = true
+  showFinishButton = true,
+  breakpointIndex,
+  onCheckpoint
 }: QuestionFlowProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<QuestionAnswers>(initialAnswers);
@@ -31,6 +35,7 @@ export default function QuestionFlow({
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
   const isFirstQuestion = currentQuestionIndex === 0;
+  const isBreakpoint = breakpointIndex !== undefined && currentQuestionIndex === breakpointIndex;
 
   const validateAnswer = (question: Question, value: string): string | null => {
     // Required field validation
@@ -118,6 +123,24 @@ export default function QuestionFlow({
     // Call onComplete to notify parent
     onComplete(answers);
   };
+
+  const handleCheckpoint = () => {
+    const answer = answers[currentQuestion.id] || '';
+    const error = validateAnswer(currentQuestion, answer);
+
+    if (error) {
+       setErrors(prev => ({
+        ...prev,
+        [currentQuestion.id]: error
+      }));
+      setTouched(prev => new Set(prev).add(currentQuestion.id));
+      return;
+    }
+    
+    if (onCheckpoint) {
+        onCheckpoint(answers);
+    }
+  }
 
   const handlePrevious = () => {
     if (!isFirstQuestion) {
@@ -289,7 +312,22 @@ export default function QuestionFlow({
             </button>
           )}
 
-          {isLastQuestion ? (
+          {isBreakpoint ? (
+            <div className="flex gap-2">
+                <button
+                    onClick={handleCheckpoint}
+                    className="px-6 py-3 bg-green-700 text-white rounded-lg hover:bg-green-600 transition-colors font-medium"
+                >
+                    Generate Quick TELOS
+                </button>
+                <button
+                    onClick={handleNext}
+                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors font-medium"
+                >
+                    Continue to Full Profile
+                </button>
+            </div>
+          ) : isLastQuestion ? (
             showFinishButton && (
               <button
                 onClick={handleFinish}

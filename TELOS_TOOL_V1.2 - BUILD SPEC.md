@@ -127,11 +127,11 @@ Enable users to generate a basic Individual TELOS in 3-5 minutes with option to 
 
 ---
 
-## IV. PHASE 13: INDIVIDUAL FULL TELOS (18 QUESTIONS TOTAL)
+## IV. PHASE 13: INDIVIDUAL FULL TELOS (19 ADDITIONAL  QUESTIONS)
 
 ### Goal
 
-Complete the full Individual TELOS with all 18 questions per v1.1 framework.
+Complete the full Individual TELOS with all 19 questions per v1.1 framework.
 
 ### Implementation Steps
 

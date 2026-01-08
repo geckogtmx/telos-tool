@@ -2,7 +2,7 @@
 import { EntityType } from '@/types';
 import { callClaudeAPI, ClaudeAPIException, ERROR_MESSAGES } from './claude-api';
 import { generateWithGemini } from './gemini-api';
-import { buildIndividualPrompt, buildIndividualQuickPrompt } from './templates/individual';
+import { buildIndividualPrompt } from './templates/individual';
 import { buildOrganizationPrompt } from './templates/organization';
 import { buildAgentPrompt } from './templates/agent';
 import { AI_CONFIG } from '@/config/ai-model';
@@ -11,6 +11,7 @@ export type GenerateTELOSInput = {
   entityType: EntityType;
   parsedInput: string;
   answers: Record<string, string>;
+  mode?: 'quick' | 'full';
 };
 
 export type GenerateTELOSResult = {
@@ -27,11 +28,7 @@ export async function generateTELOS(
 
     switch (input.entityType) {
       case 'individual':
-      case 'individual_full':
-        prompt = buildIndividualPrompt(input.parsedInput, input.answers);
-        break;
-      case 'individual_quick':
-        prompt = buildIndividualQuickPrompt(input.parsedInput, input.answers);
+        prompt = buildIndividualPrompt(input.parsedInput, input.answers, input.mode);
         break;
       case 'organization':
         prompt = buildOrganizationPrompt(input.parsedInput, input.answers);

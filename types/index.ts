@@ -1,6 +1,6 @@
 // Shared TypeScript types for TELOS Tool
 
-export type EntityType = 'individual' | 'individual_quick' | 'individual_full' | 'organization' | 'agent';
+export type EntityType = 'individual' | 'organization' | 'agent';
 
 export type HostingType = 'open' | 'encrypted' | 'private';
 

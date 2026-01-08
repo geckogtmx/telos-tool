@@ -1,0 +1,190 @@
+{
+  "main": {
+    "id": "7450a0d2bcd5c54d",
+    "type": "split",
+    "children": [
+      {
+        "id": "887088efd978f3ed",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5e10a50a864270e9",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TELOS_TOOL_V1.2 - BUILD SPEC.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "TELOS_TOOL_V1.2 - BUILD SPEC"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "1bd237e1aad8783b",
+    "type": "split",
+    "children": [
+      {
+        "id": "25d27be3db3ee39b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "203145213df79280",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "b5d84c895db695e2",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "9995874454668d56",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "1ade102fbe1b0709",
+    "type": "split",
+    "children": [
+      {
+        "id": "b71b7c5d23eab88b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "103858eaeb099ac2",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "TELOS_TOOL_V1.2 - BUILD SPEC.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for TELOS_TOOL_V1.2 - BUILD SPEC"
+            }
+          },
+          {
+            "id": "1bfe791a13bcdd3b",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "TELOS_TOOL_V1.2 - BUILD SPEC.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from TELOS_TOOL_V1.2 - BUILD SPEC"
+            }
+          },
+          {
+            "id": "5034b0cbd76d8295",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "9418ff30d4e55b37",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "1be804bdbc0ac20f",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "TELOS_TOOL_V1.2 - BUILD SPEC.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of TELOS_TOOL_V1.2 - BUILD SPEC"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "5e10a50a864270e9",
+  "lastOpenFiles": [
+    "config/questions/individual-combined.ts"
+  ]
+}
