@@ -212,6 +212,48 @@ Step 4: Verify Secret History
   - Document result (clean or needs rotation)
 ```
 
+### Additional Audit (2026-01-08)
+
+**Dependencies:** `npm audit` returned 0 vulnerabilities
+
+| # | Issue | Severity | Location | Status |
+|---|-------|----------|----------|--------|
+| 5 | Weak Password Policy | High | `app/api/save-telos/route.ts:40`, `HostingOptions.tsx:27` | **DONE** |
+| 6 | No Rate Limiting | Medium | All API routes | **TODO** |
+| 7 | Open Redirect | Medium | `app/auth/callback/route.ts:13` | **TODO** |
+| 8 | Missing Security Headers | Low | `next.config.ts` | **TODO** |
+| 9 | Entity Name Validation | Low | `app/api/save-telos/route.ts:9` | **TODO** |
+
+**5. Weak Password Policy** *(FIXED)*
+- ~~Encrypted TELOS files only require 4-character passwords~~
+- Now requires 12+ characters with uppercase, lowercase, and number
+
+**6. No Rate Limiting**
+- API endpoints have no request throttling
+- Risk: Brute force, DoS, API abuse
+- Fix: Add rate limiting middleware (e.g., `upstash/ratelimit` for serverless)
+
+**7. Open Redirect**
+- Auth callback accepts `next` param without validation
+- Could redirect users to malicious external sites
+- Fix: Whitelist allowed redirect paths or enforce relative URLs only
+
+**8. Missing Security Headers**
+- No CSP, X-Frame-Options, X-Content-Type-Options configured
+- Fix: Add headers in `next.config.ts`
+
+**9. Entity Name Validation**
+- Only validates `.min(1)` - no max length or character restrictions
+- Fix: Add `.max(255)` and character sanitization
+
+### Security Strengths Observed
+- SQL injection: Protected (Supabase SDK handles parameterization)
+- XSS: DOMPurify sanitization in place
+- Password hashing: bcrypt with salt=10
+- File uploads: Magic number validation, size limits, MIME restrictions
+- Authorization: Proper ownership checks before updates/views
+- Secrets: API keys kept server-side only
+
 ---
 
 **Last Updated:** 2026-01-08
