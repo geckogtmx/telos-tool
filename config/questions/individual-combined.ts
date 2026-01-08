@@ -45,7 +45,7 @@ export const individualCombinedQuestions: Question[] = [
     examples: [
       'Dr. Priya Sharma: Patient-centered always. Evidence-based but practical—best practice adjusted for real-world constraints is better than perfect practice that can\'t be implemented. I value efficiency that serves patients, not efficiency for its own sake. Avoid: Paternalistic care. Judgment about patient choices. Documentation theater.',
       'Marcus Chen: Values: Reliability over cleverness. Documentation. Honest estimates. Deep work. Avoid: Heroics. "Move fast and break things." Meetings without agendas. Premature optimization.',
-      'Sarah Okonkwo: I value clarity, accountability, and creative bravery. I have no patience for marketing that\'s just "vibes"—if we can\'t measure it or at least have a hypothesis about why it should work, we shouldn\'t do it. I avoid performative busy-ness, campaigns designed to make us look busy rather than drive results, and I really avoid the word "synergy."',
+      'Sarah Okonkwo: I value clarity, accountability, and creative bravery. I have no patience for marketing that\'s just "vibes"—if we can\'t measure it or at least have a hypothesis about why it should work, we shouldn\'t do it. I avoid performative busy-ness, campaigns designed to make us look busy rather than drive results, and I really avoid the word "synergy." ',
       'Tomás Reyes: Intentionality. Every design choice should have a reason. I value clients who trust the process and understand that good design takes time. I value craft—I still care about kerning and paper stock and things most people don\'t notice. Avoid: Spec work. "Make it pop." Clients who want to art-direct. Racing to the bottom on price. Design trends that will age badly.',
       'Jake Moreno: authenticity > polish. I\'d rather be real and a little rough than fake and perfect. my audience can smell BS instantly. avoid: drama/controversy farming, clickbait that doesn\'t deliver, selling stuff I don\'t believe in, parasocial manipulation'
     ]
@@ -203,7 +203,7 @@ export const individualCombinedQuestions: Question[] = [
     id: 'q3b',
     question: 'What are your hard constraints?',
     type: 'textarea',
-    placeholder: 'Non-negotiable boundaries (time, location, ethics)...', 
+    placeholder: 'Non-negotiable boundaries (time, location, ethics)...',
     required: true,
     minLength: 10,
     description: "Non-negotiable limits—time, budget, family obligations, health, geography, or other factors that define what's actually possible for you. These aren't preferences; they're boundaries.",
@@ -300,12 +300,12 @@ export const individualCombinedQuestions: Question[] = [
     id: 'q5b',
     question: "What's your technical skill level?",
     type: 'text',
-    placeholder: 'Beginner, Intermediate, Expert (by domain)...', 
+    placeholder: 'Beginner, Intermediate, Expert (by domain)...',
     required: false,
     description: "Your comfort with technology and technical concepts. Non-technical? Technical but not a developer? Developer? Deep technical? Be specific about areas and don't oversell or undersell.",
     examples: [
       'Dr. Priya Sharma: Clinically technical, not IT technical. I can navigate EHRs, do basic data pulls, use Excel for simple analysis. Cannot code. Don\'t want to learn.',
-      'Marcus Chen: Deep technical. Don\'t explain language basics, common patterns, or standard tooling. Do explain niche libraries or domains I listed as "learning."',
+      'Marcus Chen: Deep technical. Don\'t explain language basics, common patterns, or standard tooling. Do explain niche libraries or domains I listed as "learning." ',
       'Sarah Okonkwo: Not a developer, but technical enough to have opinions about our website performance and to read a SQL query if someone walks me through it. I can set up basic automations in HubSpot. I understand APIs conceptually but wouldn\'t write one.',
       'Tomás Reyes: Expert in design software. Comfortable with print production specs, prepress, color profiles. Not a developer—I can inspect CSS and communicate with devs but I don\'t write code. Basic understanding of web constraints.',
       'Jake Moreno: good with creative software, bad with business software. I can edit a video in my sleep but spreadsheets make me want to die. don\'t know how to code beyond like, basic html from myspace era.'
