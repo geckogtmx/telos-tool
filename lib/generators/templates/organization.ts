@@ -93,6 +93,7 @@ ${answers.stakeholders ? '- Detail key stakeholder relationships' : '- [Not prov
 
 ## FORMATTING RULES
 
+- Start the document with a Level 1 Markdown header containing the name of the organization (e.g., "# Acme Corp").
 - Use markdown formatting
 - Be specific and professional
 - Maintain a corporate but authentic tone

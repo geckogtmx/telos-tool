@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Extract entity name for reference
-    const entityName = extractEntityName(parsedInput);
+    const entityName = extractEntityName(parsedInput, result.content);
 
     return NextResponse.json({
       success: true,

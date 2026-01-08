@@ -124,10 +124,12 @@ telos-tool/
 - [x] Delete functionality
 - [x] Redesigned card UI with top-aligned badges
 
-### Phase 11: Update Flow ✅
+### Phase 11: Update Flow & Refinements ✅
 - [x] Edit existing TELOS files
 - [x] Version tracking
 - [x] Refined UX (hidden finish button on edit, pre-selected hosting status)
+- [x] **Refinement:** Anonymized example questions (removed specific names)
+- [x] **Refinement:** Improved entity name extraction (uses generated header)
 
 ## Next Milestone
 - Organization entity type (Input parsing, Questions, Template)
@@ -154,6 +156,6 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 ---
 
-**Last Updated:** 2026-01-06
-**Current Phase:** 11 Complete (Update Flow Refinements)
+**Last Updated:** 2026-01-07
+**Current Phase:** 11 Complete (Refinements & Bug Fixes)
 **Next Milestone:** Organization & Agent Entity Types

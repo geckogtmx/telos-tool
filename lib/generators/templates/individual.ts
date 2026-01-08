@@ -70,6 +70,7 @@ V. Active Projects (from Q5)
 Keep it practical and actionable. This is version 1.0 - user may expand later.
 
 ## FORMATTING RULES
+- Start the document with a Level 1 Markdown header containing the name of the individual (e.g., "# John Doe").
 - Use markdown formatting
 - Be specific and actionable
 - Maintain a professional but personal tone
@@ -167,6 +168,7 @@ Generate a comprehensive TELOS file following this structure:
 - Include relevant personal context if provided
 
 ## FORMATTING RULES
+- Start the document with a Level 1 Markdown header containing the name of the individual (e.g., "# John Doe").
 - Use markdown formatting
 - Be specific and actionable
 - Maintain a professional but personal tone

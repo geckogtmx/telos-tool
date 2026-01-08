@@ -11,11 +11,11 @@ export const individualCombinedQuestions: Question[] = [
     minLength: 50,
     description: "A concise introduction covering your role, what you do, and the professional/personal context you operate in. Think of this as how you'd introduce yourself to someone who needs to understand your situation quickly to collaborate effectively.",
     examples: [
-      'Dr. Priya Sharma: Family Nurse Practitioner, 6 years in practice. I work at a community health center serving primarily uninsured and underinsured patients. I see 18-22 patients per day across all ages, heavy on chronic disease management and preventive care. I also precept NP students 2 days per week.',
-      'Marcus Chen: Senior backend engineer, 8 years in. Currently tech lead at a fintech startup (Series B, 45 people). I build payment infrastructure and mentor junior devs. Based in Seattle, work hybrid.',
-      'Sarah Okonkwo: I run marketing for a B2B SaaS company in the HR tech space. 12 years in marketing, last 5 in leadership roles. My team is 8 people across content, demand gen, and product marketing. I report to the CEO and sit on the leadership team. We\'re trying to grow from $15M to $30M ARR in 18 months without proportionally growing headcount.',
-      'Tomás Reyes: Freelance graphic designer, 9 years in. I specialize in brand identity and packaging design. Most of my clients are small-to-mid CPG brands—food, beverage, wellness. I\'ve built a reputation for work that\'s bold but not trendy, stuff that still looks good in 5 years. Based in Denver, work remotely with clients across the US.',
-      'Jake Moreno: full-time streamer + youtuber, variety gaming but mostly cozy/indie stuff. 340k on youtube, 85k on twitch. been doing this 4 years, full-time for 2. I make enough to live but not enough to relax about it.'
+      'Family Nurse Practitioner, 6 years in practice. I work at a community health center serving primarily uninsured and underinsured patients. I see 18-22 patients per day across all ages, heavy on chronic disease management and preventive care. I also precept NP students 2 days per week.',
+      'Senior backend engineer, 8 years in. Currently tech lead at a fintech startup (Series B, 45 people). I build payment infrastructure and mentor junior devs. Based in Seattle, work hybrid.',
+      'I run marketing for a B2B SaaS company in the HR tech space. 12 years in marketing, last 5 in leadership roles. My team is 8 people across content, demand gen, and product marketing. I report to the CEO and sit on the leadership team. We\'re trying to grow from $15M to $30M ARR in 18 months without proportionally growing headcount.',
+      'Freelance graphic designer, 9 years in. I specialize in brand identity and packaging design. Most of my clients are small-to-mid CPG brands—food, beverage, wellness. I\'ve built a reputation for work that\'s bold but not trendy, stuff that still looks good in 5 years. Based in Denver, work remotely with clients across the US.',
+      'full-time streamer + youtuber, variety gaming but mostly cozy/indie stuff. 340k on youtube, 85k on twitch. been doing this 4 years, full-time for 2. I make enough to live but not enough to relax about it.'
     ]
   },
   {
@@ -27,11 +27,11 @@ export const individualCombinedQuestions: Question[] = [
     minLength: 20,
     description: "The core problems you\'re solving or outcomes you\'re working toward. This can be professional, personal, or both. Focus on the meaningful end goals, not just tasks or activities.",
     examples: [
-      'Dr. Priya Sharma: Provide excellent care to people who otherwise wouldn\'t get it. Develop systems that let us do more with limited resources. Train the next generation of NPs to work in underserved settings.',
-      'Marcus Chen: Ship reliable systems that don\'t page me at 3am. Build a team that can operate without me. Eventually transition to a staff+ IC role or architect position—not management track.',
-      'Sarah Okonkwo: Prove that marketing can be a growth engine, not a cost center. Build a team that produces measurable results and has career paths. Personally, I want to be a CMO within 3 years—but only at a company I believe in.',
-      'Tomás Reyes: Build a sustainable creative practice where I do excellent work for clients I respect, without grinding myself into dust. Eventually want to shift toward fewer, larger projects and maybe some product revenue (templates, courses, something).',
-      'Jake Moreno: sustainable career doing this. I don\'t need to be huge, I need to not burn out and keep paying rent. also want to make stuff I\'m actually proud of, not just algorithm slop.'
+      'Provide excellent care to people who otherwise wouldn\'t get it. Develop systems that let us do more with limited resources. Train the next generation of NPs to work in underserved settings.',
+      'Ship reliable systems that don\'t page me at 3am. Build a team that can operate without me. Eventually transition to a staff+ IC role or architect position—not management track.',
+      'Prove that marketing can be a growth engine, not a cost center. Build a team that produces measurable results and has career paths. Personally, I want to be a CMO within 3 years—but only at a company I believe in.',
+      'Build a sustainable creative practice where I do excellent work for clients I respect, without grinding myself into dust. Eventually want to shift toward fewer, larger projects and maybe some product revenue (templates, courses, something).',
+      'sustainable career doing this. I don\'t need to be huge, I need to not burn out and keep paying rent. also want to make stuff I\'m actually proud of, not just algorithm slop.'
     ]
   },
   {
@@ -43,11 +43,11 @@ export const individualCombinedQuestions: Question[] = [
     minLength: 20,
     description: "Core principles you operate by, and things you explicitly don\'t want. This includes both what matters to you (values) and what you actively reject or constrain (anti-patterns, boundaries).",
     examples: [
-      'Dr. Priya Sharma: Patient-centered always. Evidence-based but practical—best practice adjusted for real-world constraints is better than perfect practice that can\'t be implemented. I value efficiency that serves patients, not efficiency for its own sake. Avoid: Paternalistic care. Judgment about patient choices. Documentation theater.',
-      'Marcus Chen: Values: Reliability over cleverness. Documentation. Honest estimates. Deep work. Avoid: Heroics. "Move fast and break things." Meetings without agendas. Premature optimization.',
-      'Sarah Okonkwo: I value clarity, accountability, and creative bravery. I have no patience for marketing that\'s just "vibes"—if we can\'t measure it or at least have a hypothesis about why it should work, we shouldn\'t do it. I avoid performative busy-ness, campaigns designed to make us look busy rather than drive results, and I really avoid the word "synergy." ',
-      'Tomás Reyes: Intentionality. Every design choice should have a reason. I value clients who trust the process and understand that good design takes time. I value craft—I still care about kerning and paper stock and things most people don\'t notice. Avoid: Spec work. "Make it pop." Clients who want to art-direct. Racing to the bottom on price. Design trends that will age badly.',
-      'Jake Moreno: authenticity > polish. I\'d rather be real and a little rough than fake and perfect. my audience can smell BS instantly. avoid: drama/controversy farming, clickbait that doesn\'t deliver, selling stuff I don\'t believe in, parasocial manipulation'
+      'Patient-centered always. Evidence-based but practical—best practice adjusted for real-world constraints is better than perfect practice that can\'t be implemented. I value efficiency that serves patients, not efficiency for its own sake. Avoid: Paternalistic care. Judgment about patient choices. Documentation theater.',
+      'Values: Reliability over cleverness. Documentation. Honest estimates. Deep work. Avoid: Heroics. "Move fast and break things." Meetings without agendas. Premature optimization.',
+      'I value clarity, accountability, and creative bravery. I have no patience for marketing that\'s just "vibes"—if we can\'t measure it or at least have a hypothesis about why it should work, we shouldn\'t do it. I avoid performative busy-ness, campaigns designed to make us look busy rather than drive results, and I really avoid the word "synergy." ',
+      'Intentionality. Every design choice should have a reason. I value clients who trust the process and understand that good design takes time. I value craft—I still care about kerning and paper stock and things most people don\'t notice. Avoid: Spec work. "Make it pop." Clients who want to art-direct. Racing to the bottom on price. Design trends that will age badly.',
+      'authenticity > polish. I\'d rather be real and a little rough than fake and perfect. my audience can smell BS instantly. avoid: drama/controversy farming, clickbait that doesn\'t deliver, selling stuff I don\'t believe in, parasocial manipulation'
     ]
   },
   {
@@ -59,11 +59,11 @@ export const individualCombinedQuestions: Question[] = [
     minLength: 20,
     description: "Your working style and preferences for how information should be delivered. Include details about depth (detailed vs. concise), structure (organized vs. exploratory), pace (fast iterations vs. deep dives), and how you like to receive feedback or recommendations.",
     examples: [
-      'Dr. Priya Sharma: Systematic. I think in protocols and algorithms. If there\'s a framework, I want to know it. I like checklists. I make decisions quickly and move on—can\'t afford analysis paralysis with my patient volume. Give me evidence summaries with recommendations. Concise. Clinical. "Consider X because Y." No preamble needed.',
-      'Marcus Chen: Structured. Give me the context, the constraints, and let me think. I work in 90-minute blocks. I prefer async communication—Slack over meetings. Written proposals over verbal pitches. When stuck, give me 2-3 options with tradeoffs. Direct feedback—don\'t soften. "This approach has a race condition" not "Have you considered the threading implications?"',
-      'Sarah Okonkwo: I think out loud. When I\'m working through a problem, I want to talk it through—or write it through. I like structured frameworks but I don\'t want them to be rigid. Give me a starting point and let me adapt it. I read fast, so don\'t worry about giving me too much—I\'ll skim what I don\'t need. When stuck, ask me questions—I usually know the answer, I just haven\'t organized my thoughts yet.',
-      'Tomás Reyes: Visually, obviously. I think by making—I\'ll sketch or mock something up to figure out what I think. I like clear briefs and then creative freedom. Micromanagement kills my work. I do my best design work in the morning; afternoons are for admin and revisions. Show me references or examples when I\'m stuck. Visual inspiration helps more than verbal explanation.',
-      'Jake Moreno: honestly kind of chaotic. I work in bursts. some days I edit for 12 hours, some days I can barely open premiere. I need external structure because I won\'t create it myself. short bursts, 15 min here and there. when stuck just tell me what to do. give me the answer. I can evaluate if it\'s right for me, but I don\'t have time to think through 5 options. casual feedback style, like texting.'
+      'Systematic. I think in protocols and algorithms. If there\'s a framework, I want to know it. I like checklists. I make decisions quickly and move on—can\'t afford analysis paralysis with my patient volume. Give me evidence summaries with recommendations. Concise. Clinical. "Consider X because Y." No preamble needed.',
+      'Structured. Give me the context, the constraints, and let me think. I work in 90-minute blocks. I prefer async communication—Slack over meetings. Written proposals over verbal pitches. When stuck, give me 2-3 options with tradeoffs. Direct feedback—don\'t soften. "This approach has a race condition" not "Have you considered the threading implications?"',
+      'I think out loud. When I\'m working through a problem, I want to talk it through—or write it through. I like structured frameworks but I don\'t want them to be rigid. Give me a starting point and let me adapt it. I read fast, so don\'t worry about giving me too much—I\'ll skim what I don\'t need. When stuck, ask me questions—I usually know the answer, I just haven\'t organized my thoughts yet.',
+      'Visually, obviously. I think by making—I\'ll sketch or mock something up to figure out what I think. I like clear briefs and then creative freedom. Micromanagement kills my work. I do my best design work in the morning; afternoons are for admin and revisions. Show me references or examples when I\'m stuck. Visual inspiration helps more than verbal explanation.',
+      'honestly kind of chaotic. I work in bursts. some days I edit for 12 hours, some days I can barely open premiere. I need external structure because I won\'t create it myself. short bursts, 15 min here and there. when stuck just tell me what to do. give me the answer. I can evaluate if it\'s right for me, but I don\'t have time to think through 5 options. casual feedback style, like texting.'
     ]
   },
   {
@@ -75,11 +75,11 @@ export const individualCombinedQuestions: Question[] = [
     minLength: 20,
     description: "Active projects, their current status, and any blockers or challenges. Focus on what\'s actually on your plate right now, not aspirational future plans.",
     examples: [
-      'Dr. Priya Sharma: Group visits for diabetes (planning phase, need to convince medical director). No-show QI project (active, data collection phase). Student orientation curriculum (needs attention, keeps falling to bottom of priority list). Blockers: Never enough time for anything beyond direct patient care.',
-      'Marcus Chen: Payment retry overhaul (active, 60% complete, waiting on compliance review). Team onboarding system (planning, interviewing recent hires). Personal Rust CLI tool (paused, no time with new baby). Recurring challenge: context switching kills productivity.',
-      'Sarah Okonkwo: Attribution overhaul (active, deciding between building vs. buying). Website redesign (stalled, stuck on messaging alignment between CEO and CPO). Content strategy reset (planning, audit complete). Blockers: alignment takes forever, everyone has to weigh in.',
-      'Tomás Reyes: Suncrest Brewing full rebrand (active, presenting 3 concepts next week). Madre Foods packaging redesign (production phase). Template kit for brand identity (stalled, prioritizing client work). Portfolio redesign (back burner). Recurring challenge: underestimating revision time.',
-      'Jake Moreno: merch store (stuck, can\'t decide on designs). youtube essay video about cozy games (active, script 80% done). hiring an editor (thinking about it, got overwhelmed by 200 applications). recurring challenge: procrastinate on everything that isn\'t creating.'
+      'Group visits for diabetes (planning phase, need to convince medical director). No-show QI project (active, data collection phase). Student orientation curriculum (needs attention, keeps falling to bottom of priority list). Blockers: Never enough time for anything beyond direct patient care.',
+      'Payment retry overhaul (active, 60% complete, waiting on compliance review). Team onboarding system (planning, interviewing recent hires). Personal Rust CLI tool (paused, no time with new baby). Recurring challenge: context switching kills productivity.',
+      'Attribution overhaul (active, deciding between building vs. buying). Website redesign (stalled, stuck on messaging alignment between CEO and CPO). Content strategy reset (planning, audit complete). Blockers: alignment takes forever, everyone has to weigh in.',
+      'Suncrest Brewing full rebrand (active, presenting 3 concepts next week). Madre Foods packaging redesign (production phase). Template kit for brand identity (stalled, prioritizing client work). Portfolio redesign (back burner). Recurring challenge: underestimating revision time.',
+      'merch store (stuck, can\'t decide on designs). youtube essay video about cozy games (active, script 80% done). hiring an editor (thinking about it, got overwhelmed by 200 applications). recurring challenge: procrastinate on everything that isn\'t creating.'
     ]
   },
 
@@ -95,11 +95,11 @@ export const individualCombinedQuestions: Question[] = [
     minLength: 20,
     description: "Your career path, major transitions, and key roles. Focus on what shaped how you work today—pivots, formative experiences, and progression that led to your current position.",
     examples: [
-      'Dr. Priya Sharma: BSN from University of Michigan, worked med-surg for 4 years, then ICU for 3. Completed DNP while working full-time (would not recommend). Chose community health over higher-paying options deliberately.',
-      'Marcus Chen: Started as QA, moved to dev after 2 years. 3 years at Amazon (Payments team). 2 years at a failed startup (learned a lot). Current role: 3 years, promoted to lead 18 months ago.',
-      'Sarah Okonkwo: Started in journalism—wrote for a regional newspaper for 3 years after college. Moved into content marketing when print died, discovered I had a knack for strategy and kept moving up. Did agency work for 4 years (hated the client churn, loved the variety), then went in-house. This is my second director role.',
-      'Tomás Reyes: BFA in graphic design, started at a small agency out of school. Did 3 years there—learned a lot, burned out hard. Went freelance at 26 and never looked back. First two years were rough (said yes to everything, made no money), then figured out positioning and niching. Now I\'m booked 2-3 months out consistently.',
-      'Jake Moreno: dropped out of college (comp sci, hated it), worked retail for 3 years while building the channel on the side. went full-time when I hit 100k subs and had some sponsorship stability. no formal training in anything content-related, learned everything from youtube and trial/error.'
+      'BSN from University of Michigan, worked med-surg for 4 years, then ICU for 3. Completed DNP while working full-time (would not recommend). Chose community health over higher-paying options deliberately.',
+      'Started as QA, moved to dev after 2 years. 3 years at Amazon (Payments team). 2 years at a failed startup (learned a lot). Current role: 3 years, promoted to lead 18 months ago.',
+      'Started in journalism—wrote for a regional newspaper for 3 years after college. Moved into content marketing when print died, discovered I had a knack for strategy and kept moving up. Did agency work for 4 years (hated the client churn, loved the variety), then went in-house. This is my second director role.',
+      'BFA in graphic design, started at a small agency out of school. Did 3 years there—learned a lot, burned out hard. Went freelance at 26 and never looked back. First two years were rough (said yes to everything, made no money), then figured out positioning and niching. Now I\'m booked 2-3 months out consistently.',
+      'dropped out of college (comp sci, hated it), worked retail for 3 years while building the channel on the side. went full-time when I hit 100k subs and had some sponsorship stability. no formal training in anything content-related, learned everything from youtube and trial/error.'
     ]
   },
   {
@@ -111,11 +111,11 @@ export const individualCombinedQuestions: Question[] = [
     minLength: 10,
     description: "Areas where you don't need explanations—just answers. Your deep expertise, specialized knowledge, or domains where you can operate at a high level without hand-holding.",
     examples: [
-      'Dr. Priya Sharma: Primary care, chronic disease management (diabetes, hypertension, COPD), health literacy challenges, working with interpreters, managing complex patients with limited resources, precepting/clinical education.',
-      'Marcus Chen: Distributed systems, PostgreSQL optimization, Go, Python, AWS (certified solutions architect), Payment processing / PCI compliance.',
-      'Sarah Okonkwo: Content strategy, brand positioning, B2B demand generation, marketing attribution (I actually understand the math), managing creative people, presenting to boards.',
-      'Tomás Reyes: Brand identity systems, packaging design, print production, color theory, typography, client communication, creative briefs, knowing when a project is actually done.',
-      'Jake Moreno: youtube algorithm, twitch growth, thumbnail design, short-form editing, community building, knowing which games will pop'
+      'Primary care, chronic disease management (diabetes, hypertension, COPD), health literacy challenges, working with interpreters, managing complex patients with limited resources, precepting/clinical education.',
+      'Distributed systems, PostgreSQL optimization, Go, Python, AWS (certified solutions architect), Payment processing / PCI compliance.',
+      'Content strategy, brand positioning, B2B demand generation, marketing attribution (I actually understand the math), managing creative people, presenting to boards.',
+      'Brand identity systems, packaging design, print production, color theory, typography, client communication, creative briefs, knowing when a project is actually done.',
+      'youtube algorithm, twitch growth, thumbnail design, short-form editing, community building, knowing which games will pop'
     ]
   },
   {
@@ -126,11 +126,11 @@ export const individualCombinedQuestions: Question[] = [
     required: false,
     description: "Areas where you want more explanation and context. Topics you're growing into, skills you're developing, or knowledge gaps you're working to fill.",
     examples: [
-      'Dr. Priya Sharma: Point-of-care ultrasound. Also working on Spanish—conversational but want to be proficient. Interested in quality improvement methodology.',
-      'Marcus Chen: Rust (hobby, considering for side projects). AI/ML basics (want to understand what\'s possible, not become a practitioner). Leadership/management (new to leading people).',
-      'Sarah Okonkwo: AI for marketing workflows—not the hype, the practical stuff. What can actually save my team time? Also trying to get better at product-led growth. Our company is shifting that direction and I need to understand it beyond buzzwords.',
-      'Tomás Reyes: Motion graphics—want to offer basic logo animations. Also learning the business side better: pricing strategy, contracts, passive income. Design skills are solid; business skills need work.',
-      'Jake Moreno: business stuff—taxes, contracts, actually understanding sponsorship terms. also trying to learn more about long-form storytelling for youtube essays. want to branch out beyond just gameplay.'
+      'Point-of-care ultrasound. Also working on Spanish—conversational but want to be proficient. Interested in quality improvement methodology.',
+      'Rust (hobby, considering for side projects). AI/ML basics (want to understand what\'s possible, not become a practitioner). Leadership/management (new to leading people).',
+      'AI for marketing workflows—not the hype, the practical stuff. What can actually save my team time? Also trying to get better at product-led growth. Our company is shifting that direction and I need to understand it beyond buzzwords.',
+      'Motion graphics—want to offer basic logo animations. Also learning the business side better: pricing strategy, contracts, passive income. Design skills are solid; business skills need work.',
+      'business stuff—taxes, contracts, actually understanding sponsorship terms. also trying to learn more about long-form storytelling for youtube essays. want to branch out beyond just gameplay.'
     ]
   },
 
@@ -144,11 +144,11 @@ export const individualCombinedQuestions: Question[] = [
     minLength: 20,
     description: "List the real friction in your life or work. What keeps coming up? What creates obstacles or inefficiencies? Be specific about current pain points, not general aspirations.",
     examples: [
-      'Dr. Priya Sharma: Patient no-show rate is 30%+, destroys our schedule and revenue. Documentation takes 2+ hours after clinic closes daily. Students need more structured learning experiences than I currently provide.',
-      'Marcus Chen: Our payment retry logic is brittle and costs us ~$40k/month in failed transactions. Junior devs keep making the same mistakes—no good onboarding system. I\'m a bottleneck for code reviews and it\'s burning me out.',
-      'Sarah Okonkwo: Our content doesn\'t convert. We get traffic but it\'s the wrong traffic. Sales complains about lead quality weekly. We also have no systematic way to know what\'s working—attribution is a mess and everyone has opinions but no data.',
-      'Tomás Reyes: Feast/famine income cycle. Some months are great, some are terrifying. I undercharge for the value I provide. Know it, struggle to fix it. No systems. Every project is slightly different process. Inefficient.',
-      'Jake Moreno: income is too dependent on sponsorships, need to diversify (merch? courses? idk). my upload schedule is killing me, can\'t keep up with youtube AND streaming. no systems for anything, everything is in my head or scattered in discord DMs.'
+      'Patient no-show rate is 30%+, destroys our schedule and revenue. Documentation takes 2+ hours after clinic closes daily. Students need more structured learning experiences than I currently provide.',
+      'Our payment retry logic is brittle and costs us ~$40k/month in failed transactions. Junior devs keep making the same mistakes—no good onboarding system. I\'m a bottleneck for code reviews and it\'s burning me out.',
+      'Our content doesn\'t convert. We get traffic but it\'s the wrong traffic. Sales complains about lead quality weekly. We also have no systematic way to know what\'s working—attribution is a mess and everyone has opinions but no data.',
+      'Feast/famine income cycle. Some months are great, some are terrifying. I undercharge for the value I provide. Know it, struggle to fix it. No systems. Every project is slightly different process. Inefficient.',
+      'income is too dependent on sponsorships, need to diversify (merch? courses? idk). my upload schedule is killing me, can\'t keep up with youtube AND streaming. no systems for anything, everything is in my head or scattered in discord DMs.'
     ]
   },
   {
@@ -160,11 +160,11 @@ export const individualCombinedQuestions: Question[] = [
     minLength: 10,
     description: "If you had to explain what you're about in one sentence, what would it be? Your north star, the thing that guides decisions and priorities.",
     examples: [
-      'Dr. Priya Sharma: Excellent primary care should not be a luxury. I want to prove it\'s possible in resource-constrained settings.',
-      'Marcus Chen: Build systems that are boring in production and teams that don\'t need heroes.',
-      'Sarah Okonkwo: Make marketing the most trusted function in the company by being the team that shows its work.',
-      'Tomás Reyes: Create work that matters for brands that matter, while building a business that doesn\'t depend on me being available 50 hours a week.',
-      'Jake Moreno: make content that actually matters to people while building something that doesn\'t require me to work 70 hour weeks forever'
+      'Excellent primary care should not be a luxury. I want to prove it\'s possible in resource-constrained settings.',
+      'Build systems that are boring in production and teams that don\'t need heroes.',
+      'Make marketing the most trusted function in the company by being the team that shows its work.',
+      'Create work that matters for brands that matter, while building a business that doesn\'t depend on me being available 50 hours a week.',
+      'make content that actually matters to people while building something that doesn\'t require me to work 70 hour weeks forever'
     ]
   },
   {
@@ -175,11 +175,11 @@ export const individualCombinedQuestions: Question[] = [
     required: false,
     description: "Concrete outcomes you're aiming for with approximate deadlines. Include professional and personal goals where relevant. Be specific about timeframes (this quarter, this year, 2-3 years).",
     examples: [
-      'Dr. Priya Sharma: This quarter: Implement group visit model for diabetes patients. This year: Publish QI project on no-show reduction. 3 years: Complete clinical faculty appointment, teach in DNP program. Personal: Finish Spanish certification, take an actual vacation.',
-      'Marcus Chen: Q1: Reduce payment failures by 60%. Q2: Hire and onboard 2 mid-level engineers. 2025: Get promoted to Staff or find a staff role elsewhere. Personal: Run a half marathon (been saying this for 2 years).',
-      'Sarah Okonkwo: This quarter: Implement proper attribution. I need to know what\'s actually driving pipeline. This year: 40% increase in qualified pipeline with flat budget. 18 months: Be in consideration for CMO role (here or elsewhere). Personal: Actually take a real vacation without checking Slack.',
-      'Tomás Reyes: Q1: Raise rates 20% for new clients (terrified but doing it). Q2: Launch brand identity template kit on Gumroad. This year: Break $150k revenue, hire a part-time assistant. Personal: Actually take a trip without bringing my laptop.',
-      'Jake Moreno: this month: launch the merch store (been "almost ready" for 6 months). this quarter: hire an editor, even part-time. this year: 500k on youtube, one viral video (>5M views). life: buy a house in the next 2-3 years, get out of this apartment.'
+      'This quarter: Implement group visit model for diabetes patients. This year: Publish QI project on no-show reduction. 3 years: Complete clinical faculty appointment, teach in DNP program. Personal: Finish Spanish certification, take an actual vacation.',
+      'Q1: Reduce payment failures by 60%. Q2: Hire and onboard 2 mid-level engineers. 2025: Get promoted to Staff or find a staff role elsewhere. Personal: Run a half marathon (been saying this for 2 years).',
+      'This quarter: Implement proper attribution. I need to know what\'s actually driving pipeline. This year: 40% increase in qualified pipeline with flat budget. 18 months: Be in consideration for CMO role (here or elsewhere). Personal: Actually take a real vacation without checking Slack.',
+      'Q1: Raise rates 20% for new clients (terrified but doing it). Q2: Launch brand identity template kit on Gumroad. This year: Break $150k revenue, hire a part-time assistant. Personal: Actually take a trip without bringing my laptop.',
+      'this month: launch the merch store (been "almost ready" for 6 months). this quarter: hire an editor, even part-time. this year: 500k on youtube, one viral video (>5M views). life: buy a house in the next 2-3 years, get out of this apartment.'
     ]
   },
 

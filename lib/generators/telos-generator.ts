@@ -89,15 +89,24 @@ export async function generateTELOS(
   }
 }
 
-// Extract entity name from CV text (first line or common patterns)
-export function extractEntityName(cvText: string): string {
+// Extract entity name from generated content (H1 header) or CV text
+export function extractEntityName(cvText: string, generatedContent?: string): string {
+  // 1. Try to extract from the generated content H1 header first
+  if (generatedContent) {
+    const h1Match = generatedContent.match(/^#\s+(.+)$/m);
+    if (h1Match && h1Match[1]) {
+      return h1Match[1].trim();
+    }
+  }
+
+  // 2. Fallback to extracting from CV text (first line)
   const lines = cvText.trim().split('\n').filter(line => line.trim());
 
   // Try to find a name at the beginning (usually first non-empty line)
   if (lines.length > 0) {
     const firstLine = lines[0].trim();
-    // Check if it looks like a name (not too long, no special chars)
-    if (firstLine.length < 50 && /^[A-Za-z\s\-\.]+$/.test(firstLine)) {
+    // Check if it looks like a name (not too long, letters, spaces, and some common chars)
+    if (firstLine.length < 100 && /^[A-Za-z\s\-\.\,\|\']+$/.test(firstLine)) {
       return firstLine;
     }
   }

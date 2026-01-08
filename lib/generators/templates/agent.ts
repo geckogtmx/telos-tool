@@ -93,6 +93,7 @@ ${answers.context ? '- Detail system environment and dependencies' : '- [Not pro
 
 ## FORMATTING RULES
 
+- Start the document with a Level 1 Markdown header containing the name of the agent (e.g., "# AnalysisBot").
 - Use markdown formatting
 - Be precise and explicit (machine-readable style preferred)
 - Maintain a consistent persona tone
