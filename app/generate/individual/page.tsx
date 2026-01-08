@@ -320,7 +320,7 @@ function IndividualFlow() {
                         {parsedData.piiSummary}
                       </p>
                       <p className="text-xs text-yellow-400 mt-2">
-                        Your privacy is protected. The text below has been sanitized and is safe to use.
+                        Your privacy is protected. The text below has been sanitized and is safe to use. The information was removed before its sent sent to any model or agent working in this app. Your Privacy is important.
                       </p>
                     </div>
                   </div>

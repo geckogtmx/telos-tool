@@ -137,7 +137,7 @@ Complete the full Individual TELOS with all 19 questions per v1.1 framework.
 
 #### 13.1: Extend Question Flow
 
-**Additional Questions (13 more):**
+**Additional Questions (19 more):**
 
 **Section 1 Expansion:**
 
