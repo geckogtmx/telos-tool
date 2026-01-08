@@ -236,39 +236,22 @@ export default function QuestionFlow({
           )}
         </div>
 
-        {currentQuestion.type === 'text' ? (
-          <input
-            type="text"
-            value={currentAnswer}
-            onChange={(e) => handleAnswerChange(e.target.value)}
-            onBlur={handleBlur}
-            placeholder={currentQuestion.placeholder}
-            className={`
-              w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors
-              bg-gray-800 text-gray-100 placeholder-gray-500 caret-blue-400
-              ${hasError
-                ? 'border-red-500 focus:ring-red-500 focus:border-red-400'
-                : 'border-gray-600 focus:ring-blue-500 focus:border-blue-400'
-              }
-            `}
-          />
-        ) : (
-          <textarea
-            value={currentAnswer}
-            onChange={(e) => handleAnswerChange(e.target.value)}
-            onBlur={handleBlur}
-            placeholder={currentQuestion.placeholder}
-            rows={6}
-            className={`
-              w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors resize-none
-              bg-gray-800 text-gray-100 placeholder-gray-500 caret-blue-400
-              ${hasError
-                ? 'border-red-500 focus:ring-red-500 focus:border-red-400'
-                : 'border-gray-600 focus:ring-blue-500 focus:border-blue-400'
-              }
-            `}
-          />
-        )}
+        {/* Always use textarea for consistency per user request */}
+        <textarea
+          value={currentAnswer}
+          onChange={(e) => handleAnswerChange(e.target.value)}
+          onBlur={handleBlur}
+          placeholder={currentQuestion.placeholder}
+          rows={6}
+          className={`
+            w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors resize-none
+            bg-gray-800 text-gray-100 placeholder-gray-500 caret-blue-400
+            ${hasError
+              ? 'border-red-500 focus:ring-red-500 focus:border-red-400'
+              : 'border-gray-600 focus:ring-blue-500 focus:border-blue-400'
+            }
+          `}
+        />
 
         {hasError && (
           <div className="flex items-center gap-2 text-sm text-red-400">
