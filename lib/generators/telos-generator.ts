@@ -2,7 +2,7 @@
 import { EntityType } from '@/types';
 import { callClaudeAPI, ClaudeAPIException, ERROR_MESSAGES } from './claude-api';
 import { generateWithGemini } from './gemini-api';
-import { buildIndividualPrompt } from './templates/individual';
+import { buildIndividualPrompt, buildIndividualQuickPrompt } from './templates/individual';
 import { AI_CONFIG } from '@/config/ai-model';
 
 export type GenerateTELOSInput = {
@@ -25,7 +25,11 @@ export async function generateTELOS(
 
     switch (input.entityType) {
       case 'individual':
+      case 'individual_full':
         prompt = buildIndividualPrompt(input.parsedInput, input.answers);
+        break;
+      case 'individual_quick':
+        prompt = buildIndividualQuickPrompt(input.parsedInput, input.answers);
         break;
       case 'organization':
         // TODO: Implement organization template

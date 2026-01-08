@@ -7,11 +7,20 @@ export const APP_DESCRIPTION = 'Generate comprehensive TELOS files for Individua
 
 export const ENTITY_TYPES: EntityTypeInfo[] = [
   {
-    id: 'individual',
-    name: 'Individual',
-    description: 'Create a personal TELOS from your CV and career goals',
+    id: 'individual_quick',
+    name: 'Individual - Quick Start',
+    description: 'Generate a basic TELOS in 3-5 minutes (5 questions)',
+    icon: '⚡',
+    inputType: 'CV Upload (optional) + 5 Questions',
+    badge: 'Fastest'
+  },
+  {
+    id: 'individual_full',
+    name: 'Individual - Full Profile',
+    description: 'Build a comprehensive, deep-dive TELOS (18 questions)',
     icon: '👤',
-    inputType: 'CV Upload (.pdf, .docx, .txt)',
+    inputType: 'CV Upload + 18 Questions',
+    badge: 'Recommended'
   },
   {
     id: 'organization',
@@ -35,14 +44,14 @@ export const ACCEPTED_FILE_TYPES = ['.pdf', '.docx', '.txt'];
 export const TIERS = {
   free: {
     enabled: true,
-    entityTypes: ['individual', 'organization', 'agent'],
+    entityTypes: ['individual_quick', 'individual_full', 'organization', 'agent'],
     hosting: true,
     updates: true,
     maxFiles: 999,
   },
   paid: {
     enabled: false,
-    entityTypes: ['individual', 'organization', 'agent'],
+    entityTypes: ['individual_quick', 'individual_full', 'organization', 'agent'],
     hosting: true,
     updates: true,
     maxFiles: 999,

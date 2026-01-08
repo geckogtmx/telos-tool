@@ -109,3 +109,46 @@ ${answers.lifeContext ? '- Include relevant life context that affects their work
 
 Generate the TELOS file now:`;
 }
+
+export function buildIndividualQuickPrompt(
+  cvText: string,
+  answers: Record<string, string>
+): string {
+  return `Generate a Quick TELOS file for an individual.
+
+CV DATA (if provided):
+${cvText || 'No CV provided'}
+
+USER ANSWERS:
+**Q1: Who are you in one paragraph?**
+${answers.q1 || 'Not provided'}
+
+**Q2: What are you trying to accomplish?**
+${answers.q2 || 'Not provided'}
+
+**Q3: What do you value and what do you avoid?**
+${answers.q3 || 'Not provided'}
+
+**Q4: How do you prefer to work and receive information?**
+${answers.q4 || 'Not provided'}
+
+**Q5: What are you currently working on?**
+${answers.q5 || 'Not provided'}
+
+Create a concise TELOS with these sections:
+I. Identity (synthesize from Q1 + CV)
+II. Purpose & Mission (from Q2)
+III. Values & Constraints (from Q3)
+IV. Work Style (from Q4)
+V. Active Projects (from Q5)
+
+Keep it practical and actionable. This is version 1.0 - user may expand later.
+
+## FORMATTING RULES
+- Use markdown formatting
+- Be specific and actionable
+- Maintain a professional but personal tone
+- Keep sections focused and concise
+- Do not include any preamble or explanation - start directly with the TELOS content
+`;
+}
