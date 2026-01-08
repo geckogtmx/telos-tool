@@ -156,6 +156,64 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 ---
 
-**Last Updated:** 2026-01-07
+## Security Audit Findings (January 2026)
+
+### Outstanding Issues
+
+| # | Issue | Severity | Location | Status |
+|---|-------|----------|----------|--------|
+| 1 | XSS in Print View | High | `components/TELOSPreview.tsx` (`handlePrint`) | **DONE** |
+| 2 | SSRF DNS Rebinding | Medium | `app/api/parse-url/route.ts` | **DONE** |
+| 3 | Debug Logging in Prod | Low | `app/auth/signup/page.tsx` | **DONE** |
+| 4 | Secret History Check | Low | Git history | **DONE** (verified clean) |
+
+### Issue Details
+
+**1. XSS in Print View**
+- `handlePrint()` builds HTML with raw `content` string without sanitization
+- AI-generated content could contain malicious HTML if user prompts model to emit it
+- Fix: Wrap content in `DOMPurify.sanitize()` before injection
+
+**2. SSRF DNS Rebinding**
+- Current SSRF protection checks hostname strings only
+- Malicious domain could resolve to internal IP after validation
+- Fix: Resolve DNS first, then validate resulting IP addresses
+
+**3. Debug Logging**
+- Console logs in signup page expose email and config details
+- Fix: Gate logs behind `NODE_ENV !== 'production'`
+
+**4. Secret History**
+- One-time check: ensure no `.env*` files were ever committed
+- Run: `git log --all -- .env* .env.local`
+
+### Remediation Plan
+
+```
+Step 1: Fix Print View XSS
+  - Read components/TELOSPreview.tsx
+  - Locate handlePrint() function
+  - Add DOMPurify.sanitize() to content before HTML injection
+  - Test print functionality
+
+Step 2: Harden SSRF Protection
+  - Read app/api/parse-url/route.ts
+  - Add DNS resolution step before fetch
+  - Validate resolved IPs against blocklist
+  - Test with internal/external URLs
+
+Step 3: Gate Debug Logging
+  - Read app/auth/signup/page.tsx
+  - Wrap console.log calls in NODE_ENV check
+  - Verify no sensitive data logged in production
+
+Step 4: Verify Secret History
+  - Run git log command to check for committed secrets
+  - Document result (clean or needs rotation)
+```
+
+---
+
+**Last Updated:** 2026-01-08
 **Current Phase:** 11 Complete (Refinements & Bug Fixes)
 **Next Milestone:** Organization & Agent Entity Types

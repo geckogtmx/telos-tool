@@ -41,9 +41,11 @@ export default function SignUpPage() {
     setLoading(true);
 
     try {
-      console.log('Attempting signup with:', { email });
-      console.log('Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
-      
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('Attempting signup with:', { email });
+        console.log('Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
+      }
+
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -52,7 +54,9 @@ export default function SignUpPage() {
         },
       });
 
-      console.log('Signup response:', { data, error });
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('Signup response:', { data, error });
+      }
 
       if (error) {
         console.error('Signup error:', error);

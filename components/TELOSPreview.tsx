@@ -75,11 +75,23 @@ export default function TELOSPreview({
     const printWindow = window.open('', '_blank');
     if (!printWindow) return;
 
+    // Escape HTML to prevent XSS in print view
+    const escapeHtml = (text: string): string => {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    };
+
+    const safeEntityName = escapeHtml(entityName);
+
     const htmlContent = `
       <!DOCTYPE html>
       <html>
         <head>
-          <title>TELOS - ${entityName}</title>
+          <title>TELOS - ${safeEntityName}</title>
           <style>
             body {
               font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -104,19 +116,25 @@ export default function TELOSPreview({
           </style>
         </head>
         <body>
-          <h1>TELOS - ${entityName}</h1>
+          <h1>TELOS - ${safeEntityName}</h1>
           ${content
             .split('\n')
             .map(line => {
               const trimmed = line.trim();
-              if (trimmed.startsWith('## ')) return `<h2>${trimmed.slice(3)}</h2>`;
-              if (trimmed.startsWith('### ')) return `<h3>${trimmed.slice(4)}</h3>`;
-              if (trimmed.startsWith('# ')) return `<h1>${trimmed.slice(2)}</h1>`;
-              if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) return `<li>${trimmed.slice(2)}</li>`;
-              if (trimmed.startsWith('> ')) return `<blockquote>${trimmed.slice(2)}</blockquote>`;
+              const safeText = escapeHtml(trimmed.startsWith('## ') ? trimmed.slice(3) :
+                                          trimmed.startsWith('### ') ? trimmed.slice(4) :
+                                          trimmed.startsWith('# ') ? trimmed.slice(2) :
+                                          (trimmed.startsWith('- ') || trimmed.startsWith('* ')) ? trimmed.slice(2) :
+                                          trimmed.startsWith('> ') ? trimmed.slice(2) :
+                                          trimmed);
+              if (trimmed.startsWith('## ')) return `<h2>${safeText}</h2>`;
+              if (trimmed.startsWith('### ')) return `<h3>${safeText}</h3>`;
+              if (trimmed.startsWith('# ')) return `<h1>${safeText}</h1>`;
+              if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) return `<li>${safeText}</li>`;
+              if (trimmed.startsWith('> ')) return `<blockquote>${safeText}</blockquote>`;
               if (trimmed === '---') return '<hr>';
               if (trimmed === '') return '';
-              return `<p>${trimmed}</p>`;
+              return `<p>${safeText}</p>`;
             })
             .join('\n')}
         </body>
