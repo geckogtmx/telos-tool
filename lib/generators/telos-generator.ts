@@ -4,6 +4,7 @@ import { callClaudeAPI, ClaudeAPIException, ERROR_MESSAGES } from './claude-api'
 import { generateWithGemini } from './gemini-api';
 import { buildIndividualPrompt, buildIndividualQuickPrompt } from './templates/individual';
 import { buildOrganizationPrompt } from './templates/organization';
+import { buildAgentPrompt } from './templates/agent';
 import { AI_CONFIG } from '@/config/ai-model';
 
 export type GenerateTELOSInput = {
@@ -36,11 +37,8 @@ export async function generateTELOS(
         prompt = buildOrganizationPrompt(input.parsedInput, input.answers);
         break;
       case 'agent':
-        // TODO: Implement agent template
-        return {
-          success: false,
-          error: 'Agent TELOS generation not yet implemented',
-        };
+        prompt = buildAgentPrompt(input.parsedInput, input.answers);
+        break;
       default:
         return {
           success: false,
