@@ -135,7 +135,7 @@ function IndividualFlow() {
 
   const handleCheckpoint = (currentAnswers: IndividualQuestionAnswers) => {
     setAnswers(currentAnswers);
-    handleGenerateTELOS(currentAnswers, 'quick');
+    handleGenerateTELOS(currentAnswers, 'full');
   }
 
   const handleBackToPreview = () => {

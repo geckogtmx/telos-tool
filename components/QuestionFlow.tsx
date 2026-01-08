@@ -10,7 +10,7 @@ type QuestionFlowProps = {
   onComplete: (answers: QuestionAnswers) => void;
   initialAnswers?: QuestionAnswers;
   showFinishButton?: boolean;
-  breakpointIndex?: number;
+  breakpointIndex?: number; // Index from which the "Generate TELOS" button appears
   onCheckpoint?: (answers: QuestionAnswers) => void;
 };
 
@@ -30,12 +30,15 @@ export default function QuestionFlow({
   const [answers, setAnswers] = useState<QuestionAnswers>(initialAnswers);
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [touched, setTouched] = useState<Set<string>>(new Set());
+  const [showWarningModal, setShowWarningModal] = useState(false);
 
   const currentQuestion = questions[currentQuestionIndex];
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
   const isFirstQuestion = currentQuestionIndex === 0;
-  const isBreakpoint = breakpointIndex !== undefined && currentQuestionIndex === breakpointIndex;
+  
+  // Show Generate button if we are at or past the breakpoint index
+  const showGenerateButton = breakpointIndex !== undefined && currentQuestionIndex >= breakpointIndex;
 
   const validateAnswer = (question: Question, value: string): string | null => {
     // Required field validation
@@ -124,7 +127,8 @@ export default function QuestionFlow({
     onComplete(answers);
   };
 
-  const handleCheckpoint = () => {
+  const handleEarlyGenerateClick = () => {
+    // Validate current question first
     const answer = answers[currentQuestion.id] || '';
     const error = validateAnswer(currentQuestion, answer);
 
@@ -136,11 +140,25 @@ export default function QuestionFlow({
       setTouched(prev => new Set(prev).add(currentQuestion.id));
       return;
     }
-    
-    if (onCheckpoint) {
-        onCheckpoint(answers);
+
+    // Check for ANY missing answers in the entire set
+    const hasMissingAnswers = questions.some(q => {
+        const ans = answers[q.id];
+        return !ans || ans.trim().length === 0;
+    });
+
+    if (hasMissingAnswers) {
+        setShowWarningModal(true);
+    } else {
+        // If miraculously everything is filled, just generate
+        if (onCheckpoint) onCheckpoint(answers);
     }
-  }
+  };
+
+  const confirmEarlyGenerate = () => {
+      setShowWarningModal(false);
+      if (onCheckpoint) onCheckpoint(answers);
+  };
 
   const handlePrevious = () => {
     if (!isFirstQuestion) {
@@ -167,7 +185,38 @@ export default function QuestionFlow({
   const hasError = touched.has(currentQuestion.id) && errors[currentQuestion.id];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
+      {/* Warning Modal */}
+      {showWarningModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+            <div className="bg-gray-900 border border-yellow-600 rounded-xl p-6 max-w-md w-full shadow-2xl">
+                <div className="flex items-center gap-3 mb-4 text-yellow-500">
+                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <h3 className="text-xl font-bold text-gray-100">Incomplete Profile</h3>
+                </div>
+                <p className="text-gray-300 mb-6 leading-relaxed">
+                    The more questions you fill, the better results. Please try to fill up as many as possible.
+                </p>
+                <div className="flex flex-col gap-3">
+                    <button
+                        onClick={confirmEarlyGenerate}
+                        className="w-full py-3 bg-yellow-600 text-black font-bold rounded-lg hover:bg-yellow-500 transition-colors"
+                    >
+                        Generate Telos Now
+                    </button>
+                    <button
+                        onClick={() => setShowWarningModal(false)}
+                        className="w-full py-3 bg-gray-800 text-gray-300 font-medium rounded-lg hover:bg-gray-700 transition-colors"
+                    >
+                        Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+      )}
+
       {/* Progress Bar */}
       <div className="space-y-2">
         <div className="flex items-center justify-between text-sm">
@@ -295,22 +344,16 @@ export default function QuestionFlow({
             </button>
           )}
 
-          {isBreakpoint ? (
-            <div className="flex gap-2">
-                <button
-                    onClick={handleCheckpoint}
-                    className="px-6 py-3 bg-green-700 text-white rounded-lg hover:bg-green-600 transition-colors font-medium"
-                >
-                    Generate Quick TELOS
-                </button>
-                <button
-                    onClick={handleNext}
-                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors font-medium"
-                >
-                    Next
-                </button>
-            </div>
-          ) : isLastQuestion ? (
+          {showGenerateButton && (
+             <button
+                onClick={handleEarlyGenerateClick}
+                className="px-6 py-3 bg-green-700 text-white rounded-lg hover:bg-green-600 transition-colors font-medium"
+            >
+                Generate TELOS
+            </button>
+          )}
+
+          {isLastQuestion ? (
             showFinishButton && (
               <button
                 onClick={handleFinish}
