@@ -389,7 +389,7 @@ function IndividualFlow() {
                 onComplete={handleQuestionComplete}
                 initialAnswers={answers}
                 showFinishButton={!editingId}
-                breakpointIndex={4} // After 5th question (index 4)
+                breakpointIndex={5} // On Question 6 (Index 5)
                 onCheckpoint={handleCheckpoint}
               />
             </div>
