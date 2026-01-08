@@ -2,11 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { parseCV, CVParseException } from '@/lib/parsers/cv-parser';
 import { scrubPII, formatPIISummary } from '@/lib/parsers/pii-scrubber';
+import { strictLimiter, applyRateLimit } from '@/lib/rate-limit';
 
 export const maxDuration = 30; // 30 second timeout
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit file uploads
+    const rateLimitResponse = await applyRateLimit(request, strictLimiter, 'parse-cv');
+    if (rateLimitResponse) return rateLimitResponse;
+
     const supabase = await createClient();
 
     // Auth check

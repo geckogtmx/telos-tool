@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { strictLimiter, applyRateLimit } from '@/lib/rate-limit';
 import dns from 'dns/promises';
 
 // Check if an IP address is private/internal (SSRF protection)
@@ -55,6 +56,10 @@ function isInternalHostname(host: string): boolean {
 
 export async function POST(req: NextRequest) {
   try {
+    // Rate limit URL fetching
+    const rateLimitResponse = await applyRateLimit(req, strictLimiter, 'parse-url');
+    if (rateLimitResponse) return rateLimitResponse;
+
     const supabase = await createClient();
 
     // Auth check

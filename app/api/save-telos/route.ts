@@ -2,11 +2,24 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { hashPassword } from '@/lib/storage/encryption';
 import { generatePublicId } from '@/lib/utils/nanoid';
+import { standardLimiter, applyRateLimit } from '@/lib/rate-limit';
 import { z } from 'zod';
+
+// Sanitize entity name: allow letters, numbers, spaces, hyphens, apostrophes, periods
+const sanitizeEntityName = (name: string): string => {
+  return name
+    .trim()
+    .replace(/[<>\"'`&;{}()[\]\\\/]/g, '') // Remove potentially dangerous chars
+    .replace(/\s+/g, ' ') // Normalize whitespace
+    .substring(0, 255); // Enforce max length
+};
 
 const saveSchema = z.object({
   entityType: z.enum(['individual', 'organization', 'agent']),
-  entityName: z.string().min(1),
+  entityName: z.string()
+    .min(1, 'Entity name is required')
+    .max(255, 'Entity name must be 255 characters or less')
+    .transform(sanitizeEntityName),
   rawInput: z.any(),
   generatedContent: z.string().min(1),
   hostingType: z.enum(['open', 'encrypted', 'private']),
@@ -15,6 +28,10 @@ const saveSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit saves
+    const rateLimitResponse = await applyRateLimit(request, standardLimiter, 'save-telos');
+    if (rateLimitResponse) return rateLimitResponse;
+
     const supabase = await createClient();
     
     // Auth check

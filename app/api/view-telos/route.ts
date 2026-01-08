@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { adminClient } from '@/lib/supabase/admin';
 import { verifyPassword } from '@/lib/storage/encryption';
+import { authLimiter, applyRateLimit } from '@/lib/rate-limit';
 import { z } from 'zod';
 
 const viewSchema = z.object({
@@ -10,6 +11,9 @@ const viewSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit password attempts to prevent brute force
+    const rateLimitResponse = await applyRateLimit(request, authLimiter, 'view-telos');
+    if (rateLimitResponse) return rateLimitResponse;
     const body = await request.json();
     const result = viewSchema.safeParse(body);
 

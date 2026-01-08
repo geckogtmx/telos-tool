@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { z } from 'zod';
 import { generateTELOS, extractEntityName } from '@/lib/generators/telos-generator';
+import { strictLimiter, applyRateLimit } from '@/lib/rate-limit';
 
 // Request validation schema
 const generateTELOSSchema = z.object({
@@ -12,6 +13,10 @@ const generateTELOSSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit to prevent API abuse (expensive AI calls)
+    const rateLimitResponse = await applyRateLimit(request, strictLimiter, 'generate-telos');
+    if (rateLimitResponse) return rateLimitResponse;
+
     const supabase = await createClient();
 
     // Auth check

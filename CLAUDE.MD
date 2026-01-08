@@ -219,32 +219,31 @@ Step 4: Verify Secret History
 | # | Issue | Severity | Location | Status |
 |---|-------|----------|----------|--------|
 | 5 | Weak Password Policy | High | `app/api/save-telos/route.ts:40`, `HostingOptions.tsx:27` | **DONE** |
-| 6 | No Rate Limiting | Medium | All API routes | **TODO** |
-| 7 | Open Redirect | Medium | `app/auth/callback/route.ts:13` | **TODO** |
-| 8 | Missing Security Headers | Low | `next.config.ts` | **TODO** |
-| 9 | Entity Name Validation | Low | `app/api/save-telos/route.ts:9` | **TODO** |
+| 6 | No Rate Limiting | Medium | All API routes | **DONE** |
+| 7 | Open Redirect | Medium | `app/auth/callback/route.ts:13` | **DONE** |
+| 8 | Missing Security Headers | Low | `next.config.ts` | **DONE** |
+| 9 | Entity Name Validation | Low | `app/api/save-telos/route.ts:9` | **DONE** |
 
 **5. Weak Password Policy** *(FIXED)*
 - ~~Encrypted TELOS files only require 4-character passwords~~
 - Now requires 12+ characters with uppercase, lowercase, and number
 
-**6. No Rate Limiting**
-- API endpoints have no request throttling
-- Risk: Brute force, DoS, API abuse
-- Fix: Add rate limiting middleware (e.g., `upstash/ratelimit` for serverless)
+**6. No Rate Limiting** *(FIXED)*
+- ~~API endpoints have no request throttling~~
+- Added in-memory rate limiting with sliding window algorithm (`lib/rate-limit.ts`)
+- Three tiers: `authLimiter` (5/min for password attempts), `strictLimiter` (10/min for AI/file ops), `standardLimiter` (60/min)
 
-**7. Open Redirect**
-- Auth callback accepts `next` param without validation
-- Could redirect users to malicious external sites
-- Fix: Whitelist allowed redirect paths or enforce relative URLs only
+**7. Open Redirect** *(FIXED)*
+- ~~Auth callback accepts `next` param without validation~~
+- Now validates `next` param is a safe relative path (rejects absolute URLs, protocol-relative URLs, encoded bypasses)
 
-**8. Missing Security Headers**
-- No CSP, X-Frame-Options, X-Content-Type-Options configured
-- Fix: Add headers in `next.config.ts`
+**8. Missing Security Headers** *(FIXED)*
+- ~~No CSP, X-Frame-Options, X-Content-Type-Options configured~~
+- Added comprehensive headers in `next.config.ts`: CSP, X-Frame-Options (DENY), X-Content-Type-Options (nosniff), Referrer-Policy, Permissions-Policy
 
-**9. Entity Name Validation**
-- Only validates `.min(1)` - no max length or character restrictions
-- Fix: Add `.max(255)` and character sanitization
+**9. Entity Name Validation** *(FIXED)*
+- ~~Only validates `.min(1)` - no max length or character restrictions~~
+- Now validates `.max(255)` with sanitization (strips `<>"'\`&;{}()[]\/`)
 
 ### Security Strengths Observed
 - SQL injection: Protected (Supabase SDK handles parameterization)
@@ -254,8 +253,41 @@ Step 4: Verify Secret History
 - Authorization: Proper ownership checks before updates/views
 - Secrets: API keys kept server-side only
 
+### Final Audit (2026-01-08)
+
+**npm audit:** 0 vulnerabilities
+**ESLint:** Passing
+
+| # | Issue | Severity | Location | Status |
+|---|-------|----------|----------|--------|
+| 10 | Debug Logging in Parsers | Info | `lib/parsers/*.ts`, `app/api/parse-cv/route.ts` | **Optional** |
+| 11 | Dashboard Over-fetching | Info | `components/DashboardFileList.tsx:25` | **Optional** |
+| 12 | Middleware Deprecation | Info | `middleware.ts` | **Optional** |
+
+**10. Debug Logging in Parsers**
+- `cv-parser.ts` and `pii-scrubber.ts` have verbose console.log statements
+- Not a security risk (no secrets), but adds noise to production logs
+- Optional: Gate behind `NODE_ENV !== 'production'`
+
+**11. Dashboard Over-fetching**
+- `DashboardFileList.tsx` uses `select('*')` fetching large content fields
+- Only metadata is needed for the list view
+- Optional: Change to `select('id, entity_type, entity_name, public_id, hosting_type, version, created_at, updated_at')`
+
+**12. Middleware Deprecation**
+- Next.js 16 deprecates middleware convention in favor of proxy
+- Not a security issue, but may require migration in future versions
+
+### All Critical/High/Medium Issues Resolved
+
+All 9 security issues from the original audit have been fixed:
+- 2 High severity (XSS, Weak Passwords)
+- 3 Medium severity (SSRF, Rate Limiting, Open Redirect)
+- 4 Low severity (Debug Logging, Secret History, Security Headers, Entity Validation)
+
 ---
 
 **Last Updated:** 2026-01-08
 **Current Phase:** 11 Complete (Refinements & Bug Fixes)
+**Security Status:** All critical issues resolved
 **Next Milestone:** Organization & Agent Entity Types
