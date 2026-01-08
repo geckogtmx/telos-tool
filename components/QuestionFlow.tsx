@@ -31,6 +31,10 @@ export default function QuestionFlow({
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [touched, setTouched] = useState<Set<string>>(new Set());
   const [showWarningModal, setShowWarningModal] = useState(false);
+  
+  // Examples Modal State
+  const [showExamplesModal, setShowExamplesModal] = useState(false);
+  const [currentExampleIndex, setCurrentExampleIndex] = useState(0);
 
   const currentQuestion = questions[currentQuestionIndex];
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
@@ -181,11 +185,93 @@ export default function QuestionFlow({
     setCurrentQuestionIndex(index);
   };
 
+  // Example Modal Handlers
+  const openExamples = () => {
+    setCurrentExampleIndex(0);
+    setShowExamplesModal(true);
+  };
+
+  const closeExamples = () => {
+    setShowExamplesModal(false);
+  };
+
+  const nextExample = () => {
+    if (currentQuestion.examples && currentExampleIndex < currentQuestion.examples.length - 1) {
+      setCurrentExampleIndex(prev => prev + 1);
+    }
+  };
+
+  const prevExample = () => {
+    if (currentExampleIndex > 0) {
+      setCurrentExampleIndex(prev => prev - 1);
+    }
+  };
+
   const currentAnswer = answers[currentQuestion.id] || '';
   const hasError = touched.has(currentQuestion.id) && errors[currentQuestion.id];
 
   return (
     <div className="space-y-6 relative">
+      {/* Examples Modal */}
+      {showExamplesModal && currentQuestion.examples && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 max-w-2xl w-full shadow-2xl relative">
+            <div className="flex justify-between items-center mb-4 border-b border-gray-800 pb-4">
+              <h3 className="text-xl font-bold text-gray-100">
+                Example {currentExampleIndex + 1} of {currentQuestion.examples.length}
+              </h3>
+              <button 
+                onClick={closeExamples}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            <div className="bg-gray-800 rounded-lg p-6 mb-6 min-h-[200px] flex flex-col justify-center">
+              <p className="text-gray-200 text-lg leading-relaxed">
+                {currentQuestion.examples[currentExampleIndex]}
+              </p>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <button
+                onClick={prevExample}
+                disabled={currentExampleIndex === 0}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                  currentExampleIndex === 0 
+                    ? 'bg-gray-800 text-gray-600 cursor-not-allowed' 
+                    : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+                }`}
+              >
+                Previous
+              </button>
+              
+              <button
+                onClick={closeExamples}
+                className="px-6 py-2 border border-gray-600 rounded-lg text-gray-300 hover:bg-gray-800 transition-colors"
+              >
+                Close
+              </button>
+
+              <button
+                onClick={nextExample}
+                disabled={currentExampleIndex === (currentQuestion.examples.length - 1)}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                  currentExampleIndex === (currentQuestion.examples.length - 1)
+                    ? 'bg-gray-800 text-gray-600 cursor-not-allowed' 
+                    : 'bg-blue-600 text-white hover:bg-blue-500'
+                }`}
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Warning Modal */}
       {showWarningModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
@@ -269,17 +355,41 @@ export default function QuestionFlow({
       <div className="bg-gray-900 rounded-lg border border-gray-700 p-6 space-y-4">
         <div className="space-y-2">
           <div className="flex items-start justify-between">
-            <h3 className="text-lg font-semibold text-gray-100">
+            <h3 className="text-lg font-semibold text-gray-100 flex-grow pr-4">
               {currentQuestion.question}
             </h3>
-            {!currentQuestion.required && (
-              <span className="text-xs font-medium text-gray-400 bg-gray-800 px-2 py-1 rounded">
-                Optional
-              </span>
-            )}
+            
+            <div className="flex items-center gap-2 flex-shrink-0">
+              {/* Examples Button */}
+              {currentQuestion.examples && currentQuestion.examples.length > 0 && (
+                <button
+                  type="button"
+                  onClick={openExamples}
+                  className="px-3 py-1.5 bg-blue-900/50 hover:bg-blue-900 text-blue-300 text-xs font-medium rounded-md border border-blue-800 transition-colors flex items-center gap-1.5"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Examples
+                </button>
+              )}
+              
+              {!currentQuestion.required && (
+                <span className="text-xs font-medium text-gray-400 bg-gray-800 px-2 py-1 rounded border border-gray-700">
+                  Optional
+                </span>
+              )}
+            </div>
           </div>
+          
+          {currentQuestion.description && (
+            <p className="text-gray-300 leading-relaxed text-sm mb-2 border-l-2 border-blue-500 pl-3">
+              {currentQuestion.description}
+            </p>
+          )}
+          
           {currentQuestion.helperText && (
-            <p className="text-sm text-gray-400">
+            <p className="text-xs text-gray-500 italic">
               {currentQuestion.helperText}
             </p>
           )}

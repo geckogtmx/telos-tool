@@ -21,6 +21,8 @@ export interface Question {
   required: boolean;
   minLength?: number;
   helperText?: string;
+  description?: string;
+  examples?: string[];
 }
 
 export interface QuestionAnswer {

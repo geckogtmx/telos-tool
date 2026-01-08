@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "TELOS_TOOL_V1.2 - BUILD SPEC.md",
+                "file": "TELOS Tool v1.2 - Question Descriptions & Examples.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "TELOS_TOOL_V1.2 - BUILD SPEC"
+              "title": "TELOS Tool v1.2 - Question Descriptions & Examples"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "TELOS_TOOL_V1.2 - BUILD SPEC.md",
+                "file": "TELOS Tool v1.2 - Question Descriptions & Examples.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for TELOS_TOOL_V1.2 - BUILD SPEC"
+              "title": "Backlinks for TELOS Tool v1.2 - Question Descriptions & Examples"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "TELOS_TOOL_V1.2 - BUILD SPEC.md",
+                "file": "TELOS Tool v1.2 - Question Descriptions & Examples.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from TELOS_TOOL_V1.2 - BUILD SPEC"
+              "title": "Outgoing links from TELOS Tool v1.2 - Question Descriptions & Examples"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "TELOS_TOOL_V1.2 - BUILD SPEC.md",
+                "file": "TELOS Tool v1.2 - Question Descriptions & Examples.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of TELOS_TOOL_V1.2 - BUILD SPEC"
+              "title": "Outline of TELOS Tool v1.2 - Question Descriptions & Examples"
             }
           }
         ]
@@ -185,6 +185,8 @@
   },
   "active": "5e10a50a864270e9",
   "lastOpenFiles": [
+    "TELOS_TOOL_V1.2 - BUILD SPEC.md",
+    "TELOS Tool v1.2 - Question Descriptions & Examples.md",
     "config/questions/individual-combined.ts"
   ]
 }
