@@ -1,5 +1,6 @@
 import mammoth from 'mammoth';
-import pdfParse from 'pdf-parse';
+import { fileTypeFromBuffer } from 'file-type';
+import { PDFExtract } from 'pdf.js-extract';
 
 export type ParsedCV = {
   text: string;
@@ -30,32 +31,45 @@ export async function parseCV(file: File): Promise<ParsedCV> {
     throw new CVParseException('FILE_TOO_LARGE', 'File must be under 5MB');
   }
 
-  const fileType = file.type;
   const filename = file.name;
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
 
-  console.log('[cv-parser] File details:', { filename, fileType, size: file.size });
+  // Validate file type (magic number)
+  const type = await fileTypeFromBuffer(buffer);
+  
+  // Default to text/plain if no type detected (often true for .txt files)
+  const mime = type?.mime || 'text/plain';
+  const ext = type?.ext || 'txt';
+
+  console.log('[cv-parser] File details:', { 
+    filename, 
+    detectedMime: mime, 
+    detectedExt: ext, 
+    size: file.size 
+  });
 
   let text: string;
 
   try {
-    if (fileType === 'application/pdf') {
+    if (mime === 'application/pdf') {
       console.log('[cv-parser] Detected PDF, starting PDF parse...');
       console.time('pdf-extraction');
-      text = await parsePDF(file);
+      text = await parsePDF(buffer);
       console.timeEnd('pdf-extraction');
       console.log('[cv-parser] PDF extraction complete, text length:', text.length);
     } else if (
-      fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-      filename.endsWith('.docx')
+      mime === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+      (mime === 'application/x-zip-compressed' && filename.endsWith('.docx')) // rare case where docx is seen as zip
     ) {
       console.log('[cv-parser] Detected DOCX, starting DOCX parse...');
       console.time('docx-extraction');
-      text = await parseDOCX(file);
+      text = await parseDOCX(buffer);
       console.timeEnd('docx-extraction');
       console.log('[cv-parser] DOCX extraction complete, text length:', text.length);
-    } else if (fileType === 'text/plain' || filename.endsWith('.txt')) {
+    } else if (mime === 'text/plain' || filename.endsWith('.txt')) {
       console.log('[cv-parser] Detected TXT, starting TXT parse...');
-      text = await parseTXT(file);
+      text = buffer.toString('utf-8');
       console.log('[cv-parser] TXT extraction complete, text length:', text.length);
     } else {
       throw new CVParseException('INVALID_FORMAT', 'Please upload a PDF, DOCX, or TXT file');
@@ -81,23 +95,37 @@ export async function parseCV(file: File): Promise<ParsedCV> {
   return {
     text: cleanedText,
     filename,
-    fileType
+    fileType: mime
   };
 }
 
-async function parsePDF(file: File): Promise<string> {
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const data = await pdfParse(buffer);
-  return data.text;
+async function parsePDF(buffer: Buffer): Promise<string> {
+  const pdfExtract = new PDFExtract();
+  
+  return new Promise((resolve, reject) => {
+    pdfExtract.extractBuffer(buffer, {}, (err, data) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      
+      if (!data) {
+        resolve('');
+        return;
+      }
+
+      // Join pages and text items
+      const text = data.pages
+        .map(page => page.content.map(item => item.str).join(' '))
+        .join('\n\n');
+        
+      resolve(text);
+    });
+  });
 }
 
-async function parseDOCX(file: File): Promise<string> {
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
+async function parseDOCX(buffer: Buffer): Promise<string> {
   const result = await mammoth.extractRawText({ buffer });
   return result.value;
 }
 
-async function parseTXT(file: File): Promise<string> {
-  return await file.text();
-}

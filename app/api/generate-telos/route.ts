@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@/lib/supabase/server';
 import { z } from 'zod';
 import { generateTELOS, extractEntityName } from '@/lib/generators/telos-generator';
 
@@ -11,6 +12,14 @@ const generateTELOSSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    const supabase = await createClient();
+
+    // Auth check
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
     // Check for API key
     if (!process.env.ANTHROPIC_API_KEY) {
       return NextResponse.json(

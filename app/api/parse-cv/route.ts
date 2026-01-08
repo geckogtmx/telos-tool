@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@/lib/supabase/server';
 import { parseCV, CVParseException } from '@/lib/parsers/cv-parser';
 import { scrubPII, formatPIISummary } from '@/lib/parsers/pii-scrubber';
 
@@ -6,6 +7,14 @@ export const maxDuration = 30; // 30 second timeout
 
 export async function POST(request: NextRequest) {
   try {
+    const supabase = await createClient();
+
+    // Auth check
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     console.log('[parse-cv] Starting CV parse request');
     console.time('total-request');
 

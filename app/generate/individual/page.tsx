@@ -35,7 +35,6 @@ function IndividualFlow() {
   const searchParams = useSearchParams();
   const editingId = searchParams?.get('id');
 
-  const [file, setFile] = useState<File | null>(null);
   const [parsedData, setParsedData] = useState<ParsedData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -45,7 +44,6 @@ function IndividualFlow() {
   const [generatedTELOS, setGeneratedTELOS] = useState<GeneratedTELOS | null>(null);
   
   const [isSaving, setIsSaving] = useState(false);
-  const [saveError, setSaveError] = useState<string | null>(null);
   const [isInitialLoading, setIsInitialLoading] = useState(!!editingId);
   const [initialHostingType, setInitialHostingType] = useState<HostingType | undefined>(undefined);
 
@@ -88,7 +86,6 @@ function IndividualFlow() {
   }, [editingId]);
 
   const handleFileSelect = async (selectedFile: File) => {
-    setFile(selectedFile);
     setError(null);
     setIsLoading(true);
 
@@ -110,14 +107,12 @@ function IndividualFlow() {
       setParsedData(result.data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
-      setFile(null);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleReset = () => {
-    setFile(null);
     setParsedData(null);
     setError(null);
     setShowQuestions(false);
@@ -205,7 +200,6 @@ function IndividualFlow() {
   const handleSaveTELOS = async (hostingType: HostingType, password?: string) => {
     if (!generatedTELOS) return;
     setIsSaving(true);
-    setSaveError(null);
 
     try {
       const apiEndpoint = editingId ? '/api/update-telos' : '/api/save-telos';
@@ -235,7 +229,6 @@ function IndividualFlow() {
       window.location.href = `/t/${result.data.public_id}`;
 
     } catch (err) {
-      setSaveError(err instanceof Error ? err.message : 'Failed to save');
       alert(`Error: ${err instanceof Error ? err.message : 'Failed to save'}`);
     } finally {
       setIsSaving(false);

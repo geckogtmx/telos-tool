@@ -11,14 +11,12 @@
             "id": "5e10a50a864270e9",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "TELOS Tool v1.2 - Question Descriptions & Examples.md",
-                "mode": "source",
-                "source": false
+                "file": "public/file.svg"
               },
-              "icon": "lucide-file",
-              "title": "TELOS Tool v1.2 - Question Descriptions & Examples"
+              "icon": "lucide-image",
+              "title": "file"
             }
           }
         ]
@@ -183,10 +181,41 @@
       "bases:Create new base": false
     }
   },
-  "active": "5e10a50a864270e9",
+  "active": "203145213df79280",
   "lastOpenFiles": [
-    "TELOS_TOOL_V1.2 - BUILD SPEC.md",
+    "SECURITY_AUDIT.md",
+    "LINT_PLAN.md",
+    "node_modules/web-streams-polyfill/es6/package.json",
+    "node_modules/web-streams-polyfill/es6",
+    "node_modules/web-streams-polyfill/es2018/package.json",
+    "node_modules/web-streams-polyfill/es2018",
+    "node_modules/web-streams-polyfill/ponyfill/es6/package.json",
+    "node_modules/web-streams-polyfill/ponyfill/es2018/package.json",
+    "node_modules/web-streams-polyfill/ponyfill/package.json",
+    "node_modules/web-streams-polyfill/ponyfill/es6",
+    "node_modules/web-streams-polyfill/ponyfill/es2018",
+    "node_modules/web-streams-polyfill/ponyfill",
+    "node_modules/pdf.js-extract/README.md",
+    "node_modules/pdf.js-extract/CHANGELOG.md",
+    "node_modules/web-streams-polyfill/README.md",
+    "node_modules/web-streams-polyfill/CHANGELOG.md",
+    "node_modules/dommatrix/README.md",
+    "node_modules/pdfjs-dist/web/images/messageBar_info.svg",
+    "node_modules/pdfjs-dist/web/images/toolbarButton-menuArrow.svg",
+    "node_modules/pdfjs-dist/web/images/toolbarButton-editorHighlight.svg",
+    "node_modules/pdfjs-dist/web/images/messageBar_closingButton.svg",
+    "node_modules/pdfjs-dist/web/images/messageBar_warning.svg",
+    "node_modules/pdfjs-dist/web/images/loading-icon.gif",
+    "node_modules/pdfjs-dist/web/images/editor-toolbar-edit.svg",
+    "node_modules/pdfjs-dist/web/images/editor-toolbar-delete.svg",
+    "node_modules/pdfjs-dist/web/images/cursor-editorTextHighlight.svg",
+    "node_modules/pdfjs-dist/web/images/cursor-editorInk.svg",
+    "node_modules/pdf-data-parser/README.md",
+    "node_modules/pdf-data-parser/CHANGELOG.md",
+    "node_modules/@napi-rs/canvas-win32-x64-msvc/README.md",
+    "node_modules/colors/README.md",
+    "node_modules/token-types/README.md",
     "TELOS Tool v1.2 - Question Descriptions & Examples.md",
-    "config/questions/individual-combined.ts"
+    "TELOS_TOOL_V1.2 - BUILD SPEC.md"
   ]
 }

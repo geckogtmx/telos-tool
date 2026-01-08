@@ -49,5 +49,42 @@ export const AI_CONFIG = {
 *   **Update Flow:** Edit previous answers and re-generate your TELOS while keeping the same link.
 *   **UX Refinements:** Hidden "Finish" button on edits, pre-selected hosting status, and "Time Ago" formatting.
 
+## Security & Performance Audit (January 2026)
+
+A comprehensive audit was performed on 2026-01-08. Detailed findings and remediation plans can be found in [SECURITY_AUDIT.md](./SECURITY_AUDIT.md).
+
+### Summary of Issues:
+1. **SSRF Risk:** URL parser lacked comprehensive internal IP blocking. (**Remediation in progress**)
+2. **XSS Risk:** Use of `dangerouslySetInnerHTML`. (**Verified Secure** via DOMPurify)
+3. **DB Security:** RLS policies verification. (**Verified Secure**)
+4. **Performance:** AI generation timeouts. (**Documented**)
+
 ---
-**Last Updated:** 2026-01-06
+**Last Updated:** 2026-01-08
+
+## Code Quality & Linting (ESLint)
+
+A comprehensive cleanup was performed to address identified linting issues.
+
+### Status:
+*   **React/JSX:** Unescaped entities in `app/page.tsx`, `app/auth/login/page.tsx`, etc. - **Fixed**
+*   **TypeScript:** Use of `any` types in `app/auth/signup/page.tsx` and `components/FileUpload.tsx` - **Fixed**
+*   **Logic/Hooks:** Missing dependency in `useEffect` within `components/DashboardFileList.tsx` - **Fixed**
+*   **Unused Variables:** `saveError`, `APP_NAME`, and `file` - **Removed**
+*   **Best Practices:** `prefer-const` violation in `lib/supabase/middleware.ts` - **Fixed**
+
+### UI & UX Polish
+*   **Entity Selector Alignment:** Fixed misalignment on `/generate` page by adjusting grid from 4 to 3 columns to match content. Added `h-full` to ensure uniform card heights.
+
+**Current Status:** Complete (0 errors, 0 warnings)
+
+## Technical Debt & Future Decisions
+
+### Middleware Deprecation Warning
+*   **Issue:** `npm run build` reports: `⚠ The "middleware" file convention is deprecated. Please use "proxy" instead.`
+*   **Decision:** Defer refactoring. (Date: 2026-01-08)
+*   **Reasoning:** The current `middleware.ts` implementation handles critical Supabase authentication and route protection. Since it is currently stable and fully functional in the present version of Next.js, the risk of breaking authentication logic outweighs the benefits of migrating to the new "proxy" convention at this stage.
+*   **Priority:** Low.
+
+---
+**Last Updated:** 2026-01-08

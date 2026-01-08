@@ -25,13 +25,13 @@ export default function EntitySelector() {
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {ENTITY_TYPES.map((entity) => (
           <Card
             key={entity.id}
             hover
             onClick={() => handleSelectEntity(entity.id)}
-            className="p-6 relative overflow-hidden"
+            className="p-6 relative overflow-hidden h-full"
           >
             {entity.badge && (
               <div className="absolute top-0 right-0">

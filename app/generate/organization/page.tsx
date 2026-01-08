@@ -23,7 +23,6 @@ function OrganizationFlow() {
   const [generatedTELOS, setGeneratedTELOS] = useState<GeneratedTELOS | null>(null);
   
   const [isSaving, setIsSaving] = useState(false);
-  const [saveError, setSaveError] = useState<string | null>(null);
 
   const handleDataParsed = (text: string, source: string) => {
     setParsedText(text);
@@ -104,7 +103,6 @@ function OrganizationFlow() {
   const handleSaveTELOS = async (hostingType: HostingType, password?: string) => {
     if (!generatedTELOS) return;
     setIsSaving(true);
-    setSaveError(null);
 
     try {
       const response = await fetch('/api/save-telos', {
@@ -131,7 +129,6 @@ function OrganizationFlow() {
 
       window.location.href = `/t/${result.data.public_id}`;
     } catch (err) {
-      setSaveError(err instanceof Error ? err.message : 'Failed to save');
       alert(`Error: ${err instanceof Error ? err.message : 'Failed to save'}`);
     } finally {
       setIsSaving(false);
@@ -146,7 +143,7 @@ function OrganizationFlow() {
             Organization TELOS
           </h1>
           <p className="text-gray-400">
-            Define your organization's mission, values, and operating principles.
+            Define your organization&apos;s mission, values, and operating principles.
           </p>
         </div>
 
@@ -168,7 +165,7 @@ function OrganizationFlow() {
                   Step 1: Organization Context
                 </h2>
                 <p className="text-sm text-gray-400 mb-6">
-                  Provide your "About Us" page or company description to help the AI understand your organization.
+                  Provide your &quot;About Us&quot; page or company description to help the AI understand your organization.
                 </p>
                 
                 <OrgInputUpload onDataParsed={handleDataParsed} />

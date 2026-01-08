@@ -78,9 +78,10 @@ export default function SignUpPage() {
           }, 2000);
         }
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Unexpected error:', err);
-      setError(`Unexpected error: ${err.message || 'Unknown error'}`);
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      setError(`Unexpected error: ${errorMessage}`);
     } finally {
       setLoading(false);
     }

@@ -23,7 +23,6 @@ function AgentFlow() {
   const [generatedTELOS, setGeneratedTELOS] = useState<GeneratedTELOS | null>(null);
   
   const [isSaving, setIsSaving] = useState(false);
-  const [saveError, setSaveError] = useState<string | null>(null);
 
   const handleDataParsed = (text: string, source: string) => {
     setParsedText(text);
@@ -101,7 +100,6 @@ function AgentFlow() {
   const handleSaveTELOS = async (hostingType: HostingType, password?: string) => {
     if (!generatedTELOS) return;
     setIsSaving(true);
-    setSaveError(null);
 
     try {
       const response = await fetch('/api/save-telos', {
@@ -128,7 +126,6 @@ function AgentFlow() {
 
       window.location.href = `/t/${result.data.public_id}`;
     } catch (err) {
-      setSaveError(err instanceof Error ? err.message : 'Failed to save');
       alert(`Error: ${err instanceof Error ? err.message : 'Failed to save'}`);
     } finally {
       setIsSaving(false);
@@ -143,7 +140,7 @@ function AgentFlow() {
             Agent TELOS
           </h1>
           <p className="text-gray-400">
-            Define an AI Agent's persona, constraints, and operating parameters.
+            Define an AI Agent&apos;s persona, constraints, and operating parameters.
           </p>
         </div>
 
@@ -165,7 +162,7 @@ function AgentFlow() {
                   Step 1: System Prompt / Config
                 </h2>
                 <p className="text-sm text-gray-400 mb-6">
-                  Provide the agent's system prompt or configuration file to extract its identity.
+                  Provide the agent&apos;s system prompt or configuration file to extract its identity.
                 </p>
                 
                 <AgentInputUpload onDataParsed={handleDataParsed} />
@@ -196,7 +193,7 @@ function AgentFlow() {
                     Step 2: Agent Persona Definition
                   </h2>
                   <p className="text-sm text-gray-400 mt-1">
-                    Refine the agent's behavior and constraints.
+                    Refine the agent&apos;s behavior and constraints.
                   </p>
                 </div>
 

@@ -149,7 +149,7 @@ export default function TELOSPreview({
         elements.push(
           <ul key={`list-${listKey++}`} className="list-disc list-inside space-y-1 mb-4 text-gray-300 ml-2">
             {listItems.map((item, i) => (
-              <li key={i} dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(item) }} />
+              <li key={i} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(formatInlineMarkdown(item)) }} />
             ))}
           </ul>
         );
@@ -162,7 +162,7 @@ export default function TELOSPreview({
         elements.push(
           <blockquote key={`blockquote-${listKey++}`} className="border-l-4 border-blue-500 pl-4 py-2 my-4 bg-gray-800/50 rounded-r">
             {blockquoteLines.map((line, i) => (
-              <p key={i} className="text-gray-400 italic" dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(line) }} />
+              <p key={i} className="text-gray-400 italic" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(formatInlineMarkdown(line)) }} />
             ))}
           </blockquote>
         );
@@ -260,7 +260,7 @@ export default function TELOSPreview({
           <p
             key={index}
             className="text-gray-300 mb-3 leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed) }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(formatInlineMarkdown(trimmed)) }}
           />
         );
       }

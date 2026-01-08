@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { TELOSData } from '@/types';
 import DashboardFileCard from './DashboardFileCard';
@@ -16,11 +17,7 @@ export default function DashboardFileList({ userId }: { userId: string }) {
 
   const supabase = createClient();
 
-  useEffect(() => {
-    fetchFiles();
-  }, [userId]);
-
-  const fetchFiles = async () => {
+  const fetchFiles = useCallback(async () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
@@ -52,7 +49,11 @@ export default function DashboardFileList({ userId }: { userId: string }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId, supabase]);
+
+  useEffect(() => {
+    fetchFiles();
+  }, [fetchFiles]);
 
   const handleDelete = async (id: string) => {
     try {
@@ -146,5 +147,3 @@ export default function DashboardFileList({ userId }: { userId: string }) {
     </div>
   );
 }
-
-import Link from 'next/link';

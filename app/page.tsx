@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
-import { APP_NAME, APP_DESCRIPTION } from '@/config/constants';
+import { APP_DESCRIPTION } from '@/config/constants';
 
 export default function Home() {
   return (
@@ -37,16 +37,29 @@ export default function Home() {
           </h2>
           <div className="space-y-4 text-lg text-gray-300">
             <p>
-              TELOS (Teleological Operating System) is a comprehensive framework that defines the purpose,
-              values, constraints, and operating principles of an entity - whether that's an individual,
-              organization, or AI agent.
+              The term Telos (Ancient Greek: τέλος) refers to the inherent purpose or final cause of an object,
+              organism, or action. For example, the telos of a coffee mug is to hold a beverage, and for Aristotle,
+              the ultimate human telos (highest good) was eudaimonia (happiness or fulfillment).
             </p>
             <p>
-              Think of it as a living document that captures not just what you do, but <strong>why</strong> you
-              do it, <strong>how</strong> you make decisions, and <strong>what</strong> guides your actions.
+              Telos is also an open-sourced framework developed by Daniel Miessler for creating Deep Context about
+              things that matter to humans. The purpose of the Telos project is to help entities of any size—from
+              individuals to planets—articulate what they are about and how they&apos;re pursuing their purpose in life.
+              It provides a structured framework for capturing the main components of an entity, including its
+              mission, goals, problems, strategies, KPIs, etc.
             </p>
-            <p className="text-gray-400 italic border-l-4 border-blue-500 pl-4">
-              Currently in Beta - All features free during preview period. Early users will receive special benefits.
+            <p>
+              This &quot;Telos Tool&quot; project takes from Daniel Miessler&apos;s work -{' '}
+              <a
+                href="https://github.com/danielmiessler/Telos"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:underline"
+              >
+                https://github.com/danielmiessler/Telos
+              </a>
+              {' '} - and serves as a helper tool to create, store and distribute Telos files for 3 main entities:
+              Individuals, Organizations and Agents.
             </p>
           </div>
         </div>
@@ -69,7 +82,7 @@ export default function Home() {
             <div className="text-4xl mb-4">🏢</div>
             <h3 className="text-xl font-bold text-gray-100 mb-3">Organization</h3>
             <p className="text-gray-400">
-              Convert your organization's mission and values into a structured TELOS that aligns your team.
+              Convert your organization&apos;s mission and values into a structured TELOS that aligns your team.
             </p>
           </div>
           <div className="bg-gray-900 border border-gray-700 rounded-lg shadow-md p-6 hover:shadow-lg hover:border-blue-500 transition-all">

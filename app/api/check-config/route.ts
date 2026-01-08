@@ -1,8 +1,16 @@
 import { NextResponse } from 'next/server';
+import { createClient } from '@/lib/supabase/server';
 
 // Diagnostic endpoint to check environment configuration
 // Does NOT expose actual values, only checks if they exist
 export async function GET() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    return NextResponse.json({ status: 'unauthorized' }, { status: 401 });
+  }
+
   const config = {
     ANTHROPIC_API_KEY: !!process.env.ANTHROPIC_API_KEY,
     NEXT_PUBLIC_SUPABASE_URL: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
