@@ -3,6 +3,7 @@ import { EntityType } from '@/types';
 import { callClaudeAPI, ClaudeAPIException, ERROR_MESSAGES } from './claude-api';
 import { generateWithGemini } from './gemini-api';
 import { buildIndividualPrompt, buildIndividualQuickPrompt } from './templates/individual';
+import { buildOrganizationPrompt } from './templates/organization';
 import { AI_CONFIG } from '@/config/ai-model';
 
 export type GenerateTELOSInput = {
@@ -32,11 +33,8 @@ export async function generateTELOS(
         prompt = buildIndividualQuickPrompt(input.parsedInput, input.answers);
         break;
       case 'organization':
-        // TODO: Implement organization template
-        return {
-          success: false,
-          error: 'Organization TELOS generation not yet implemented',
-        };
+        prompt = buildOrganizationPrompt(input.parsedInput, input.answers);
+        break;
       case 'agent':
         // TODO: Implement agent template
         return {

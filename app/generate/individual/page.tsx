@@ -407,7 +407,7 @@ function IndividualFlow() {
 
             {(editingId || (individualQuestions
               .filter(q => q.required)
-              .every(q => answers[q.id] && answers[q.id].trim().length >= q.minLength))) && (
+              .every(q => answers[q.id] && answers[q.id].trim().length >= (q.minLength || 0)))) && (
               <div className="bg-gray-900 border border-gray-700 rounded-lg shadow-sm p-6">
                 <div className="flex items-center justify-between">
                   <div>

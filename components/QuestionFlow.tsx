@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import type { Question, QuestionAnswers } from '@/config/questions/individual';
+import type { Question } from '@/types';
+
+type QuestionAnswers = Record<string, string>;
 
 type QuestionFlowProps = {
   questions: Question[];
@@ -37,7 +39,7 @@ export default function QuestionFlow({
     }
 
     // Minimum length validation
-    if (value.trim() && value.trim().length < question.minLength) {
+    if (value.trim() && question.minLength && value.trim().length < question.minLength) {
       return `Please enter at least ${question.minLength} characters`;
     }
 

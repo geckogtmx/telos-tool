@@ -1,12 +1,4 @@
-export type Question = {
-  id: string;
-  question: string;
-  type: 'text' | 'textarea';
-  placeholder: string;
-  required: boolean;
-  minLength: number;
-  helperText?: string;
-};
+import { Question } from '@/types';
 
 export const individualQuestions: Question[] = [
   {
