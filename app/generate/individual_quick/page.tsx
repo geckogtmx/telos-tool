@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from 'react';
 import FileUpload from '@/components/FileUpload';
-import QuickQuestionFlow from '@/components/QuickQuestionFlow';
+import QuestionFlow from '@/components/QuestionFlow';
 import TELOSPreview from '@/components/TELOSPreview';
 import { individualQuickQuestions } from '@/config/questions/individual-quick';
 import { QuestionAnswers } from '@/config/questions/individual';
@@ -301,7 +301,7 @@ function IndividualQuickFlow() {
                 </p>
               </div>
 
-              <QuickQuestionFlow
+              <QuestionFlow
                 questions={individualQuickQuestions}
                 onComplete={handleQuestionComplete}
                 initialAnswers={answers}
