@@ -175,15 +175,16 @@ export default function FullQuestionFlow({
         {sections.map((section, idx) => {
           const isCompleted = idx < currentSectionIndex;
           const isCurrent = idx === currentSectionIndex;
+          const romanNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
           
           return (
             <div key={section.id} className="relative z-10 flex flex-col items-center">
               <div 
-                className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors border-2 
+                className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors border-2 
                   ${isCompleted || isCurrent ? 'bg-blue-600 border-blue-600 text-white' : 'bg-gray-900 border-gray-700 text-gray-500'}
                 `}
               >
-                {isCompleted ? '✓' : idx + 1}
+                {isCompleted ? '✓' : romanNumerals[idx]}
               </div>
               <span className={`text-xs mt-2 font-medium hidden lg:block ${isCurrent ? 'text-blue-400' : 'text-gray-500'}`}>
                 {section.title.split('.')[1].trim().split('&')[0]}
@@ -194,9 +195,12 @@ export default function FullQuestionFlow({
       </div>
 
       {/* Mobile Progress */}
-      <div className="md:hidden flex items-center justify-between text-sm text-gray-400 mb-4">
-        <span>Section {currentSectionIndex + 1} of {sections.length}</span>
-        <span>{Math.round(((currentSectionIndex + 1) / sections.length) * 100)}%</span>
+      <div className="md:hidden flex flex-col gap-1 mb-4">
+        <div className="flex items-center justify-between text-sm text-gray-400">
+          <span>Section {currentSectionIndex + 1} of {sections.length}</span>
+          <span>{Math.round(((currentSectionIndex + 1) / sections.length) * 100)}%</span>
+        </div>
+        <div className="text-xs text-blue-400 font-medium">{currentSection.title}</div>
       </div>
 
       {/* Current Section */}
