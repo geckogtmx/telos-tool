@@ -192,11 +192,11 @@ export const individualCombinedQuestions: Question[] = [
     required: false,
     description: "What does success explicitly NOT look like for you? Paths you refuse to take, outcomes you're deliberately avoiding, or measures of success you reject.",
     examples: [
-      'Dr. Priya Sharma: Will not move to concierge medicine or cash-only practice. Not interested in administrative leadership roles. Won\'t sacrifice patient time for research/publication pressure.',
-      'Marcus Chen: Don\'t want to become a manager (tried it, hated it). Don\'t want to be the only person who understands critical systems. Won\'t sacrifice sleep for work anymore.',
-      'Sarah Okonkwo: I don\'t want to build a massive team. More people means more management, more coordination overhead, more politics. I\'d rather have 6 excellent people than 15 mediocre ones. I also refuse to be the "make it pretty" department—if that\'s all leadership wants from marketing, I\'m at the wrong company.',
-      'Tomás Reyes: Don\'t want to build an agency. Tried managing people, hated it. Don\'t want to become a "design influencer" posting daily tips. Won\'t take crypto/NFT projects regardless of budget. Won\'t do work for brands I\'d be embarrassed to put in my portfolio.',
-      'Jake Moreno: not trying to be the biggest, just trying to be sustainable. don\'t want to become "corporate creator" with a team of 20. refuse to make content I\'d be embarrassed to show my mom.'
+      'Will not move to concierge medicine or cash-only practice. Not interested in administrative leadership roles. Won\'t sacrifice patient time for research/publication pressure.',
+      'Don\'t want to become a manager (tried it, hated it). Don\'t want to be the only person who understands critical systems. Won\'t sacrifice sleep for work anymore.',
+      'I don\'t want to build a massive team. More people means more management, more coordination overhead, more politics. I\'d rather have 6 excellent people than 15 mediocre ones. I also refuse to be the "make it pretty" department—if that\'s all leadership wants from marketing, I\'m at the wrong company.',
+      'Don\'t want to build an agency. Tried managing people, hated it. Don\'t want to become a "design influencer" posting daily tips. Won\'t take crypto/NFT projects regardless of budget. Won\'t do work for brands I\'d be embarrassed to put in my portfolio.',
+      'not trying to be the biggest, just trying to be sustainable. don\'t want to become "corporate creator" with a team of 20. refuse to make content I\'d be embarrassed to show my mom.'
     ]
   },
   {
@@ -208,11 +208,11 @@ export const individualCombinedQuestions: Question[] = [
     minLength: 10,
     description: "Non-negotiable limits—time, budget, family obligations, health, geography, or other factors that define what's actually possible for you. These aren't preferences; they're boundaries.",
     examples: [
-      'Dr. Priya Sharma: Clinic hours are fixed: 8am-5pm, no flexibility. 15-minute appointments are the reality, won\'t change. Limited formulary due to 340B program—can\'t prescribe everything I want.',
-      'Marcus Chen: Wife and 2-year-old. Non-negotiable family time 6-8pm. Thursday afternoons blocked for deep work (team knows). No weekend deploys unless P0.',
-      'Sarah Okonkwo: Budget is fixed this year. Non-negotiable. I also have two kids (8 and 11) and I do school pickup three days a week—I\'m offline 2:45-4pm those days. My team knows, it\'s fine, but I won\'t schedule over it.',
-      'Tomás Reyes: I work alone. No team, no contractors (yet). Capacity is limited. Don\'t do web development. Design yes, build no. Tuesdays and Thursdays are no-meeting days. Protect them aggressively.',
-      'Jake Moreno: budget is tight. like really tight. can\'t invest more than $500/month in the business right now. I do everything myself currently—editing, thumbnails, social, emails. health stuff: ADHD (medicated but still hard), RSI in my wrist that flares up.'
+      'Clinic hours are fixed: 8am-5pm, no flexibility. 15-minute appointments are the reality, won\'t change. Limited formulary due to 340B program—can\'t prescribe everything I want.',
+      'Wife and 2-year-old. Non-negotiable family time 6-8pm. Thursday afternoons blocked for deep work (team knows). No weekend deploys unless P0.',
+      'Budget is fixed this year. Non-negotiable. I also have two kids (8 and 11) and I do school pickup three days a week—I\'m offline 2:45-4pm those days. My team knows, it\'s fine, but I won\'t schedule over it.',
+      'I work alone. No team, no contractors (yet). Capacity is limited. Don\'t do web development. Design yes, build no. Tuesdays and Thursdays are no-meeting days. Protect them aggressively.',
+      'budget is tight. like really tight. can\'t invest more than $500/month in the business right now. I do everything myself currently—editing, thumbnails, social, emails. health stuff: ADHD (medicated but still hard), RSI in my wrist that flares up.'
     ]
   },
 
@@ -225,11 +225,11 @@ export const individualCombinedQuestions: Question[] = [
     required: false,
     description: "How you usually engage with work or tasks. Quick questions scattered throughout the day? Extended focus sessions? Mixed approach? Describe your natural rhythm.",
     examples: [
-      'Dr. Priya Sharma: Quick questions during charting. Occasionally longer sessions for precepting materials or QI project work. I don\'t have hours to spend—give me what I need efficiently.',
-      'Marcus Chen: Mix. Quick questions throughout day, 1-2 deep work sessions per day for actual coding/design.',
-      'Sarah Okonkwo: Mostly working sessions, 15-30 minutes. I use AI for first drafts, frameworks, and sanity-checking my thinking. Occasionally deep dives when I\'m preparing board presentations or working on positioning.',
-      'Tomás Reyes: Mixed. Quick questions when I\'m stuck on copy or naming. Longer sessions when I\'m thinking through strategy, positioning, or business decisions. Sometimes I just need to think out loud about a creative direction.',
-      'Jake Moreno: short bursts. 15 min here and there. I don\'t have "deep work" blocks, I have "oh crap I need to do this now" blocks.'
+      'Quick questions during charting. Occasionally longer sessions for precepting materials or QI project work. I don\'t have hours to spend—give me what I need efficiently.',
+      'Mix. Quick questions throughout day, 1-2 deep work sessions per day for actual coding/design.',
+      'Mostly working sessions, 15-30 minutes. I use AI for first drafts, frameworks, and sanity-checking my thinking. Occasionally deep dives when I\'m preparing board presentations or working on positioning.',
+      'Mixed. Quick questions when I\'m stuck on copy or naming. Longer sessions when I\'m thinking through strategy, positioning, or business decisions. Sometimes I just need to think out loud about a creative direction.',
+      'short bursts. 15 min here and there. I don\'t have "deep work" blocks, I have "oh crap I need to do this now" blocks.'
     ]
   },
   {
@@ -241,11 +241,11 @@ export const individualCombinedQuestions: Question[] = [
     minLength: 10,
     description: "Your preferred approach when facing a problem or decision. Options to choose from? A single recommendation? Questions to clarify your thinking? Something else?",
     examples: [
-      'Dr. Priya Sharma: Give me the evidence summary and a recommendation. I\'ll decide. Include the citation so I can reference it if needed.',
-      'Marcus Chen: Give me 2-3 options with tradeoffs. I\'ll pick. Don\'t just give me one answer—I want to understand the decision space.',
-      'Sarah Okonkwo: Ask me questions. I usually know the answer, I just haven\'t organized my thoughts yet. Good questions are more helpful than good answers for me.',
-      'Tomás Reyes: Show me references or examples. Or ask me questions about the _why_ behind what I\'m trying to do—usually the answer is in there, I just haven\'t articulated it. Visual inspiration helps more than verbal explanation.',
-      'Jake Moreno: just tell me what to do. give me the answer. I can evaluate if it\'s right for me, but I don\'t have time to think through 5 options. decision fatigue is real.'
+      'Give me the evidence summary and a recommendation. I\'ll decide. Include the citation so I can reference it if needed.',
+      'Give me 2-3 options with tradeoffs. I\'ll pick. Don\'t just give me one answer—I want to understand the decision space.',
+      'Ask me questions. I usually know the answer, I just haven\'t organized my thoughts yet. Good questions are more helpful than good answers for me.',
+      'Show me references or examples. Or ask me questions about the _why_ behind what I\'m trying to do—usually the answer is in there, I just haven\'t articulated it. Visual inspiration helps more than verbal explanation.',
+      'just tell me what to do. give me the answer. I can evaluate if it\'s right for me, but I don\'t have time to think through 5 options. decision fatigue is real.'
     ]
   },
   {
@@ -256,11 +256,11 @@ export const individualCombinedQuestions: Question[] = [
     required: true,
     description: "Should AI challenge your ideas, just execute what you ask, or somewhere in between? When and how do you want to be questioned or corrected?",
     examples: [
-      'Dr. Priya Sharma: Yes, particularly on clinical decisions. I want to be challenged if something might harm a patient. Less interested in pushback on style or approach.',
-      'Marcus Chen: Challenge me, especially on architecture decisions. I have blind spots. If I\'m overcomplicating something, say so directly.',
-      'Sarah Okonkwo: Yes, but pick your battles. If I\'m directionally wrong, tell me. If I\'m just doing it differently than you would, let it go. I\'m experienced enough to have opinions—I want collaboration, not a consultant who thinks they know my business better than I do.',
-      'Tomás Reyes: On business stuff—yes, push back hard. I have blind spots and I\'m too close to it. On creative direction—lighter touch. I know what I\'m doing there. Trust my taste unless something is objectively not working.',
-      'Jake Moreno: yes but be chill about it. don\'t lecture me. if I\'m making a mistake just tell me like a friend would.'
+      'Yes, particularly on clinical decisions. I want to be challenged if something might harm a patient. Less interested in pushback on style or approach.',
+      'Challenge me, especially on architecture decisions. I have blind spots. If I\'m overcomplicating something, say so directly.',
+      'Yes, but pick your battles. If I\'m directionally wrong, tell me. If I\'m just doing it differently than you would, let it go. I\'m experienced enough to have opinions—I want collaboration, not a consultant who thinks they know my business better than I do.',
+      'On business stuff—yes, push back hard. I have blind spots and I\'m too close to it. On creative direction—lighter touch. I know what I\'m doing there. Trust my taste unless something is objectively not working.',
+      'yes but be chill about it. don\'t lecture me. if I\'m making a mistake just tell me like a friend would.'
     ]
   },
   {
@@ -272,11 +272,11 @@ export const individualCombinedQuestions: Question[] = [
     minLength: 10,
     description: "How you prefer to receive feedback or corrections. Direct/blunt? Softened? Socratic questioning? Adapt to context? Be specific about tone and delivery.",
     examples: [
-      'Dr. Priya Sharma: Concise. Clinical. "Consider X because Y." No preamble needed.',
-      'Marcus Chen: Direct. Don\'t soften. "This approach has a race condition" not "Have you considered the threading implications?"',
-      'Sarah Okonkwo: Professional but direct. I\'m a grown-up, I can handle criticism. But I also don\'t need brutal honesty for its own sake. "This message isn\'t landing because X" is great. "This is bad" is not useful.',
-      'Tomás Reyes: Direct but not harsh. I appreciate specificity. "The hierarchy isn\'t working because X" is useful. "I don\'t like it" is not.',
-      'Jake Moreno: casual. like texting. don\'t need formal anything.'
+      'Concise. Clinical. "Consider X because Y." No preamble needed.',
+      'Direct. Don\'t soften. "This approach has a race condition" not "Have you considered the threading implications?"',
+      'Professional but direct. I\'m a grown-up, I can handle criticism. But I also don\'t need brutal honesty for its own sake. "This message isn\'t landing because X" is great. "This is bad" is not useful.',
+      'Direct but not harsh. I appreciate specificity. "The hierarchy isn\'t working because X" is useful. "I don\'t like it" is not.',
+      'casual. like texting. don\'t need formal anything.'
     ]
   },
 
@@ -289,11 +289,11 @@ export const individualCombinedQuestions: Question[] = [
     required: false,
     description: "Devices, operating systems, primary software ecosystem. Include hardware specs if relevant to your work, and the platforms/tools you use daily.",
     examples: [
-      'Dr. Priya Sharma: Work laptop only (no personal computer for work). Epic EHR (we\'re on an older version). I do most things on my phone outside of charting.',
-      'Marcus Chen: MacBook Pro M2 (work), custom Linux desktop (home/personal projects). VS Code + Neovim for quick edits. iTerm2, tmux. Docker, k8s for local dev.',
-      'Sarah Okonkwo: MacBook Air, Google Workspace for everything. HubSpot for marketing automation, Salesforce for CRM (I don\'t love it but it\'s what we have). Figma for reviewing creative. I live in Google Docs and Slides.',
-      'Tomás Reyes: MacBook Pro 16" M2, external monitor (crucial). Adobe CC: Illustrator primary, Photoshop, InDesign, After Effects (learning). Figma for anything collaborative or web-related. Procreate on iPad for sketching. Dropbox for file management, Notion for project tracking.',
-      'Jake Moreno: gaming PC I built, RTX 4070, pretty solid. streamdeck, SM7B mic, sony a6400 for camera. OBS for streaming, premiere for editing, photoshop for thumbs. notion for trying to be organized (usually fails). discord for community and collabs.'
+      'Work laptop only (no personal computer for work). Epic EHR (we\'re on an older version). I do most things on my phone outside of charting.',
+      'MacBook Pro M2 (work), custom Linux desktop (home/personal projects). VS Code + Neovim for quick edits. iTerm2, tmux. Docker, k8s for local dev.',
+      'MacBook Air, Google Workspace for everything. HubSpot for marketing automation, Salesforce for CRM (I don\'t love it but it\'s what we have). Figma for reviewing creative. I live in Google Docs and Slides.',
+      'MacBook Pro 16" M2, external monitor (crucial). Adobe CC: Illustrator primary, Photoshop, InDesign, After Effects (learning). Figma for anything collaborative or web-related. Procreate on iPad for sketching. Dropbox for file management, Notion for project tracking.',
+      'gaming PC I built, RTX 4070, pretty solid. streamdeck, SM7B mic, sony a6400 for camera. OBS for streaming, premiere for editing, photoshop for thumbs. notion for trying to be organized (usually fails). discord for community and collabs.'
     ]
   },
   {
@@ -304,11 +304,11 @@ export const individualCombinedQuestions: Question[] = [
     required: false,
     description: "Your comfort with technology and technical concepts. Non-technical? Technical but not a developer? Developer? Deep technical? Be specific about areas and don't oversell or undersell.",
     examples: [
-      'Dr. Priya Sharma: Clinically technical, not IT technical. I can navigate EHRs, do basic data pulls, use Excel for simple analysis. Cannot code. Don\'t want to learn.',
-      'Marcus Chen: Deep technical. Don\'t explain language basics, common patterns, or standard tooling. Do explain niche libraries or domains I listed as "learning." ',
-      'Sarah Okonkwo: Not a developer, but technical enough to have opinions about our website performance and to read a SQL query if someone walks me through it. I can set up basic automations in HubSpot. I understand APIs conceptually but wouldn\'t write one.',
-      'Tomás Reyes: Expert in design software. Comfortable with print production specs, prepress, color profiles. Not a developer—I can inspect CSS and communicate with devs but I don\'t write code. Basic understanding of web constraints.',
-      'Jake Moreno: good with creative software, bad with business software. I can edit a video in my sleep but spreadsheets make me want to die. don\'t know how to code beyond like, basic html from myspace era.'
+      'Clinically technical, not IT technical. I can navigate EHRs, do basic data pulls, use Excel for simple analysis. Cannot code. Don\'t want to learn.',
+      'Deep technical. Don\'t explain language basics, common patterns, or standard tooling. Do explain niche libraries or domains I listed as "learning." ',
+      'Not a developer, but technical enough to have opinions about our website performance and to read a SQL query if someone walks me through it. I can set up basic automations in HubSpot. I understand APIs conceptually but wouldn\'t write one.',
+      'Expert in design software. Comfortable with print production specs, prepress, color profiles. Not a developer—I can inspect CSS and communicate with devs but I don\'t write code. Basic understanding of web constraints.',
+      'good with creative software, bad with business software. I can edit a video in my sleep but spreadsheets make me want to die. don\'t know how to code beyond like, basic html from myspace era.'
     ]
   },
   {
@@ -319,11 +319,11 @@ export const individualCombinedQuestions: Question[] = [
     required: false,
     description: "If applicable, list languages, frameworks, platforms, and common workflows. If you don't code, list the primary tools in your domain. Be specific about proficiency levels.",
     examples: [
-      'Dr. Priya Sharma: Epic (proficient), Excel (basic), UpToDate, DynaMed, CDC guidelines, MDCalc. I use voice-to-text for documentation. Zoom for telehealth.',
-      'Marcus Chen: Primary: Go, Python, SQL. Secondary: TypeScript (can read, don\'t enjoy writing). Infra: Terraform, AWS (ECS, RDS, Lambda, SQS), DataDog. DBs: PostgreSQL (expert), Redis, DynamoDB (learning).',
-      'Sarah Okonkwo: HubSpot, Salesforce, Google Analytics 4 (reluctantly), Looker for dashboards, Notion for team documentation, Figma (view-only basically), basic HTML/CSS (enough to fix a broken email template).',
-      'Tomás Reyes: Illustrator (expert), Photoshop (expert), InDesign (expert), Figma (proficient), After Effects (beginner), Lightroom (proficient), Notion, Dropbox, Google Workspace, Honeybook for invoicing/contracts.',
-      'Jake Moreno: premiere pro, after effects (basic), photoshop, OBS, streamlabs, canva (for quick stuff), capcut for shorts, notion (badly), google sheets (under protest)'
+      'Epic (proficient), Excel (basic), UpToDate, DynaMed, CDC guidelines, MDCalc. I use voice-to-text for documentation. Zoom for telehealth.',
+      'Primary: Go, Python, SQL. Secondary: TypeScript (can read, don\'t enjoy writing). Infra: Terraform, AWS (ECS, RDS, Lambda, SQS), DataDog. DBs: PostgreSQL (expert), Redis, DynamoDB (learning).',
+      'HubSpot, Salesforce, Google Analytics 4 (reluctantly), Looker for dashboards, Notion for team documentation, Figma (view-only basically), basic HTML/CSS (enough to fix a broken email template).',
+      'Illustrator (expert), Photoshop (expert), InDesign (expert), Figma (proficient), After Effects (beginner), Lightroom (proficient), Notion, Dropbox, Google Workspace, Honeybook for invoicing/contracts.',
+      'premiere pro, after effects (basic), photoshop, OBS, streamlabs, canva (for quick stuff), capcut for shorts, notion (badly), google sheets (under protest)'
     ]
   },
 
@@ -337,11 +337,11 @@ export const individualCombinedQuestions: Question[] = [
     minLength: 20,
     description: "For each project: name, phase (planning/active/paused), current focus, and blockers. Be specific about what's actually happening now versus what you hope to do.",
     examples: [
-      'Dr. Priya Sharma: Group Visits for Diabetes (Planning - researching models, need to write proposal, blocker: need medical director buy-in). No-Show QI Project (Active - data collection phase, blocker: limited data system). Student Orientation Curriculum (Needs attention - have outline, blocker: keeps falling to bottom of priority list).',
-      'Marcus Chen: Payment Retry Overhaul (Active - implementation, 60% complete, blocker: waiting on compliance review). Team Onboarding System (Planning - gathering requirements, interviewing recent hires, blocker: no dedicated time). Personal: Rust CLI Tool (Paused - had working prototype, blocker: no time, new baby priorities).',
-      'Sarah Okonkwo: Attribution Overhaul (Active, high priority - vendor evaluation, deciding between building vs. buying, blocker: need Sales buy-in on what counts as marketing-sourced). Website Redesign (Active but stalled - have wireframes, stuck on messaging, blocker: CEO and CPO have different opinions about who our customer is). Content Strategy Reset (Planning - audit complete, blocker: content lead emotionally attached to blog series that doesn\'t perform).',
-      'Tomás Reyes: Suncrest Brewing - Full Rebrand (Active - concept development, presenting 3 directions next week, blocker: client slow to provide feedback). Madre Foods - Packaging Redesign (Active - production phase, blocker: waiting on final copy). Template Kit (Stalled - have templates, need landing page and copy, blocker: prioritizing client work). Portfolio Redesign (Back burner - planning phase, blocker: cobbler\'s children).',
-      'Jake Moreno: merch store (stuck - supposed to launch last month, blocker: can\'t decide on designs, keep second-guessing). youtube essay video (active - 15 min video about cozy games, script 80% done, blocker: can\'t nail the ending). hiring an editor (thinking about it - got 200 applications, got overwhelmed, stopped looking).'
+      'Group Visits for Diabetes (Planning - researching models, need to write proposal, blocker: need medical director buy-in). No-Show QI Project (Active - data collection phase, blocker: limited data system). Student Orientation Curriculum (Needs attention - have outline, blocker: keeps falling to bottom of priority list).',
+      'Payment Retry Overhaul (Active - implementation, 60% complete, blocker: waiting on compliance review). Team Onboarding System (Planning - gathering requirements, interviewing recent hires, blocker: no dedicated time). Personal: Rust CLI Tool (Paused - had working prototype, blocker: no time, new baby priorities).',
+      'Attribution Overhaul (Active, high priority - vendor evaluation, deciding between building vs. buying, blocker: need Sales buy-in on what counts as marketing-sourced). Website Redesign (Active but stalled - have wireframes, stuck on messaging, blocker: CEO and CPO have different opinions about who our customer is). Content Strategy Reset (Planning - audit complete, blocker: content lead emotionally attached to blog series that doesn\'t perform).',
+      'Suncrest Brewing - Full Rebrand (Active - concept development, presenting 3 directions next week, blocker: client slow to provide feedback). Madre Foods - Packaging Redesign (Active - production phase, blocker: waiting on final copy). Template Kit (Stalled - have templates, need landing page and copy, blocker: prioritizing client work). Portfolio Redesign (Back burner - planning phase, blocker: cobbler\'s children).',
+      'merch store (stuck - supposed to launch last month, blocker: can\'t decide on designs, keep second-guessing). youtube essay video (active - 15 min video about cozy games, script 80% done, blocker: can\'t nail the ending). hiring an editor (thinking about it - got 200 applications, got overwhelmed, stopped looking).'
     ]
   },
   {
@@ -352,11 +352,11 @@ export const individualCombinedQuestions: Question[] = [
     required: false,
     description: "Patterns of friction that keep showing up across projects or in your work. Not one-time problems, but systemic issues or ongoing struggles.",
     examples: [
-      'Dr. Priya Sharma: Never enough time for anything beyond direct patient care. Administrative burden increasing every year. Compassion fatigue is real—need better boundaries.',
-      'Marcus Chen: Context switching kills my productivity. I say yes to too many "quick questions." Estimating work for others is harder than estimating for myself.',
-      'Sarah Okonkwo: Alignment takes forever at this company. Everyone has to weigh in, decisions get watered down. I also struggle to protect my team\'s time from "drive-by requests" from sales.',
-      'Tomás Reyes: Scoping projects accurately. I always underestimate revisions. Admin work expands to fill available time. Saying no to projects that pay well but don\'t excite me.',
-      'Jake Moreno: I procrastinate on everything that isn\'t creating. terrible at email. sponsors probably think I\'m dead. no work-life separation since I work from home.'
+      'Never enough time for anything beyond direct patient care. Administrative burden increasing every year. Compassion fatigue is real—need better boundaries.',
+      'Context switching kills my productivity. I say yes to too many "quick questions." Estimating work for others is harder than estimating for myself.',
+      'Alignment takes forever at this company. Everyone has to weigh in, decisions get watered down. I also struggle to protect my team\'s time from "drive-by requests" from sales.',
+      'Scoping projects accurately. I always underestimate revisions. Admin work expands to fill available time. Saying no to projects that pay well but don\'t excite me.',
+      'I procrastinate on everything that isn\'t creating. terrible at email. sponsors probably think I\'m dead. no work-life separation since I work from home.'
     ]
   },
 
@@ -369,11 +369,11 @@ export const individualCombinedQuestions: Question[] = [
     required: false,
     description: "Family, health, location, time zone, energy patterns, or other factors that shape your availability and capacity. Real constraints and rhythms that influence when and how you can work.",
     examples: [
-      'Dr. Priya Sharma: Married, spouse is a teacher. No kids, not planning on them. Live 15 minutes from clinic. I protect my mornings—gym at 5:30am, non-negotiable. Evenings are for documentation until ~7pm, then I\'m done. Weekends are off unless truly urgent. I deal with secondary trauma from patient stories. I have a therapist. I\'m deliberate about compartmentalization—work stays at work.',
-      'Marcus Chen: 2-year-old daughter, wife works full-time (teacher). Seattle timezone (PST). Best focus hours: 6-8am before family wakes, 9-11am at office. Energy crashes around 2pm, second wind at 4pm. Trying to exercise 3x/week, actually hitting 1-2x.',
-      'Sarah Okonkwo: Two kids, married, live in Austin. I work from home most days, go into the office once a week for in-person collaboration. I\'m most creative in the morning, most operational in the afternoon. I try to exercise at lunch but it\'s inconsistent. I\'m an introvert who\'s learned to perform extroversion for work—I need alone time to recharge.',
-      'Tomás Reyes: 34, partnered (she\'s an architect—we get each other\'s deadlines), no kids, one very needy dog who requires midday walks. Denver timezone (MT). I rent a small studio space separate from home—game changer for work-life boundaries. Most creative 8am-12pm. After lunch is execution mode. I try to stop by 6pm but client deadlines sometimes push that.',
-      'Jake Moreno: 25, single, live alone in a 1br apartment. my streaming room is also my bedroom is also my office. austin tx so timezone is CST. I stream 4pm-9pm usually. my sleep schedule is chaos—usually 2am-10am. ADHD is the main thing. meds help but I still struggle with boring tasks.'
+      'Married, spouse is a teacher. No kids, not planning on them. Live 15 minutes from clinic. I protect my mornings—gym at 5:30am, non-negotiable. Evenings are for documentation until ~7pm, then I\'m done. Weekends are off unless truly urgent. I deal with secondary trauma from patient stories. I have a therapist. I\'m deliberate about compartmentalization—work stays at work.',
+      '2-year-old daughter, wife works full-time (teacher). Seattle timezone (PST). Best focus hours: 6-8am before family wakes, 9-11am at office. Energy crashes around 2pm, second wind at 4pm. Trying to exercise 3x/week, actually hitting 1-2x.',
+      'Two kids, married, live in Austin. I work from home most days, go into the office once a week for in-person collaboration. I\'m most creative in the morning, most operational in the afternoon. I try to exercise at lunch but it\'s inconsistent. I\'m an introvert who\'s learned to perform extroversion for work—I need alone time to recharge.',
+      '34, partnered (she\'s an architect—we get each other\'s deadlines), no kids, one very needy dog who requires midday walks. Denver timezone (MT). I rent a small studio space separate from home—game changer for work-life boundaries. Most creative 8am-12pm. After lunch is execution mode. I try to stop by 6pm but client deadlines sometimes push that.',
+      '25, single, live alone in a 1br apartment. my streaming room is also my bedroom is also my office. austin tx so timezone is CST. I stream 4pm-9pm usually. my sleep schedule is chaos—usually 2am-10am. ADHD is the main thing. meds help but I still struggle with boring tasks.'
     ]
   },
   {
@@ -384,11 +384,11 @@ export const individualCombinedQuestions: Question[] = [
     required: false,
     description: "Quirks, preferences, past experiences with AI tools, or context that doesn't fit elsewhere. This is the catch-all for important information that hasn't been captured yet.",
     examples: [
-      'Dr. Priya Sharma: I\'m interested in AI for clinical decision support and documentation efficiency. Skeptical of AI for diagnosis—I\'ve seen too many edge cases that algorithms miss. I want tools that save me time without compromising care or creating liability issues. When I ask clinical questions, I need accurate sourced information. If you\'re not sure, say so. In my field, confident wrong answers can hurt people.',
-      'Marcus Chen: I\'ve used AI coding assistants for a year. Copilot daily, Claude for design discussions and rubber-ducking. I know how to prompt—don\'t over-explain how to interact with you. Just be useful.',
-      'Sarah Okonkwo: I\'ve been burned by AI-generated content that sounds generic. I\'m interested in AI as a thinking tool, less interested in it as a content factory. If something sounds like a LinkedIn post written by a robot, I\'ll throw it out. I\'d rather have a rough draft with a real point of view than a polished draft that says nothing.',
-      'Tomás Reyes: I\'m interested in AI for the business/writing side—proposals, contracts, naming brainstorms, client communication. Skeptical of AI-generated imagery for actual design work; it\'s a tool for ideation at best, not output. When I ask for creative input, I\'m looking for a thinking partner, not a decorator. Help me solve the problem, don\'t just make it "look good." I care about _why_ something works, not just _that_ it works. Also: I\'m a visual thinker working in a text-based medium when I talk to AI. That\'s a limitation. I\'ll sometimes describe what I\'m seeing or share references—work with me on that.',
-      'Jake Moreno: I\'ve tried using AI for scripts and it always sounds wrong. like obviously AI. I want help thinking through stuff, outlining, business planning—not writing my content for me. my voice is my whole brand, can\'t outsource that. also: I\'m not looking for motivation or cheerleading. I know what I need to do, I just need help actually doing it.'
+      'I\'m interested in AI for clinical decision support and documentation efficiency. Skeptical of AI for diagnosis—I\'ve seen too many edge cases that algorithms miss. I want tools that save me time without compromising care or creating liability issues. When I ask clinical questions, I need accurate sourced information. If you\'re not sure, say so. In my field, confident wrong answers can hurt people.',
+      'I\'ve used AI coding assistants for a year. Copilot daily, Claude for design discussions and rubber-ducking. I know how to prompt—don\'t over-explain how to interact with you. Just be useful.',
+      'I\'ve been burned by AI-generated content that sounds generic. I\'m interested in AI as a thinking tool, less interested in it as a content factory. If something sounds like a LinkedIn post written by a robot, I\'ll throw it out. I\'d rather have a rough draft with a real point of view than a polished draft that says nothing.',
+      'I\'m interested in AI for the business/writing side—proposals, contracts, naming brainstorms, client communication. Skeptical of AI-generated imagery for actual design work; it\'s a tool for ideation at best, not output. When I ask for creative input, I\'m looking for a thinking partner, not a decorator. Help me solve the problem, don\'t just make it "look good." I care about _why_ something works, not just _that_ it works. Also: I\'m a visual thinker working in a text-based medium when I talk to AI. That\'s a limitation. I\'ll sometimes describe what I\'m seeing or share references—work with me on that.',
+      'I\'ve tried using AI for scripts and it always sounds wrong. like obviously AI. I want help thinking through stuff, outlining, business planning—not writing my content for me. my voice is my whole brand, can\'t outsource that. also: I\'m not looking for motivation or cheerleading. I know what I need to do, I just need help actually doing it.'
     ]
   },
 ];
