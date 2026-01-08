@@ -22,10 +22,17 @@ export default function HostingOptions({ onSave, isSaving, initialHostingType }:
 
   const handleSave = () => {
     if (!hostingType) return;
-    
+
     if (hostingType === 'encrypted') {
-      if (password.length < 4) {
-        setError('Password must be at least 4 characters');
+      if (password.length < 12) {
+        setError('Password must be at least 12 characters');
+        return;
+      }
+      const hasUppercase = /[A-Z]/.test(password);
+      const hasLowercase = /[a-z]/.test(password);
+      const hasNumber = /[0-9]/.test(password);
+      if (!hasUppercase || !hasLowercase || !hasNumber) {
+        setError('Password must contain uppercase, lowercase, and a number');
         return;
       }
       if (password !== confirmPassword) {
@@ -33,7 +40,7 @@ export default function HostingOptions({ onSave, isSaving, initialHostingType }:
         return;
       }
     }
-    
+
     setError('');
     onSave(hostingType, password);
   };
@@ -91,7 +98,7 @@ export default function HostingOptions({ onSave, isSaving, initialHostingType }:
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password..."
+                placeholder="Min 12 chars, upper, lower, number"
                 error={error && !error.includes('match') ? error : undefined}
              />
              <button

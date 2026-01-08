@@ -50,9 +50,33 @@ export async function POST(request: NextRequest) {
     }
 
     let passwordHash = existing.password_hash;
-    if (hostingType === 'encrypted' && password) {
-      passwordHash = await hashPassword(password);
-    } else if (hostingType !== 'encrypted') {
+    if (hostingType === 'encrypted') {
+      // If changing to encrypted or updating password, validate it
+      if (password) {
+        if (password.length < 12) {
+          return NextResponse.json(
+            { success: false, error: 'Password must be at least 12 characters' },
+            { status: 400 }
+          );
+        }
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasLowercase = /[a-z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        if (!hasUppercase || !hasLowercase || !hasNumber) {
+          return NextResponse.json(
+            { success: false, error: 'Password must contain uppercase, lowercase, and a number' },
+            { status: 400 }
+          );
+        }
+        passwordHash = await hashPassword(password);
+      } else if (!existing.password_hash) {
+        // Switching to encrypted but no password provided and none exists
+        return NextResponse.json(
+          { success: false, error: 'Password required for encrypted hosting' },
+          { status: 400 }
+        );
+      }
+    } else {
       passwordHash = null;
     }
 

@@ -37,9 +37,19 @@ export async function POST(request: NextRequest) {
 
     let passwordHash: string | null = null;
     if (hostingType === 'encrypted') {
-      if (!password || password.length < 4) {
+      if (!password || password.length < 12) {
         return NextResponse.json(
-          { success: false, error: 'Password required for encrypted hosting (min 4 chars)' },
+          { success: false, error: 'Password must be at least 12 characters' },
+          { status: 400 }
+        );
+      }
+      // Check password complexity: at least one uppercase, one lowercase, one number
+      const hasUppercase = /[A-Z]/.test(password);
+      const hasLowercase = /[a-z]/.test(password);
+      const hasNumber = /[0-9]/.test(password);
+      if (!hasUppercase || !hasLowercase || !hasNumber) {
+        return NextResponse.json(
+          { success: false, error: 'Password must contain uppercase, lowercase, and a number' },
           { status: 400 }
         );
       }
