@@ -16,12 +16,13 @@ type GeneratedTELOS = {
 function OrganizationFlow() {
   const [parsedText, setParsedText] = useState<string | null>(null);
   const [sourceName, setSourceName] = useState<string>('');
-  
+
   const [answers, setAnswers] = useState<OrganizationQuestionAnswers>({});
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [generatedTELOS, setGeneratedTELOS] = useState<GeneratedTELOS | null>(null);
-  
+
+  const [showParsedContent, setShowParsedContent] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
   const handleDataParsed = (text: string, source: string) => {
@@ -46,7 +47,7 @@ function OrganizationFlow() {
 
   const handleGenerateTELOS = async (currentAnswers: OrganizationQuestionAnswers) => {
     if (!parsedText) return;
-    
+
     setIsGenerating(true);
     setError(null);
 
@@ -124,7 +125,7 @@ function OrganizationFlow() {
 
       const result = await response.json();
       if (!result.success) {
-         throw new Error(result.error || 'Failed to save');
+        throw new Error(result.error || 'Failed to save');
       }
 
       window.location.href = `/t/${result.data.public_id}`;
@@ -167,24 +168,57 @@ function OrganizationFlow() {
                 <p className="text-sm text-gray-400 mb-6">
                   Provide your &quot;About Us&quot; page or company description to help the AI understand your organization.
                 </p>
-                
+
                 <OrgInputUpload onDataParsed={handleDataParsed} />
               </div>
             ) : (
-              <div className="bg-gray-800/50 border border-blue-900/50 rounded-lg p-4 flex items-center justify-between">
-                 <div className="flex items-center gap-4">
-                  <div className="text-3xl text-blue-400">🏢</div>
-                  <div>
-                    <p className="font-medium text-gray-100">{sourceName}</p>
-                    <p className="text-sm text-gray-400">{parsedText.length} characters loaded</p>
+              <div className="bg-gray-800/50 border border-blue-900/50 rounded-lg p-4 transition-all duration-300">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="text-3xl text-blue-400">🏢</div>
+                    <div>
+                      <p className="font-medium text-gray-100">{sourceName}</p>
+                      <p className="text-sm text-gray-400">{parsedText.length} characters loaded</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setShowParsedContent(!showParsedContent)}
+                      className="text-sm px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-gray-200 rounded-md transition-colors flex items-center gap-2"
+                    >
+                      <svg
+                        className={`w-4 h-4 transition-transform ${showParsedContent ? 'rotate-180' : ''}`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                      {showParsedContent ? 'Hide Content' : 'View Content'}
+                    </button>
+
+                    <button
+                      onClick={handleReset}
+                      className="text-sm text-blue-400 hover:text-blue-300 px-2"
+                    >
+                      Change Source
+                    </button>
                   </div>
                 </div>
-                <button 
-                  onClick={handleReset}
-                  className="text-sm text-blue-400 hover:text-blue-300"
-                >
-                  Change Source
-                </button>
+
+                {showParsedContent && (
+                  <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div className="bg-black/50 border border-gray-700 rounded-lg p-4 max-h-96 overflow-y-auto custom-scrollbar">
+                      <pre className="whitespace-pre-wrap font-mono text-xs text-gray-300 leading-relaxed">
+                        {parsedText}
+                      </pre>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2 text-center">
+                      This is the raw text extracted from your source. The AI will use this to answer the questions below.
+                    </p>
+                  </div>
+                )}
               </div>
             )}
 

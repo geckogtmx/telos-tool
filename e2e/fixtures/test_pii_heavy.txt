@@ -1,0 +1,40 @@
+SENSITIVE INFORMATION TEST FILE
+=================================
+
+This file contains various types of PII to test the scrubbing functionality.
+
+CONTACT INFORMATION:
+Name: Robert James Thompson
+Email: robert.thompson@email.com
+Secondary Email: rthompson99@gmail.com
+Phone: (555) 234-5678
+Mobile: +1-555-987-6543
+Work: 555.111.2222
+
+HOME ADDRESS:
+123 Oak Street
+Apartment 4B
+Chicago, IL 60601
+
+SENSITIVE DATA:
+Social Security Number: 987-65-4321
+Driver's License: D12345678
+Passport: AB1234567
+Credit Card: 4532-1234-5678-9012
+Tax ID: 12-3456789
+
+ADDITIONAL CONTACT:
+Website: www.robertthompson.com
+LinkedIn: linkedin.com/in/robert-thompson-dev
+GitHub: github.com/rthompson
+
+PROFESSIONAL EXPERIENCE:
+Software Developer with 5 years of experience. Contact me at robert.thompson@email.com 
+or call (555) 234-5678 for references.
+
+Banking Info (should be removed):
+Account: 123456789012
+Routing: 987654321
+
+This text includes multiple instances of the same email: robert.thompson@email.com
+and phone number: (555) 234-5678 to test duplicate detection.

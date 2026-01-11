@@ -1,36 +1,149 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TELOS Tool
+
+> Generate, store, and share structured identity documents for individuals, organizations, and AI agents.
+
+[![Next.js](https://img.shields.io/badge/Next.js-16.1-black?logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-Database-green?logo=supabase)](https://supabase.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+## What is TELOS?
+
+**TELOS** (Teleological Operating System) is an open-source framework created by [Daniel Miessler](https://github.com/danielmiessler/Telos) for documenting an entity's purpose, mission, values, and operating principles.
+
+This tool automates TELOS generation using AI (Claude or Gemini) based on your inputs—CVs, company information, or agent system prompts.
+
+## Features
+
+- **Three Entity Types**: Individual, Organization, and AI Agent
+- **AI-Powered Generation**: Choose between Anthropic Claude or Google Gemini
+- **Secure Hosting Options**:
+  - **Open**: Publicly accessible via shareable link
+  - **Encrypted**: Password-protected access
+  - **Private**: Only visible to authenticated owner
+- **Dashboard**: View, filter, update, and delete your TELOS files
+- **Version Tracking**: Edit and regenerate while keeping the same shareable link
+- **PII Scrubbing**: Automatic removal of sensitive information from CVs
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript (strict mode) |
+| Styling | Tailwind CSS 4 |
+| Database | Supabase (PostgreSQL + RLS) |
+| Auth | Supabase Auth |
+| AI | Anthropic Claude / Google Gemini |
+| Validation | Zod |
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+ 
+- npm or pnpm
+- Supabase project (free tier works)
+- API key for Claude or Gemini
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/geckogtmx/telos-tool.git
+cd telos-tool
+
+# Install dependencies
+npm install
+
+# Copy environment template
+cp .env.example .env.local
+```
+
+### Environment Variables
+
+Create `.env.local` with:
+
+```bash
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+
+# AI Provider (choose one)
+AI_PROVIDER=gemini  # or 'claude'
+ANTHROPIC_API_KEY=sk-ant-...
+GEMINI_API_KEY=AIza...
+
+# App
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+### Database Setup
+
+Run the migrations in your Supabase SQL editor:
+
+```bash
+# Located in supabase/migrations/
+20240106000000_initial_schema.sql
+20240106000001_add_delete_policy.sql
+20260107000000_v1_2_schema_updates.sql
+```
+
+### Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+telos-tool/
+├── app/                    # Next.js App Router pages
+│   ├── api/               # API routes (generate, save, view, etc.)
+│   ├── auth/              # Login, signup, callback
+│   ├── dashboard/         # User's TELOS files
+│   ├── generate/          # Entity type flows
+│   └── t/[id]/            # Public TELOS viewer
+├── components/            # React components
+│   ├── ui/               # Reusable UI components
+│   ├── QuestionFlow.tsx  # Dynamic question renderer
+│   └── TELOSPreview.tsx  # Markdown preview & print
+├── lib/
+│   ├── generators/       # AI integration (Claude, Gemini)
+│   ├── parsers/          # CV parsing, PII scrubbing
+│   ├── supabase/         # Database clients
+│   └── rate-limit.ts     # API rate limiting
+├── config/               # App configuration
+└── types/                # TypeScript interfaces
+```
 
-## Learn More
+## Security
 
-To learn more about Next.js, take a look at the following resources:
+This project has undergone a comprehensive security audit. See [SECURITY_AUDIT.md](SECURITY_AUDIT.md) for details.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Implemented protections:**
+- DOMPurify for XSS prevention
+- bcrypt password hashing
+- Zod input validation
+- Rate limiting (auth, strict, standard tiers)
+- CSP and security headers
+- Supabase RLS policies
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Contributing
 
-## Deploy on Vercel
+Contributions are welcome! Please read the existing documentation:
+- [CLAUDE.md](CLAUDE.md) - Development history and technical details
+- [GEMINI.md](GEMINI.md) - AI provider integration
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Credits
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Daniel Miessler](https://github.com/danielmiessler/Telos) - TELOS framework creator
+- Built with [Claude](https://anthropic.com) and [Gemini](https://deepmind.google)
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.

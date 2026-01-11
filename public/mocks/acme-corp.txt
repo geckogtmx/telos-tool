@@ -1,0 +1,34 @@
+ACME CORPORATION - COMPANY PROFILE
+
+OVERVIEW
+Acme Corporation is a leading provider of Coyote-suppression technology. Founded in 1949, we have dedicated over 75 years to the pursuit of catching the uncatchable.
+
+MISSION
+To empower predators with high-quality, reliable, and occasionally explosive tools to achieve their nutritional goals.
+
+VALUES
+1. Persistence: We never give up, no matter how many cliffs we fall off.
+2. Innovation: From rocket skates to giant magnets, we push the boundaries of physics.
+3. Resilience: We bounce back. Literally.
+
+OPERATIONS
+We operate a just-in-time manufacturing facility in the Desert Southwest. Our delivery drones (Roadrunner Express) ensure same-day delivery to any canyon or mesa.
+
+INITIATIVES
+- Project Super-Magnet: Enhancing magnetic attraction by 500%.
+- Anvil Weight Reduction: Developing lightweight composite anvils for easier deployment.
+- Tunnel Paint API: Digital solutions for creating instant infrastructure.
+
+CONTACT
+HQ: 123 Looney Lane, Toontown, CA
+Email: help@acme.com
+
+---
+Footer Information:
+© 2026 Acme Corp. All rights reserved.
+Privacy Policy: We track your location to deliver anvils.
+Terms: Not responsible for gravity-related injuries.
+Sitemap: Home | Products | Careers
+
+[Internal Note: Do not share with Roadrunner]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.

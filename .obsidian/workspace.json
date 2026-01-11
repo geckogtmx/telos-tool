@@ -4,19 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "887088efd978f3ed",
+        "id": "5c9480a39db324ed",
         "type": "tabs",
         "children": [
           {
-            "id": "5e10a50a864270e9",
+            "id": "4fa1e153ef2570e0",
             "type": "leaf",
             "state": {
-              "type": "image",
-              "state": {
-                "file": "public/file.svg"
-              },
-              "icon": "lucide-image",
-              "title": "file"
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
             }
           }
         ]
@@ -162,6 +160,16 @@
               "icon": "lucide-list",
               "title": "Outline of TELOS Tool v1.2 - Question Descriptions & Examples"
             }
+          },
+          {
+            "id": "74585e5e9698c846",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {},
+              "icon": "calendar-with-checkmark",
+              "title": "Calendar"
+            }
           }
         ]
       }
@@ -178,23 +186,28 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "templater-obsidian:Templater": false,
+      "terminal:Open terminal": false
     }
   },
-  "active": "203145213df79280",
+  "active": "4fa1e153ef2570e0",
   "lastOpenFiles": [
+    "Warp Audit.md",
+    "CLAUDE.md.tmp.30864.1767908036169",
+    "CLAUDE.md.tmp.30864.1767907947714",
+    "components/HostingOptions.tsx.tmp.30864.1767907920816",
+    "components/HostingOptions.tsx.tmp.30864.1767907912510",
+    "app/api/update-telos/route.ts.tmp.30864.1767907893382",
+    "app/api/save-telos/route.ts.tmp.30864.1767907883233",
+    "CLAUDE.md.tmp.30864.1767907778553",
+    "CLAUDE.md.tmp.30864.1767907501074",
+    "CLAUDE.md.tmp.30864.1767907450007",
+    "app/auth/signup/page.tsx.tmp.30864.1767907425192",
+    "CLAUDE.md",
+    "public/file.svg",
     "SECURITY_AUDIT.md",
     "LINT_PLAN.md",
-    "node_modules/web-streams-polyfill/es6/package.json",
-    "node_modules/web-streams-polyfill/es6",
-    "node_modules/web-streams-polyfill/es2018/package.json",
-    "node_modules/web-streams-polyfill/es2018",
-    "node_modules/web-streams-polyfill/ponyfill/es6/package.json",
-    "node_modules/web-streams-polyfill/ponyfill/es2018/package.json",
-    "node_modules/web-streams-polyfill/ponyfill/package.json",
-    "node_modules/web-streams-polyfill/ponyfill/es6",
-    "node_modules/web-streams-polyfill/ponyfill/es2018",
-    "node_modules/web-streams-polyfill/ponyfill",
     "node_modules/pdf.js-extract/README.md",
     "node_modules/pdf.js-extract/CHANGELOG.md",
     "node_modules/web-streams-polyfill/README.md",
@@ -209,7 +222,6 @@
     "node_modules/pdfjs-dist/web/images/editor-toolbar-edit.svg",
     "node_modules/pdfjs-dist/web/images/editor-toolbar-delete.svg",
     "node_modules/pdfjs-dist/web/images/cursor-editorTextHighlight.svg",
-    "node_modules/pdfjs-dist/web/images/cursor-editorInk.svg",
     "node_modules/pdf-data-parser/README.md",
     "node_modules/pdf-data-parser/CHANGELOG.md",
     "node_modules/@napi-rs/canvas-win32-x64-msvc/README.md",

@@ -1,0 +1,48 @@
+ACME GLOBAL HOLDINGS - ANNUAL REPORT 2025
+CONFIDENTIAL - INTERNAL DISTRIBUTION ONLY
+
+Page 1 of 42
+----------------------------------------------------------------
+FINANCIAL HIGHLIGHTS
+Q4 Revenue: $14.2M (+12% YoY)
+EBITDA: $3.1M
+ churn rate: 4.2% (Target: <3%)
+
+Notes from CFO:
+We need to tighten spend in the marketing department. The offsite in Bali was excessive.
+Compliance audit scheduled for March 15th. Please ensure all receipts are uploaded to Concur.
+
+----------------------------------------------------------------
+MESSAGE FROM THE CEO (Page 3)
+
+Team, 
+
+As we look back on 2025, it's easy to get lost in the numbers. But we must remember why we started this journey.
+When we founded Acme in 2020, we set out with a simple mission: **To democratize supply chain efficiency for small businesses.** 
+Too often, mom-and-pop shops are priced out of the tools that giants like Amazon use. We exist to fix that broken dynamic.
+
+Our competitors focus on enterprise clients because that's where the easy money is. We do not. 
+If an account requires a custom contract or a redline process, they are not our customer. We build for the millions, not the few.
+This "No Enterprise Sales" rule has cost us short term revenue, but built long term loyalty.
+
+----------------------------------------------------------------
+HR UPDATES - "Employee of the Month"
+Congratulations to Sarah in Accounting for organizing the potluck!
+Reminder: Open enrollment for health insurance ends on Friday.
+
+CULTURE CORNER
+A reminder of our Operating Values (The "Acme Way"):
+1. **Speed over perfection.** We ship daily. If it's broken, we fix it tomorrow. waiting is the enemy.
+2. **Honest pricing.** No hidden fees. If a customer can't understand the bill in 10 seconds, we failed.
+3. **Users first.** We build what they vote for on the roadmap, not what investors think is cool.
+
+----------------------------------------------------------------
+OPERATIONAL LOGISTICS
+Warehouse A is undergoing maintenance.
+Server patching schedule: Tuesday 2am-4am UTC.
+
+Key Strategic Focus for 2026:
+We are shifting resources to launch the Mobile App by Q4. This is critical.
+Our goal is to reduce support response time to under 1 hour.
+----------------------------------------------------------------
+END OF DOCUMENT

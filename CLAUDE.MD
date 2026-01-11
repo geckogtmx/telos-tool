@@ -5,7 +5,7 @@
 **Name:** TELOS Tool v1.0
 **Purpose:** Production-ready TELOS generation platform supporting Individual, Organization, and Agent entity types
 **Framework:** Next.js 14+ with App Router, TypeScript, and Tailwind CSS
-**Status:** Phases 1-11 complete (Dashboard & Update Flow implemented)
+**Status:** Phases 1-15 complete (Release Candidate Ready)
 
 ## What is TELOS?
 
@@ -131,9 +131,28 @@ telos-tool/
 - [x] **Refinement:** Anonymized example questions (removed specific names)
 - [x] **Refinement:** Improved entity name extraction (uses generated header)
 
+### Phase 12: Organization Entity Type ✅
+- [x] Parser & Upload (Text/URL/File)
+- [x] Question Flow (Mission, Values, KPIs)
+- [x] AI Generation Template (Claude/Gemini)
+
+### Phase 13: Agent Entity Type ✅
+- [x] Parser & Upload (System Prompts)
+- [x] Question Flow (Purpose, Constraints, Persona)
+- [x] AI Generation Template
+
+### Phase 14: Testing Suite ✅
+- [x] Infrastructure (Vitest, Playwright)
+- [x] Unit Tests (Generators, PII Scrubber)
+- [x] E2E Tests (Core flows verified)
+
+### Phase 15: Production Polish ✅
+- [x] Performance: Dashboard query optimization
+- [x] Performance: Gated debug logging
+- [x] Environment & Config cleanup
+
 ## Next Milestone
-- Organization entity type (Input parsing, Questions, Template)
-- Agent entity type (Input parsing, Questions, Template)
+- Release v1.0
 
 ## Environment Variables
 
@@ -260,19 +279,17 @@ Step 4: Verify Secret History
 
 | # | Issue | Severity | Location | Status |
 |---|-------|----------|----------|--------|
-| 10 | Debug Logging in Parsers | Info | `lib/parsers/*.ts`, `app/api/parse-cv/route.ts` | **Optional** |
-| 11 | Dashboard Over-fetching | Info | `components/DashboardFileList.tsx:25` | **Optional** |
+| 10 | Debug Logging in Parsers | Info | `lib/parsers/*.ts`, `app/api/parse-cv/route.ts` | **DONE** |
+| 11 | Dashboard Over-fetching | Info | `components/DashboardFileList.tsx:25` | **DONE** |
 | 12 | Middleware Deprecation | Info | `middleware.ts` | **Optional** |
 
-**10. Debug Logging in Parsers**
-- `cv-parser.ts` and `pii-scrubber.ts` have verbose console.log statements
-- Not a security risk (no secrets), but adds noise to production logs
-- Optional: Gate behind `NODE_ENV !== 'production'`
+**10. Debug Logging in Parsers** *(FIXED)*
+- ~~Verbose console.log statements~~
+- Gated behind `NODE_ENV !== 'production'` check
 
-**11. Dashboard Over-fetching**
-- `DashboardFileList.tsx` uses `select('*')` fetching large content fields
-- Only metadata is needed for the list view
-- Optional: Change to `select('id, entity_type, entity_name, public_id, hosting_type, version, created_at, updated_at')`
+**11. Dashboard Over-fetching** *(FIXED)*
+- ~~`DashboardFileList.tsx` used `select('*')`~~
+- Optimize to select only required metadata fields
 
 **12. Middleware Deprecation**
 - Next.js 16 deprecates middleware convention in favor of proxy

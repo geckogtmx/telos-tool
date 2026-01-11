@@ -22,7 +22,7 @@ export default function DashboardFileList({ userId }: { userId: string }) {
       setLoading(true);
       const { data, error } = await supabase
         .from('telos_files')
-        .select('*')
+        .select('id, entity_type, entity_name, public_id, hosting_type, version, created_at, updated_at')
         .eq('user_id', userId)
         .order('created_at', { ascending: false });
 
@@ -30,11 +30,11 @@ export default function DashboardFileList({ userId }: { userId: string }) {
 
       // Transform snake_case DB fields to camelCase TS types
       const formattedFiles: TELOSData[] = (data || []).map(item => ({
-        id: item.id, // Ensure id is passed if available in DB types
+        id: item.id,
         entityType: item.entity_type,
         entityName: item.entity_name,
-        rawInput: item.raw_input,
-        generatedContent: item.generated_content,
+        rawInput: {}, // Optimization: Don't load large JSON for list view
+        generatedContent: '', // Optimization: Don't load large text content for list view
         publicId: item.public_id,
         hostingType: item.hosting_type,
         version: item.version,
@@ -75,7 +75,7 @@ export default function DashboardFileList({ userId }: { userId: string }) {
     }
   };
 
-  const filteredFiles = files.filter(f => 
+  const filteredFiles = files.filter(f =>
     filter === 'all' ? true : f.entityType === filter
   );
 
@@ -103,11 +103,10 @@ export default function DashboardFileList({ userId }: { userId: string }) {
           <button
             key={type}
             onClick={() => setFilter(type)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors capitalize whitespace-nowrap ${
-              filter === type
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-gray-200'
-            }`}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors capitalize whitespace-nowrap ${filter === type
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-gray-200'
+              }`}
           >
             {type === 'all' ? 'All Files' : type}
           </button>
@@ -125,7 +124,7 @@ export default function DashboardFileList({ userId }: { userId: string }) {
             Create your first TELOS file to define your mission, values, and operating principles.
           </p>
           <Link href="/generate" className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
-             Start Generating
+            Start Generating
           </Link>
         </div>
       ) : filteredFiles.length === 0 ? (

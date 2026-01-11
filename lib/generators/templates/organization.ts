@@ -65,12 +65,13 @@ ${answers.stakeholders || 'Not provided'}
 Generate a complete Organization TELOS file following this structure:
 
 ### I. Identity & History
-- Synthesize the organization's identity from the provided text
-- Outline key history and founding context if available
+- Synthesize the organization's identity from the provided text.
+- FILTER OUT IRRELEVANT NOISE: Ignore financial tables, generic boilerplate, HR announcements, temporary logistics (e.g. server maintenance), or specific employee names unless founders.
+- Focus purely on the enduring identity, history, and founding context.
 
 ### II. Problems & Mission
-- Clearly define the external problems the org solves
-- State the mission and purpose
+- Extracted from the text, looking for keywords like "Mission", "Purpose", "Why we exist".
+- Ignore marketing fluff; look for the concrete problem being solved.
 
 ### III. Values & Operating Principles
 - List core values and explain them

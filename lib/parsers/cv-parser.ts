@@ -24,7 +24,8 @@ export class CVParseException extends Error {
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
 export async function parseCV(file: File): Promise<ParsedCV> {
-  console.log('[cv-parser] Starting CV parse');
+  const debug = process.env.NODE_ENV !== 'production';
+  if (debug) console.log('[cv-parser] Starting CV parse');
 
   // Validate file size
   if (file.size > MAX_FILE_SIZE) {
@@ -37,40 +38,42 @@ export async function parseCV(file: File): Promise<ParsedCV> {
 
   // Validate file type (magic number)
   const type = await fileTypeFromBuffer(buffer);
-  
+
   // Default to text/plain if no type detected (often true for .txt files)
   const mime = type?.mime || 'text/plain';
   const ext = type?.ext || 'txt';
 
-  console.log('[cv-parser] File details:', { 
-    filename, 
-    detectedMime: mime, 
-    detectedExt: ext, 
-    size: file.size 
-  });
+  if (debug) {
+    console.log('[cv-parser] File details:', {
+      filename,
+      detectedMime: mime,
+      detectedExt: ext,
+      size: file.size
+    });
+  }
 
   let text: string;
 
   try {
     if (mime === 'application/pdf') {
-      console.log('[cv-parser] Detected PDF, starting PDF parse...');
-      console.time('pdf-extraction');
+      if (debug) console.log('[cv-parser] Detected PDF, starting PDF parse...');
+      if (debug) console.time('pdf-extraction');
       text = await parsePDF(buffer);
-      console.timeEnd('pdf-extraction');
-      console.log('[cv-parser] PDF extraction complete, text length:', text.length);
+      if (debug) console.timeEnd('pdf-extraction');
+      if (debug) console.log('[cv-parser] PDF extraction complete, text length:', text.length);
     } else if (
       mime === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
       (mime === 'application/x-zip-compressed' && filename.endsWith('.docx')) // rare case where docx is seen as zip
     ) {
-      console.log('[cv-parser] Detected DOCX, starting DOCX parse...');
-      console.time('docx-extraction');
+      if (debug) console.log('[cv-parser] Detected DOCX, starting DOCX parse...');
+      if (debug) console.time('docx-extraction');
       text = await parseDOCX(buffer);
-      console.timeEnd('docx-extraction');
-      console.log('[cv-parser] DOCX extraction complete, text length:', text.length);
+      if (debug) console.timeEnd('docx-extraction');
+      if (debug) console.log('[cv-parser] DOCX extraction complete, text length:', text.length);
     } else if (mime === 'text/plain' || filename.endsWith('.txt')) {
-      console.log('[cv-parser] Detected TXT, starting TXT parse...');
-      text = buffer.toString('utf-8');
-      console.log('[cv-parser] TXT extraction complete, text length:', text.length);
+      if (debug) console.log('[cv-parser] Detected TXT, starting TXT parse...');
+      text = new TextDecoder('utf-8').decode(arrayBuffer);
+      if (debug) console.log('[cv-parser] TXT extraction complete, text length:', text.length);
     } else {
       throw new CVParseException('INVALID_FORMAT', 'Please upload a PDF, DOCX, or TXT file');
     }
@@ -78,19 +81,22 @@ export async function parseCV(file: File): Promise<ParsedCV> {
     if (error instanceof CVParseException) {
       throw error;
     }
+    // Always log errors, but maybe sanitize? 
+    // Keeping error log for production debugging implies we have a logging service. 
+    // For now, let's keep it but rely on console.error.
     console.error('[cv-parser] CV parsing error:', error);
     throw new CVParseException('EXTRACTION_FAILED', 'Could not read file. Please try a different format.');
   }
 
   // Validate extracted text
   const cleanedText = text.trim();
-  console.log('[cv-parser] Text cleaned, final length:', cleanedText.length);
+  if (debug) console.log('[cv-parser] Text cleaned, final length:', cleanedText.length);
 
   if (!cleanedText || cleanedText.length < 50) {
     throw new CVParseException('EMPTY_CONTENT', 'No text found in file. Please check your CV.');
   }
 
-  console.log('[cv-parser] Parse complete');
+  if (debug) console.log('[cv-parser] Parse complete');
 
   return {
     text: cleanedText,
@@ -101,14 +107,14 @@ export async function parseCV(file: File): Promise<ParsedCV> {
 
 async function parsePDF(buffer: Buffer): Promise<string> {
   const pdfExtract = new PDFExtract();
-  
+
   return new Promise((resolve, reject) => {
     pdfExtract.extractBuffer(buffer, {}, (err, data) => {
       if (err) {
         reject(err);
         return;
       }
-      
+
       if (!data) {
         resolve('');
         return;
@@ -118,7 +124,7 @@ async function parsePDF(buffer: Buffer): Promise<string> {
       const text = data.pages
         .map(page => page.content.map(item => item.str).join(' '))
         .join('\n\n');
-        
+
       resolve(text);
     });
   });

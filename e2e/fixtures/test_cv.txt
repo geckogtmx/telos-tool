@@ -1,0 +1,65 @@
+CURRICULUM VITAE
+
+PERSONAL INFORMATION
+Name: John Michael Anderson
+Email: john.anderson@email.com
+Phone: +1 (555) 123-4567
+Address: 1234 Main Street, San Francisco, CA 94102
+SSN: 123-45-6789
+
+PROFESSIONAL SUMMARY
+Results-driven software engineer with 8+ years of experience in full-stack development. Specialized in React, Node.js, and cloud architecture. Proven track record of delivering scalable solutions for Fortune 500 companies.
+
+WORK EXPERIENCE
+
+Senior Software Engineer | Tech Corp Inc. | 2020 - Present
+- Led development of microservices architecture serving 2M+ daily users
+- Reduced API response time by 60% through optimization
+- Mentored team of 5 junior developers
+- Technologies: React, Node.js, AWS, PostgreSQL
+
+Software Engineer | StartupXYZ | 2018 - 2020
+- Built customer-facing dashboard from scratch
+- Implemented CI/CD pipeline reducing deployment time by 80%
+- Collaborated with design team on UX improvements
+- Technologies: Vue.js, Python, Docker, MongoDB
+
+Junior Developer | Digital Solutions Ltd. | 2016 - 2018
+- Developed and maintained e-commerce platform
+- Fixed critical bugs and improved code quality
+- Participated in agile sprints and code reviews
+- Technologies: JavaScript, PHP, MySQL
+
+EDUCATION
+
+Master of Science in Computer Science
+Stanford University | 2014 - 2016
+GPA: 3.8/4.0
+
+Bachelor of Science in Software Engineering  
+UC Berkeley | 2010 - 2014
+GPA: 3.6/4.0
+
+SKILLS
+Programming Languages: JavaScript, Python, TypeScript, Go, Java
+Frameworks: React, Next.js, Express, Django, FastAPI
+Cloud & DevOps: AWS, Docker, Kubernetes, Terraform, CI/CD
+Databases: PostgreSQL, MongoDB, Redis, DynamoDB
+Other: Git, Agile, System Design, API Design
+
+CERTIFICATIONS
+- AWS Certified Solutions Architect
+- Google Cloud Professional Developer
+
+PROJECTS
+Open Source Contributor - React Testing Library (2019-Present)
+Personal Blog - Built with Next.js and deployed on Vercel
+
+LANGUAGES
+English (Native)
+Spanish (Professional Working Proficiency)
+
+REFERENCES
+Available upon request
+
+Contact: john.anderson@email.com | Phone: (555) 123-4567

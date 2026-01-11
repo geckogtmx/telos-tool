@@ -20,8 +20,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    console.log('[parse-cv] Starting CV parse request');
-    console.time('total-request');
+    const debug = process.env.NODE_ENV !== 'production';
+    if (debug) {
+      console.log('[parse-cv] Starting CV parse request');
+      console.time('total-request');
+    }
 
     const formData = await request.formData();
     const file = formData.get('file') as File;
@@ -33,28 +36,31 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log('[parse-cv] File received:', {
-      name: file.name,
-      type: file.type,
-      size: file.size
-    });
+    if (debug) {
+      console.log('[parse-cv] File received:', {
+        name: file.name,
+        type: file.type,
+        size: file.size
+      });
+    }
 
     // Parse the file
-    console.time('cv-parse');
+    if (debug) console.time('cv-parse');
     const parsed = await parseCV(file);
-    console.timeEnd('cv-parse');
+    if (debug) console.timeEnd('cv-parse');
 
-    console.log('[parse-cv] Text extracted, length:', parsed.text.length);
+    if (debug) console.log('[parse-cv] Text extracted, length:', parsed.text.length);
 
     // Scrub PII from the extracted text
-    console.time('pii-scrub');
+    if (debug) console.time('pii-scrub');
     const scrubResult = scrubPII(parsed.text);
-    console.timeEnd('pii-scrub');
+    if (debug) console.timeEnd('pii-scrub');
 
-    console.log('[parse-cv] PII scrubbing complete, found:', scrubResult.totalRemoved);
-
-    console.timeEnd('total-request');
-    console.log('[parse-cv] Request complete');
+    if (debug) {
+      console.log('[parse-cv] PII scrubbing complete, found:', scrubResult.totalRemoved);
+      console.timeEnd('total-request');
+      console.log('[parse-cv] Request complete');
+    }
 
     return NextResponse.json({
       success: true,
