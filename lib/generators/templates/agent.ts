@@ -39,26 +39,23 @@ ${promptText || 'No system prompt provided.'}
 
 ### User's Self-Reported Answers:
 
-**Primary Function:**
-${answers.function || 'Not provided'}
+**Identity & Persona:**
+${answers.identity || 'Not provided'}
 
-**Problems Solved:**
-${answers.problems || 'Not provided'}
+**Success Goal:**
+${answers.goal || 'Not provided'}
 
-**Operating Parameters:**
-${answers.parameters || 'Not provided'}
+**Thinking Process / Workflow:**
+${answers.workflow || 'Not provided'}
 
 **Constraints (Never Do):**
 ${answers.constraints || 'Not provided'}
 
-**Communication Style:**
-${answers.communication || 'Not provided'}
+**Voice & Tone:**
+${answers.tone || 'Not provided'}
 
-**Active Tasks:**
-${answers.tasks || 'Not provided'}
-
-**System Context:**
-${answers.context || 'Not provided'}
+**Tools & Knowledge:**
+${answers.tools || 'Not provided'}
 
 ## INSTRUCTIONS
 

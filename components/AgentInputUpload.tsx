@@ -8,10 +8,14 @@ type AgentInputUploadProps = {
 };
 
 export default function AgentInputUpload({ onDataParsed }: AgentInputUploadProps) {
-  const [activeTab, setActiveTab] = useState<'text' | 'file'>('text');
+  const [activeTab, setActiveTab] = useState<'text' | 'file' | 'guided'>('text');
   const [text, setText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const handleGuidedStart = () => {
+    onDataParsed('No initial system prompt provided. The user is defining this agent from scratch based on the interview questions below.', 'Guided Creation Mode');
+  };
 
   const handleTextSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,8 +76,8 @@ export default function AgentInputUpload({ onDataParsed }: AgentInputUploadProps
       <div className="flex border-b border-gray-700">
         <button
           className={`pb-3 px-4 text-sm font-medium transition-colors ${activeTab === 'text'
-              ? 'text-blue-400 border-b-2 border-blue-400'
-              : 'text-gray-400 hover:text-gray-200'
+            ? 'text-blue-400 border-b-2 border-blue-400'
+            : 'text-gray-400 hover:text-gray-200'
             }`}
           onClick={() => setActiveTab('text')}
         >
@@ -81,12 +85,21 @@ export default function AgentInputUpload({ onDataParsed }: AgentInputUploadProps
         </button>
         <button
           className={`pb-3 px-4 text-sm font-medium transition-colors ${activeTab === 'file'
-              ? 'text-blue-400 border-b-2 border-blue-400'
-              : 'text-gray-400 hover:text-gray-200'
+            ? 'text-blue-400 border-b-2 border-blue-400'
+            : 'text-gray-400 hover:text-gray-200'
             }`}
           onClick={() => setActiveTab('file')}
         >
           Upload Config
+        </button>
+        <button
+          className={`pb-3 px-4 text-sm font-medium transition-colors ${activeTab === 'guided'
+            ? 'text-blue-400 border-b-2 border-blue-400'
+            : 'text-gray-400 hover:text-gray-200'
+            }`}
+          onClick={() => setActiveTab('guided')}
+        >
+          Start from Scratch
         </button>
       </div>
 
@@ -130,6 +143,23 @@ export default function AgentInputUpload({ onDataParsed }: AgentInputUploadProps
             entityType="agent"
             acceptedFileTypes={['.txt', '.md', '.pdf', '.docx']}
           />
+        </div>
+      )}
+
+      {!isLoading && activeTab === 'guided' && (
+        <div className="text-center py-8">
+          <div className="bg-gray-800/50 rounded-lg p-6 mb-6">
+            <h3 className="text-lg font-medium text-gray-200 mb-2">No System Prompt? No Problem.</h3>
+            <p className="text-gray-400 max-w-lg mx-auto">
+              We'll interview you to define your agent's personality, constraints, and capabilities from the ground up.
+            </p>
+          </div>
+          <button
+            onClick={handleGuidedStart}
+            className="bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 px-8 rounded-lg transition-colors shadow-lg hover:shadow-blue-900/20"
+          >
+            Start Guided Mode
+          </button>
         </div>
       )}
 

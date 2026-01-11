@@ -165,19 +165,19 @@
 - [x] Configure `parse-url` API to allow localhost in `development` mode (DEPRECATED)
 - [x] Verify "Import from URL" flow with `http://localhost:3000/mocks/about-page.html` (DEPRECATED)
 - [x] Implement "View Scraped Content" toggle in `OrganizationPage`
-- [ ] Verify File Upload with noisy mock data (`public/mocks/acme-corp.txt`)
-- [ ] Test pdf, docx files scraping
+- [x] Verify File Upload with noisy mock data (`public/mocks/acme-corp.txt`)
+- [x] Test pdf, docx files scraping
 - [x] Remove "Import from URL" UI and API code
 
 #### 16.2 Agent Workflow Overhaul
-- [ ] Refactor `AgentInputUpload.tsx`
-  - [ ] Add "Start from Scratch" / "Guided Mode" button (bypasses input requirement)
-  - [ ] Update state management to handle empty initial input
-- [ ] Rewrite `config/questions/agent.ts`
-  - [ ] Change "Spec-based" questions to "Interview-based" questions
-  - [ ] Focus on intent, personality, and constraints rather than system parameters
-- [ ] Update `lib/generators/templates/agent.ts`
-  - [ ] Optimize system prompt generation for "Guided Mode" inputs (where no base prompt exists)
+- [x] Refactor `AgentInputUpload.tsx`
+  - [x] Add "Start from Scratch" / "Guided Mode" button (bypasses input requirement)
+  - [x] Update state management to handle empty initial input
+- [x] Rewrite `config/questions/agent.ts`
+  - [x] Change "Spec-based" questions to "Interview-based" questions
+  - [x] Focus on intent, personality, and constraints rather than system parameters
+- [x] Update `lib/generators/templates/agent.ts`
+  - [x] Optimize system prompt generation for "Guided Mode" inputs (where no base prompt exists)
 
 #### 16.3 Mock Data & Testing Support
 - [x] Create `public/mocks/acme-corp.txt` (Mock Org text)

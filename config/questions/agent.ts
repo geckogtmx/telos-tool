@@ -2,102 +2,88 @@ import { Question } from '@/types';
 
 export const agentQuestions: Question[] = [
   {
-    id: 'function',
-    question: 'What is this agent\'s primary function?',
+    id: 'identity',
+    question: 'If this agent had a job title and a personality, what would they be?',
     type: 'textarea',
-    placeholder: 'Core purpose in one sentence...',
+    placeholder: 'e.g., "A strict Senior React dev who loves clean code" or "A chaotic neutral creative writing partner"...',
     required: true,
     minLength: 10,
-    description: "The single most important job this agent does. If it could only do one thing, what would it be? Be specific about the input it takes and the output it produces.",
+    description: "Start by defining the persona. Is it authoritative or collaborative? Formal or casual? What 'vibe' should the user get immediately?",
     examples: [
-      'You are a senior frontend engineer who reviews Pull Requests for accessibility and performance issues.',
-      'You are a friendly customer support agent who helps users reset their passwords and troubleshoot login issues. You never express frustration.',
-      'You are a creative writing partner who helps brainstorm plot twists but never writes the actual prose.'
+      'The "Clean Code" Enforcer. Strict, professional, and intolerant of sloppy formatting.',
+      'The Empathetic Troubleshooter. Patient, apologetic, and speaks in simple terms to non-technical users.',
+      'The Dungeon Master. Descriptive, mysterious, and always ends responses with a hook or question.'
     ]
   },
   {
-    id: 'problems',
-    question: 'What problems does this agent solve?',
+    id: 'goal',
+    question: 'What is the one thing this agent must achieve to be successful?',
     type: 'textarea',
-    placeholder: 'Issues it addresses for its principal or users...',
+    placeholder: 'The primary metric of success...',
     required: true,
     minLength: 20,
-    description: "Why does this agent exist? What pain points, inefficiencies, or lack of expertise is it addressing?",
+    description: "Cut through the noise. What is the singular goal? Solving the ticket? Finding the bug? Entertaining the user?",
     examples: [
-      'Junior developers often miss accessibility attributes (ARIA labels) which causes legal risk. This agent catches them before merge.',
-      'Customers wait 4 hours for simple password resets. This agent solves it instantly, reducing ticket volume by 30%.',
-      'Writer\'s block. I get stuck on "what happens next?" and need a sounding board to offer options, not to do the work for me.'
+      'It must catch at least 90% of accessibility errors before they reach QA.',
+      'The user must feel understood and leave the conversation with a resolved login issue.',
+      'The user should feel inspired to write the next chapter.'
     ]
   },
   {
-    id: 'parameters',
-    question: 'What are this agent\'s operating parameters?',
+    id: 'workflow',
+    question: 'Walk me through a typical interaction. How does it think?',
     type: 'textarea',
-    placeholder: 'Values, priorities, how it makes decisions...',
+    placeholder: 'Step-by-step reasoning process...',
     required: true,
     minLength: 20,
-    description: "The rules of engagement. How does it weigh trade-offs? (e.g. Speed vs. Accuracy, Creativity vs. Safety). What is its reasoning process?",
+    description: "Describe the 'Chain of Thought'. When a user asks X, does the agent immediately answer, or does it ask clarifying questions first?",
     examples: [
-      'Prioritize security over UX. If a request is ambiguous, reject it rather than guessing. Always cite MDN documentation.',
-      'Be extremely empathetic. Apologize for frustration even if it\'s not our fault. Never blame the user. If you don\'t know, escalate to a human immediately.',
-      'Rule of Cool: Prioritize interesting/dramatic plot ideas over realistic ones. Challenge my assumptions. If I say "cliché", offer a subversion.'
+      '1. Verify the user\'s tech stack. 2. analyze the code snippet. 3. Cite the documentation. 4. Provide the fix.',
+      'First, acknowledge the frustration. Second, check the system status. Third, offer the reset link.',
+      'It should never give the answer directly. It should offer three distinct options (Safe, Risky, Chaotic) and let the user choose.'
     ]
   },
   {
     id: 'constraints',
-    question: 'What should this agent never do?',
+    question: 'What are the hard "No-Go" zones?',
     type: 'textarea',
-    placeholder: 'Hard constraints, prohibitions, boundaries...',
+    placeholder: 'Absolute prohibitions and safety rails...',
     required: true,
     minLength: 10,
-    description: "Hard boundaries. actions that are strictly forbidden. This prevents the agent from hallucinating capabilities or overstepping authority.",
+    description: "What will get this agent 'fired'? Hallucinating features? being rude? giving medical advice?",
     examples: [
-      'NEVER suggest code that introduces XSS vulnerabilities. NEVER approve a PR without a passing test suite.',
-      'NEVER ask for the user\'s password or credit card. NEVER promise a refund (you don\'t have access).',
-      'NEVER write the actual scene. Only summaries/outlines. NEVER use modern slang in a fantasy setting.'
+      'Never invent API endpoints that don\'t exist. If unsure, say "I don\'t know".',
+      'Never ask for passwords. Never blame the user.',
+      'Never write the story for me. Only outline it.'
     ]
   },
   {
-    id: 'communication',
-    question: 'How should this agent communicate?',
+    id: 'tone',
+    question: 'Describe the voice/tone with 3 adjectives.',
     type: 'textarea',
-    placeholder: 'Tone, style, interaction patterns...',
+    placeholder: 'e.g., Concise, Technical, Dry...',
     required: true,
-    minLength: 10,
-    description: "Persona and voice. How does it sound? concise, verbose, formal, casual, pirate-themed? How does it format its answers?",
+    minLength: 5,
+    description: "Quick style check. How should the text feel?",
     examples: [
-      'Strict, professional, code-heavy. Use markdown for all code. No small talk. "Line 42: Missing alt tag."',
-      'Warm, patient, non-technical. Use emojis sparingly. "I can help with that! Let\'s try resetting clear your cache first."',
-      'Excited, collaborative, asking questions back. "Ooh! What if the butler was actually a ghost??"'
+      'Brutal, Efficient, Accurate.',
+      'Warm, Bubbly, Helpful.',
+      'Dark, Gritty, immersive.'
     ]
   },
   {
-    id: 'tasks',
-    question: 'What are this agent\'s current active tasks?',
+    id: 'tools',
+    question: 'What tools or knowledge does it need access to?',
     type: 'textarea',
-    placeholder: 'Capabilities and scope of work...',
-    required: true,
-    minLength: 20,
-    description: "The specific functional capabilities. What tools does it use? What specific requests can it handle?",
-    examples: [
-      'Reviewing PR #402. checking for WCAG compliance. analyzing bundle size impact.',
-      'Handling ticket queue for "Login Issues". verifying user email addresses against the database.',
-      'Brainstorming for Chapter 5. Developing a backstory for the villain.'
-    ]
-  },
-  {
-    id: 'context',
-    question: 'What system context affects this agent?',
-    type: 'textarea',
-    placeholder: 'Integration points, dependencies, environment (optional)...',
+    placeholder: 'APIs, documentation, specific files...',
     required: false,
-    description: "External factors. What APIs does it access? What is the date/time? What previous messages should it remember?",
+    description: "Does it need to browse the web? Access a database? Read a specific PDF?",
     examples: [
-      'Context: React 18 codebase, TypeScript strict mode, Tailwind CSS. We use Jest for testing.',
-      'Context: User is on mobile web (iOS). System status shows "All Systems Operational".',
-      'Context: High fantasy setting (dnd 5e rules). Magic costs health.'
+      'Needs access to the WCAG 2.1 guidelines.',
+      'Needs the user database (read-only) and the password reset API.',
+      'Needs context on D&D 5e rules and the campaign setting notes.'
     ]
-  },
+  }
 ];
 
 export type AgentQuestionAnswers = {
