@@ -6,6 +6,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Supabase](https://img.shields.io/badge/Supabase-Database-green?logo=supabase)](https://supabase.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https://telos-tool.vercel.app)
 
 ## What is TELOS?
 
