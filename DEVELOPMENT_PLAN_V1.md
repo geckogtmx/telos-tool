@@ -240,6 +240,13 @@
 
 ---
 
+### Phase 18: Post-Release Manual Verification
+**Goal:** User performs comprehensive manual testing on the production deployment.
+
+- [ ] Execute `MANUAL_TEST_WORKFLOW.md` on production environment
+
+---
+
 **Created:** 2026-01-11
 **Last Updated:** 2026-01-11
 **Status:** v1.0 RELEASED

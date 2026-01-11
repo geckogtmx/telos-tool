@@ -1,0 +1,17 @@
+John Doe
+123 Main St, Anytown, USA
+Phone: 555-0199
+Email: john.doe@example.com
+
+SUMMARY
+Experienced Software Engineer with a focus on full-stack development.
+
+EXPERIENCE
+Tech Solutions Inc. - Senior Developer
+2020 - Present
+- Led team of 5 developers.
+- Implemented new CI/CD pipeline.
+
+EDUCATION
+University of Technology - BS Computer Science
+2016 - 2020
