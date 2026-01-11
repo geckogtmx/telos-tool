@@ -151,7 +151,7 @@ export default function AgentInputUpload({ onDataParsed }: AgentInputUploadProps
           <div className="bg-gray-800/50 rounded-lg p-6 mb-6">
             <h3 className="text-lg font-medium text-gray-200 mb-2">No System Prompt? No Problem.</h3>
             <p className="text-gray-400 max-w-lg mx-auto">
-              We'll interview you to define your agent's personality, constraints, and capabilities from the ground up.
+              We&apos;ll interview you to define your agent&apos;s personality, constraints, and capabilities from the ground up.
             </p>
           </div>
           <button

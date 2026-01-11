@@ -1,4 +1,3 @@
-import { fileTypeFromBuffer } from 'file-type';
 import { parseCV, CVParseException } from './cv-parser'; // Reuse PDF/DOCX logic
 
 export type ParsedOrg = {

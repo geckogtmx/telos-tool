@@ -37,11 +37,13 @@ import { generateWithGemini } from '../gemini-api';
 describe('TELOS Generator', () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (AI_CONFIG as any).provider = 'claude';
     });
 
     describe('generateTELOS', () => {
         it('should generate Individual TELOS using Claude by default', async () => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (callClaudeAPI as any).mockResolvedValue('# John Doe\nContent');
 
             const result = await generateTELOS({
@@ -56,7 +58,9 @@ describe('TELOS Generator', () => {
         });
 
         it('should generate Organization TELOS using Gemini when configured', async () => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (AI_CONFIG as any).provider = 'gemini';
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (generateWithGemini as any).mockResolvedValue('# Acme Corp\nContent');
 
             const result = await generateTELOS({
@@ -71,6 +75,7 @@ describe('TELOS Generator', () => {
         });
 
         it('should handle API errors gracefully', async () => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (callClaudeAPI as any).mockRejectedValue(new Error('API Error'));
 
             const result = await generateTELOS({

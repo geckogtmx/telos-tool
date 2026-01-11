@@ -37,6 +37,7 @@ describe('CV Parser', () => {
         const file = new File([content], 'resume.txt', { type: 'text/plain' });
 
         // Mock file type detection for txt
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (fileTypeFromBuffer as any).mockResolvedValue(undefined); // undefined often means text/plain fallback
 
         const result = await parseCV(file);
@@ -47,6 +48,7 @@ describe('CV Parser', () => {
     it.skip('should parse PDF files correctly', async () => {
         const file = new File(['dummy content '.repeat(10)], 'resume.pdf', { type: 'application/pdf' });
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (fileTypeFromBuffer as any).mockResolvedValue({ mime: 'application/pdf', ext: 'pdf' });
 
         const result = await parseCV(file);
@@ -60,6 +62,7 @@ describe('CV Parser', () => {
             type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
         });
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (fileTypeFromBuffer as any).mockResolvedValue({
             mime: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             ext: 'docx'
@@ -80,6 +83,7 @@ describe('CV Parser', () => {
 
     it('should reject empty files', async () => {
         const file = new File([''], 'empty.txt', { type: 'text/plain' });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (fileTypeFromBuffer as any).mockResolvedValue(undefined);
 
         await expect(parseCV(file)).rejects.toThrow('No text found in file');
