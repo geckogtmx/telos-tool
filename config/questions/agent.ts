@@ -89,3 +89,90 @@ export const agentQuestions: Question[] = [
 export type AgentQuestionAnswers = {
   [key: string]: string;
 };
+
+export const skillQuestions: Question[] = [
+  {
+    id: 'name',
+    question: 'What do you want to call this skill?',
+    type: 'text',
+    placeholder: 'e.g., PostgresExplorer, HeadlessBrowser, LogAnalyzer...',
+    required: true,
+    minLength: 3,
+    description: "A short, PascalCase name for the tool.",
+    examples: [
+      'PostgresExplorer',
+      'HeadlessBrowser',
+      'LogAnalyzer'
+    ]
+  },
+  {
+    id: 'functionality',
+    question: 'What specific task should this skill perform?',
+    type: 'textarea',
+    placeholder: 'e.g., Query database schemas, scrape dynamic websites, grep logs...',
+    required: true,
+    minLength: 15,
+    description: "Define the core capability. What super-power are you giving the agent?",
+    examples: [
+      'Execute read-only SQL queries against a PostgreSQL database to inspect schema and sample data.',
+      'Navigate a headless Chrome browser to take screenshots and extract main content text.',
+      'Search the local filesystem for files matching a regex pattern and return their content.'
+    ]
+  },
+  {
+    id: 'trigger',
+    question: 'When should the agent decide to use this tool?',
+    type: 'textarea',
+    placeholder: 'e.g., When the user needs to debug data...',
+    required: true,
+    minLength: 15,
+    description: "The 'Activation Phrase'. Under what conditions is this skill relevant?",
+    examples: [
+      'When the user asks to debug a database issue or check table structure.',
+      'When the user provides a URL that needs visual verification or scraping.',
+      'When the user needs to find a specific code snippet or config file.'
+    ]
+  },
+  {
+    id: 'inputs',
+    question: 'What data does the skill need from the user?',
+    type: 'textarea',
+    placeholder: 'e.g., SQL Query, URL, Regex pattern...',
+    required: true,
+    minLength: 10,
+    description: "What constraints or arguments must be passed to the function?",
+    examples: [
+      'SQL Query (string) and Database Connection ID (string).',
+      'Target URL (string) and Viewport Size (object).',
+      'Search Pattern (string) and Root Directory (string).'
+    ]
+  },
+  {
+    id: 'execution',
+    question: 'Describe the logic: APIs, scripts, or calculations.',
+    type: 'textarea',
+    placeholder: 'Step-by-step logic...',
+    required: true,
+    minLength: 20,
+    description: "How does it work under the hood? Does it run a python script? Call a REST API?",
+    examples: [
+      '1. Connect via `pg`. 2. Run query in read-only transaction. 3. Return rows as JSON.',
+      '1. Launch Puppeteer. 2. `page.goto(url)`. 3. `page.screenshot()`. 4. Return base64 image.',
+      '1. Use `ripgrep` for fast search. 2. Filter exclusions. 3. Read top 5 matches.'
+    ]
+  },
+  {
+    id: 'outputs',
+    question: 'What does a successful output look like?',
+    type: 'textarea',
+    placeholder: 'e.g., Markdown table, JSON blob, File list...',
+    required: true,
+    minLength: 10,
+    description: "What does the skill return to the conversation context?",
+    examples: [
+      'A Markdown table representing the query results, truncated to 10 rows.',
+      'A structured JSON with `screenshot_b64` and `text_content` fields.',
+      'A list of file paths with line numbers and context snippets.'
+    ]
+  }
+];

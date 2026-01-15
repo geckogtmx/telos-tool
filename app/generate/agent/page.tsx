@@ -8,7 +8,7 @@ import { OutputTypeSelector } from '@/components/OutputTypeSelector';
 import { PlatformSelector } from '@/components/PlatformSelector';
 import { SystemPromptPreview } from '@/components/SystemPromptPreview';
 import { SkillPreview } from '@/components/SkillPreview';
-import { agentQuestions, AgentQuestionAnswers } from '@/config/questions/agent';
+import { agentQuestions, skillQuestions, AgentQuestionAnswers } from '@/config/questions/agent';
 import { HostingType } from '@/types';
 import { OutputType, TargetPlatform, SkillOutput, OUTPUT_TYPE_INFO } from '@/types/output-types';
 import { DEFAULT_OUTPUT_TYPE, DEFAULT_PLATFORM } from '@/config/constants';
@@ -22,8 +22,8 @@ type GeneratedContent = {
 };
 
 function AgentFlow() {
-  // Step tracking
-  const [currentStep, setCurrentStep] = useState<'input' | 'output-type' | 'questions' | 'preview'>('input');
+  // Step tracking - Reordered: output-type -> input -> questions -> preview
+  const [currentStep, setCurrentStep] = useState<'output-type' | 'input' | 'questions' | 'preview'>('output-type');
 
   // Input state
   const [parsedText, setParsedText] = useState<string | null>(null);
@@ -47,7 +47,7 @@ function AgentFlow() {
   const handleDataParsed = (text: string, source: string) => {
     setParsedText(text);
     setSourceName(source);
-    setCurrentStep('output-type');
+    setCurrentStep('questions');
   };
 
   const handleReset = () => {
@@ -58,11 +58,19 @@ function AgentFlow() {
     setAnswers({});
     setError(null);
     setGeneratedContent(null);
-    setCurrentStep('input');
+    setCurrentStep('output-type');
   };
 
   const handleOutputTypeConfirm = () => {
-    setCurrentStep('questions');
+    if (outputType === 'skill') {
+      // For skills, we skip the raw input step and go straight to guided questions
+      // This reduces redundancy as requested by user
+      setParsedText('Guided Skill Generation');
+      setSourceName('Skill Flow');
+      setCurrentStep('questions');
+    } else {
+      setCurrentStep('input');
+    }
   };
 
   const handleQuestionComplete = (completedAnswers: AgentQuestionAnswers) => {
@@ -192,6 +200,19 @@ function AgentFlow() {
     return 'Agent Configuration';
   };
 
+  // Get dynamic step 2 title based on output type
+  const getInputStepTitle = () => {
+    if (outputType === 'skill') return 'Step 2: Skill Context';
+    if (outputType === 'system-prompt') return 'Step 2: Prompt Requirements';
+    return 'Step 2: Agent Context';
+  };
+
+  const getInputStepDescription = () => {
+    if (outputType === 'skill') return 'Provide details about the skill capability you want to build.';
+    if (outputType === 'system-prompt') return 'Describe the role and goals for this system prompt.';
+    return 'Provide the agent\'s system prompt or configuration file to extract its identity.';
+  };
+
   // Render preview based on output type
   const renderPreview = () => {
     if (!generatedContent) return null;
@@ -275,7 +296,7 @@ function AgentFlow() {
           </p>
 
           {/* Output type badge */}
-          {currentStep !== 'input' && currentStep !== 'output-type' && (
+          {currentStep !== 'output-type' && (
             <div className="mt-4 flex items-center gap-2">
               <span className="px-3 py-1 text-sm bg-blue-500/20 text-blue-400 rounded-full">
                 {OUTPUT_TYPE_INFO[outputType].icon} {OUTPUT_TYPE_INFO[outputType].label}
@@ -283,6 +304,12 @@ function AgentFlow() {
               <span className="px-3 py-1 text-sm bg-purple-500/20 text-purple-400 rounded-full">
                 {targetPlatform}
               </span>
+              <button
+                onClick={() => setCurrentStep('output-type')}
+                className="text-xs text-gray-500 hover:text-gray-300 ml-2"
+              >
+                Change
+              </button>
             </div>
           )}
         </div>
@@ -291,42 +318,14 @@ function AgentFlow() {
           renderPreview()
         ) : (
           <div className="space-y-10">
-            {/* Step 1: Input */}
-            {currentStep === 'input' && (
-              <div className="bg-gray-900 border border-gray-700 rounded-lg shadow-sm p-8">
-                <h2 className="text-xl font-semibold text-gray-100 mb-4">
-                  Step 1: System Prompt / Config
-                </h2>
-                <p className="text-sm text-gray-400 mb-6">
-                  Provide the agent&apos;s system prompt or configuration file to extract its identity.
-                </p>
-
-                <AgentInputUpload onDataParsed={handleDataParsed} />
-              </div>
-            )}
-
-            {/* Source summary (shown after input) */}
-            {parsedText && currentStep !== 'input' && (
-              <div className="bg-gray-800/50 border border-blue-900/50 rounded-lg p-4 flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="text-3xl text-blue-400">🤖</div>
-                  <div>
-                    <p className="font-medium text-gray-100">{sourceName}</p>
-                    <p className="text-sm text-gray-400">{parsedText.length} characters loaded</p>
-                  </div>
-                </div>
-                <button
-                  onClick={handleReset}
-                  className="text-sm text-blue-400 hover:text-blue-300"
-                >
-                  Start Over
-                </button>
-              </div>
-            )}
-
-            {/* Step 2: Output Type Selection */}
+            {/* Step 1: Output Type Selection */}
             {currentStep === 'output-type' && (
               <div className="bg-gray-900 border border-gray-700 rounded-lg shadow-sm p-8 space-y-8">
+                <div className="border-b border-gray-800 pb-4 mb-6">
+                  <h2 className="text-xl font-semibold text-gray-100">Step 1: Choose Output</h2>
+                  <p className="text-gray-400 text-sm mt-1">What would you like to build today?</p>
+                </div>
+
                 <OutputTypeSelector
                   selectedType={outputType}
                   onSelect={setOutputType}
@@ -344,9 +343,46 @@ function AgentFlow() {
                     onClick={handleOutputTypeConfirm}
                     className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors"
                   >
-                    Continue to Questions →
+                    Continue to Context →
                   </button>
                 </div>
+              </div>
+            )}
+
+            {/* Step 2: Input */}
+            {currentStep === 'input' && (
+              <div className="bg-gray-900 border border-gray-700 rounded-lg shadow-sm p-8">
+                <div className="flex justify-between items-center mb-6">
+                  <div>
+                    <h2 className="text-xl font-semibold text-gray-100">
+                      {getInputStepTitle()}
+                    </h2>
+                    <p className="text-sm text-gray-400 mt-1">
+                      {getInputStepDescription()}
+                    </p>
+                  </div>
+                </div>
+
+                <AgentInputUpload onDataParsed={handleDataParsed} outputType={outputType} />
+              </div>
+            )}
+
+            {/* Source summary (shown after input/during questions) */}
+            {parsedText && currentStep === 'questions' && (
+              <div className="bg-gray-800/50 border border-blue-900/50 rounded-lg p-4 flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="text-3xl text-blue-400">🤖</div>
+                  <div>
+                    <p className="font-medium text-gray-100">{sourceName}</p>
+                    <p className="text-sm text-gray-400">{parsedText.length} characters loaded</p>
+                  </div>
+                </div>
+                <button
+                  onClick={handleReset}
+                  className="text-sm text-blue-400 hover:text-blue-300"
+                >
+                  Start Over
+                </button>
               </div>
             )}
 
@@ -356,22 +392,16 @@ function AgentFlow() {
                 <div className="mb-8 flex items-center justify-between">
                   <div>
                     <h2 className="text-xl font-semibold text-gray-100">
-                      Step 3: Agent Persona Definition
+                      Step 3: Refine {OUTPUT_TYPE_INFO[outputType].label}
                     </h2>
                     <p className="text-sm text-gray-400 mt-1">
                       Refine the agent&apos;s behavior and constraints.
                     </p>
                   </div>
-                  <button
-                    onClick={() => setCurrentStep('output-type')}
-                    className="text-sm text-blue-400 hover:text-blue-300"
-                  >
-                    ← Change Output Type
-                  </button>
                 </div>
 
                 <QuestionFlow
-                  questions={agentQuestions}
+                  questions={outputType === 'skill' ? skillQuestions : agentQuestions}
                   onComplete={handleQuestionComplete}
                   initialAnswers={answers}
                 />
