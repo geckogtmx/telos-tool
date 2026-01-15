@@ -16,14 +16,6 @@ export const ENTITY_TYPES: EntityTypeInfo[] = [
     outputTypes: ['telos'],
   },
   {
-    id: 'organization',
-    name: 'Organization',
-    description: 'Generate an organizational TELOS from your about page',
-    icon: '🏢',
-    inputType: 'About Page URL or Text',
-    outputTypes: ['telos'],
-  },
-  {
     id: 'agent',
     name: 'AI Agent',
     description: 'Build TELOS documents, production system prompts, or installable skills for AI agents',
@@ -31,6 +23,14 @@ export const ENTITY_TYPES: EntityTypeInfo[] = [
     inputType: 'System Prompt or Config',
     badge: '3 outputs',
     outputTypes: ['telos', 'system-prompt', 'skill'],
+  },
+  {
+    id: 'organization',
+    name: 'Organization',
+    description: 'Generate an organizational TELOS from your about page',
+    icon: '🏢',
+    inputType: 'About Page URL or Text',
+    outputTypes: ['telos'],
   },
 ];
 

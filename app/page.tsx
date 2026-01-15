@@ -167,17 +167,6 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 hover:border-blue-500/50 transition-all">
-            <div className="text-4xl mb-4">🏢</div>
-            <h3 className="text-xl font-bold text-gray-100 mb-2">Organization</h3>
-            <p className="text-gray-400 text-sm mb-4">
-              Convert your organization&apos;s mission and values into a structured TELOS.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 bg-gray-800 text-gray-400 text-xs rounded">TELOS</span>
-            </div>
-          </div>
-
           <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 hover:border-blue-500/50 transition-all relative">
             <div className="absolute -top-2 -right-2 px-2 py-1 bg-blue-500 text-white text-xs font-medium rounded-full">
               3 outputs
@@ -191,6 +180,17 @@ export default function Home() {
               <span className="px-2 py-1 bg-gray-800 text-gray-400 text-xs rounded">TELOS</span>
               <span className="px-2 py-1 bg-purple-500/20 text-purple-400 text-xs rounded">Prompt</span>
               <span className="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded">Skill</span>
+            </div>
+          </div>
+
+          <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 hover:border-blue-500/50 transition-all">
+            <div className="text-4xl mb-4">🏢</div>
+            <h3 className="text-xl font-bold text-gray-100 mb-2">Organization</h3>
+            <p className="text-gray-400 text-sm mb-4">
+              Convert your organization&apos;s mission and values into a structured TELOS.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <span className="px-2 py-1 bg-gray-800 text-gray-400 text-xs rounded">TELOS</span>
             </div>
           </div>
         </div>
