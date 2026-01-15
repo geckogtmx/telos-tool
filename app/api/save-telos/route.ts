@@ -20,7 +20,7 @@ const saveSchema = z.object({
     .min(1, 'Entity name is required')
     .max(255, 'Entity name must be 255 characters or less')
     .transform(sanitizeEntityName),
-  rawInput: z.any(),
+  rawInput: z.record(z.string(), z.unknown()),
   generatedContent: z.string().min(1),
   hostingType: z.enum(['open', 'encrypted', 'private']),
   password: z.string().optional(),
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     if (rateLimitResponse) return rateLimitResponse;
 
     const supabase = await createClient();
-    
+
     // Auth check
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
@@ -93,26 +93,26 @@ export async function POST(request: NextRequest) {
     if (error) {
       // Handle duplicate public_id error (unique violation)
       if (error.code === '23505') {
-         // Retry once with a new ID
-         const newPublicId = generatePublicId();
-         const { data: retryData, error: retryError } = await supabase
-            .from('telos_files')
-            .insert({
-                user_id: user.id,
-                entity_type: entityType,
-                entity_name: entityName,
-                raw_input: rawInput,
-                generated_content: generatedContent,
-                public_id: newPublicId,
-                hosting_type: hostingType,
-                password_hash: passwordHash,
-            })
-            .select('id, public_id')
-            .single();
-        
+        // Retry once with a new ID
+        const newPublicId = generatePublicId();
+        const { data: retryData, error: retryError } = await supabase
+          .from('telos_files')
+          .insert({
+            user_id: user.id,
+            entity_type: entityType,
+            entity_name: entityName,
+            raw_input: rawInput,
+            generated_content: generatedContent,
+            public_id: newPublicId,
+            hosting_type: hostingType,
+            password_hash: passwordHash,
+          })
+          .select('id, public_id')
+          .single();
+
         if (retryError) {
-             console.error('Database error retry:', retryError);
-             return NextResponse.json({ success: false, error: 'Failed to save TELOS file' }, { status: 500 });
+          console.error('Database error retry:', retryError);
+          return NextResponse.json({ success: false, error: 'Failed to save TELOS file' }, { status: 500 });
         }
         return NextResponse.json({ success: true, data: retryData });
       }

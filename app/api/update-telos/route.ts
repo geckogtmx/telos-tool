@@ -19,7 +19,7 @@ const updateSchema = z.object({
     .min(1, 'Entity name is required')
     .max(255, 'Entity name must be 255 characters or less')
     .transform(sanitizeEntityName),
-  rawInput: z.any(),
+  rawInput: z.record(z.string(), z.unknown()),
   generatedContent: z.string().min(1),
   hostingType: z.enum(['open', 'encrypted', 'private']),
   password: z.string().optional(),
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     if (rateLimitResponse) return rateLimitResponse;
 
     const supabase = await createClient();
-    
+
     // Auth check
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
