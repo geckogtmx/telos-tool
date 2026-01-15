@@ -151,8 +151,25 @@ telos-tool/
 - [x] Performance: Gated debug logging
 - [x] Environment & Config cleanup
 
+### Phase 18: System Prompts & Skills Generation 🚧
+**Goal:** Generate production-ready system prompts and Anthropic/Antigravity-compatible skills
+
+- [x] Types & Configuration (`types/output-types.ts`, `config/constants.ts`)
+- [x] Database migration (output_type, target_platform columns, usage tracking)
+- [x] Generator templates (`system-prompt-template.ts`, `skill-template.ts`)
+- [x] Extended `telos-generator.ts` with `generateContent()` and `generateSkill()`
+- [x] UI Components: `OutputTypeSelector`, `PlatformSelector`, `SystemPromptPreview`, `SkillPreview`
+- [x] Agent page rewrite with 4-step flow (input → output type → questions → preview)
+- [x] API route update (`/api/generate-telos`) with outputType and targetPlatform support
+- [ ] Skill .zip download endpoint
+- [ ] Dashboard output type badges
+- [ ] Unit/E2E tests
+
+**Target Platforms:** Universal, Claude, Gemini, OpenAI, Cursor, Windsurf
+
 ## Next Milestone
-- Release v1.0
+- Complete Phase 18 testing and documentation
+
 
 ## Environment Variables
 

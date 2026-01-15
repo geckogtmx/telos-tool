@@ -4,46 +4,75 @@ import { useState, Suspense } from 'react';
 import AgentInputUpload from '@/components/AgentInputUpload';
 import QuestionFlow from '@/components/QuestionFlow';
 import TELOSPreview from '@/components/TELOSPreview';
+import { OutputTypeSelector } from '@/components/OutputTypeSelector';
+import { PlatformSelector } from '@/components/PlatformSelector';
+import { SystemPromptPreview } from '@/components/SystemPromptPreview';
+import { SkillPreview } from '@/components/SkillPreview';
 import { agentQuestions, AgentQuestionAnswers } from '@/config/questions/agent';
 import { HostingType } from '@/types';
+import { OutputType, TargetPlatform, SkillOutput, OUTPUT_TYPE_INFO } from '@/types/output-types';
+import { DEFAULT_OUTPUT_TYPE, DEFAULT_PLATFORM } from '@/config/constants';
 
-type GeneratedTELOS = {
+type GeneratedContent = {
   content: string;
   entityName: string;
   generatedAt: string;
+  outputType: OutputType;
+  skillOutput?: SkillOutput;
 };
 
 function AgentFlow() {
+  // Step tracking
+  const [currentStep, setCurrentStep] = useState<'input' | 'output-type' | 'questions' | 'preview'>('input');
+
+  // Input state
   const [parsedText, setParsedText] = useState<string | null>(null);
   const [sourceName, setSourceName] = useState<string>('');
-  
+
+  // Output configuration
+  const [outputType, setOutputType] = useState<OutputType>(DEFAULT_OUTPUT_TYPE);
+  const [targetPlatform, setTargetPlatform] = useState<TargetPlatform>(DEFAULT_PLATFORM);
+
+  // Question answers
   const [answers, setAnswers] = useState<AgentQuestionAnswers>({});
+
+  // Generation state
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [generatedTELOS, setGeneratedTELOS] = useState<GeneratedTELOS | null>(null);
-  
+  const [generatedContent, setGeneratedContent] = useState<GeneratedContent | null>(null);
+
+  // Saving state
   const [isSaving, setIsSaving] = useState(false);
 
   const handleDataParsed = (text: string, source: string) => {
     setParsedText(text);
     setSourceName(source);
+    setCurrentStep('output-type');
   };
 
   const handleReset = () => {
     setParsedText(null);
     setSourceName('');
+    setOutputType(DEFAULT_OUTPUT_TYPE);
+    setTargetPlatform(DEFAULT_PLATFORM);
     setAnswers({});
     setError(null);
+    setGeneratedContent(null);
+    setCurrentStep('input');
+  };
+
+  const handleOutputTypeConfirm = () => {
+    setCurrentStep('questions');
   };
 
   const handleQuestionComplete = (completedAnswers: AgentQuestionAnswers) => {
     setAnswers(completedAnswers);
-    handleGenerateTELOS(completedAnswers);
+    handleGenerate(completedAnswers);
   };
 
-  const handleGenerateTELOS = async (currentAnswers: AgentQuestionAnswers) => {
+  const handleGenerate = async (currentAnswers: AgentQuestionAnswers) => {
     if (!parsedText) return;
-    
+
     setIsGenerating(true);
     setError(null);
 
@@ -55,6 +84,8 @@ function AgentFlow() {
         },
         body: JSON.stringify({
           entityType: 'agent',
+          outputType: outputType,
+          targetPlatform: targetPlatform,
           parsedInput: parsedText,
           answers: currentAnswers,
         }),
@@ -63,14 +94,17 @@ function AgentFlow() {
       const result = await response.json();
 
       if (!result.success) {
-        throw new Error(result.error || 'Failed to generate TELOS');
+        throw new Error(result.error || 'Failed to generate');
       }
 
-      setGeneratedTELOS({
+      setGeneratedContent({
         content: result.data.content,
         entityName: result.data.entityName || 'AI Agent',
         generatedAt: result.data.generatedAt,
+        outputType: outputType,
+        skillOutput: result.data.skillOutput,
       });
+      setCurrentStep('preview');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred during generation');
     } finally {
@@ -78,11 +112,25 @@ function AgentFlow() {
     }
   };
 
-  const handleDownloadTELOS = () => {
-    if (!generatedTELOS) return;
+  const handleDownload = () => {
+    if (!generatedContent) return;
 
-    const filename = `TELOS_${generatedTELOS.entityName.replace(/\s+/g, '_')}.md`;
-    const blob = new Blob([generatedTELOS.content], { type: 'text/markdown' });
+    let filename: string;
+    let content: string;
+
+    if (generatedContent.outputType === 'skill' && generatedContent.skillOutput) {
+      // For skills, download as zip (simplified for now - just the SKILL.md)
+      filename = `${generatedContent.skillOutput.manifest.name}_SKILL.md`;
+      content = generatedContent.skillOutput.skillMd;
+    } else if (generatedContent.outputType === 'system-prompt') {
+      filename = `${generatedContent.entityName.replace(/\s+/g, '_')}_system_prompt.txt`;
+      content = generatedContent.content;
+    } else {
+      filename = `TELOS_${generatedContent.entityName.replace(/\s+/g, '_')}.md`;
+      content = generatedContent.content;
+    }
+
+    const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -94,11 +142,12 @@ function AgentFlow() {
   };
 
   const handleBackToQuestions = () => {
-    setGeneratedTELOS(null);
+    setGeneratedContent(null);
+    setCurrentStep('questions');
   };
 
-  const handleSaveTELOS = async (hostingType: HostingType, password?: string) => {
-    if (!generatedTELOS) return;
+  const handleSave = async (hostingType: HostingType, password?: string) => {
+    if (!generatedContent) return;
     setIsSaving(true);
 
     try {
@@ -107,13 +156,16 @@ function AgentFlow() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           entityType: 'agent',
-          entityName: generatedTELOS.entityName,
+          entityName: generatedContent.entityName,
+          outputType: outputType,
+          targetPlatform: targetPlatform,
           rawInput: {
             source: sourceName,
             parsedText: parsedText,
             answers: answers,
           },
-          generatedContent: generatedTELOS.content,
+          generatedContent: generatedContent.content,
+          skillMetadata: generatedContent.skillOutput?.manifest,
           hostingType,
           password
         })
@@ -121,7 +173,7 @@ function AgentFlow() {
 
       const result = await response.json();
       if (!result.success) {
-         throw new Error(result.error || 'Failed to save');
+        throw new Error(result.error || 'Failed to save');
       }
 
       window.location.href = `/t/${result.data.public_id}`;
@@ -132,31 +184,115 @@ function AgentFlow() {
     }
   };
 
+  // Get dynamic page title based on output type
+  const getPageTitle = () => {
+    if (outputType === 'telos') return 'Agent TELOS';
+    if (outputType === 'system-prompt') return 'System Prompt Generator';
+    if (outputType === 'skill') return 'Agent Skill Creator';
+    return 'Agent Configuration';
+  };
+
+  // Render preview based on output type
+  const renderPreview = () => {
+    if (!generatedContent) return null;
+
+    if (generatedContent.outputType === 'system-prompt') {
+      return (
+        <div className="space-y-6">
+          <SystemPromptPreview
+            content={generatedContent.content}
+            targetPlatform={targetPlatform}
+          />
+          <div className="flex justify-between pt-4 border-t border-gray-700">
+            <button
+              onClick={handleBackToQuestions}
+              className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+            >
+              ← Back to Edit
+            </button>
+            <button
+              onClick={() => handleSave('open')}
+              disabled={isSaving}
+              className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors disabled:opacity-50"
+            >
+              {isSaving ? 'Saving...' : 'Save & Share'}
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    if (generatedContent.outputType === 'skill' && generatedContent.skillOutput) {
+      return (
+        <div className="space-y-6">
+          <SkillPreview
+            skillOutput={generatedContent.skillOutput}
+            onDownload={handleDownload}
+          />
+          <div className="flex justify-between pt-4 border-t border-gray-700">
+            <button
+              onClick={handleBackToQuestions}
+              className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+            >
+              ← Back to Edit
+            </button>
+            <button
+              onClick={() => handleSave('open')}
+              disabled={isSaving}
+              className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors disabled:opacity-50"
+            >
+              {isSaving ? 'Saving...' : 'Save & Share'}
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // Default TELOS preview
+    return (
+      <TELOSPreview
+        content={generatedContent.content}
+        entityName={generatedContent.entityName}
+        onDownload={handleDownload}
+        onBack={handleBackToQuestions}
+        onSave={handleSave}
+        isSaving={isSaving}
+      />
+    );
+  };
+
   return (
     <div className="min-h-screen bg-black py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-100 mb-2">
-            Agent TELOS
+            {getPageTitle()}
           </h1>
           <p className="text-gray-400">
-            Define an AI Agent&apos;s persona, constraints, and operating parameters.
+            {outputType === 'telos' && "Define an AI Agent's persona, constraints, and operating parameters."}
+            {outputType === 'system-prompt' && "Generate a production-ready system prompt for your AI agent."}
+            {outputType === 'skill' && "Create an installable skill package for Claude or Gemini agents."}
           </p>
+
+          {/* Output type badge */}
+          {currentStep !== 'input' && currentStep !== 'output-type' && (
+            <div className="mt-4 flex items-center gap-2">
+              <span className="px-3 py-1 text-sm bg-blue-500/20 text-blue-400 rounded-full">
+                {OUTPUT_TYPE_INFO[outputType].icon} {OUTPUT_TYPE_INFO[outputType].label}
+              </span>
+              <span className="px-3 py-1 text-sm bg-purple-500/20 text-purple-400 rounded-full">
+                {targetPlatform}
+              </span>
+            </div>
+          )}
         </div>
 
-        {generatedTELOS ? (
-          <TELOSPreview
-            content={generatedTELOS.content}
-            entityName={generatedTELOS.entityName}
-            onDownload={handleDownloadTELOS}
-            onBack={handleBackToQuestions}
-            onSave={handleSaveTELOS}
-            isSaving={isSaving}
-          />
+        {currentStep === 'preview' ? (
+          renderPreview()
         ) : (
           <div className="space-y-10">
             {/* Step 1: Input */}
-            {!parsedText ? (
+            {currentStep === 'input' && (
               <div className="bg-gray-900 border border-gray-700 rounded-lg shadow-sm p-8">
                 <h2 className="text-xl font-semibold text-gray-100 mb-4">
                   Step 1: System Prompt / Config
@@ -164,37 +300,74 @@ function AgentFlow() {
                 <p className="text-sm text-gray-400 mb-6">
                   Provide the agent&apos;s system prompt or configuration file to extract its identity.
                 </p>
-                
+
                 <AgentInputUpload onDataParsed={handleDataParsed} />
               </div>
-            ) : (
+            )}
+
+            {/* Source summary (shown after input) */}
+            {parsedText && currentStep !== 'input' && (
               <div className="bg-gray-800/50 border border-blue-900/50 rounded-lg p-4 flex items-center justify-between">
-                 <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4">
                   <div className="text-3xl text-blue-400">🤖</div>
                   <div>
                     <p className="font-medium text-gray-100">{sourceName}</p>
                     <p className="text-sm text-gray-400">{parsedText.length} characters loaded</p>
                   </div>
                 </div>
-                <button 
+                <button
                   onClick={handleReset}
                   className="text-sm text-blue-400 hover:text-blue-300"
                 >
-                  Change Source
+                  Start Over
                 </button>
               </div>
             )}
 
-            {/* Step 2: Questions */}
-            {parsedText && (
+            {/* Step 2: Output Type Selection */}
+            {currentStep === 'output-type' && (
+              <div className="bg-gray-900 border border-gray-700 rounded-lg shadow-sm p-8 space-y-8">
+                <OutputTypeSelector
+                  selectedType={outputType}
+                  onSelect={setOutputType}
+                />
+
+                {outputType !== 'telos' && (
+                  <PlatformSelector
+                    selectedPlatform={targetPlatform}
+                    onSelect={setTargetPlatform}
+                  />
+                )}
+
+                <div className="flex justify-end pt-4 border-t border-gray-700">
+                  <button
+                    onClick={handleOutputTypeConfirm}
+                    className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors"
+                  >
+                    Continue to Questions →
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Step 3: Questions */}
+            {currentStep === 'questions' && (
               <div className="bg-gray-900 border border-gray-700 rounded-lg shadow-sm p-8">
-                <div className="mb-8">
-                  <h2 className="text-xl font-semibold text-gray-100">
-                    Step 2: Agent Persona Definition
-                  </h2>
-                  <p className="text-sm text-gray-400 mt-1">
-                    Refine the agent&apos;s behavior and constraints.
-                  </p>
+                <div className="mb-8 flex items-center justify-between">
+                  <div>
+                    <h2 className="text-xl font-semibold text-gray-100">
+                      Step 3: Agent Persona Definition
+                    </h2>
+                    <p className="text-sm text-gray-400 mt-1">
+                      Refine the agent&apos;s behavior and constraints.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setCurrentStep('output-type')}
+                    className="text-sm text-blue-400 hover:text-blue-300"
+                  >
+                    ← Change Output Type
+                  </button>
                 </div>
 
                 <QuestionFlow
@@ -209,8 +382,12 @@ function AgentFlow() {
               <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
                 <div className="bg-gray-900 border border-gray-700 rounded-2xl p-8 max-w-sm w-full text-center">
                   <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto mb-6"></div>
-                  <h3 className="text-xl font-bold text-white mb-2">Generating Agent TELOS</h3>
-                  <p className="text-gray-400">Defining operating parameters...</p>
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    Generating {OUTPUT_TYPE_INFO[outputType].label}
+                  </h3>
+                  <p className="text-gray-400">
+                    {outputType === 'skill' ? 'Creating skill package...' : 'Processing your configuration...'}
+                  </p>
                 </div>
               </div>
             )}

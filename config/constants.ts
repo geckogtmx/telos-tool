@@ -1,6 +1,7 @@
 // App-wide constants
 
 import { EntityTypeInfo } from '@/types';
+import { OutputType, TargetPlatform, OUTPUT_TYPE_INFO, PLATFORM_HINTS } from '@/types/output-types';
 
 export const APP_NAME = 'TELOS Tool';
 export const APP_DESCRIPTION = 'Generate comprehensive TELOS files for Individuals, Organizations, and Agents';
@@ -48,3 +49,22 @@ export const TIERS = {
     maxFiles: 999,
   },
 };
+
+// Phase 18: Output Types & Platforms
+export const OUTPUT_TYPES: { id: OutputType; label: string; description: string; icon: string }[] = [
+  { id: 'telos', ...OUTPUT_TYPE_INFO['telos'] },
+  { id: 'system-prompt', ...OUTPUT_TYPE_INFO['system-prompt'] },
+  { id: 'skill', ...OUTPUT_TYPE_INFO['skill'] },
+];
+
+export const PLATFORMS: { id: TargetPlatform; label: string; description: string }[] = [
+  { id: 'universal', label: PLATFORM_HINTS.universal.label, description: PLATFORM_HINTS.universal.description },
+  { id: 'claude', label: PLATFORM_HINTS.claude.label, description: PLATFORM_HINTS.claude.description },
+  { id: 'gemini', label: PLATFORM_HINTS.gemini.label, description: PLATFORM_HINTS.gemini.description },
+  { id: 'openai', label: PLATFORM_HINTS.openai.label, description: PLATFORM_HINTS.openai.description },
+  { id: 'cursor', label: PLATFORM_HINTS.cursor.label, description: PLATFORM_HINTS.cursor.description },
+  { id: 'windsurf', label: PLATFORM_HINTS.windsurf.label, description: PLATFORM_HINTS.windsurf.description },
+];
+
+export const DEFAULT_OUTPUT_TYPE: OutputType = 'telos';
+export const DEFAULT_PLATFORM: TargetPlatform = 'universal';
