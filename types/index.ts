@@ -11,6 +11,7 @@ export interface EntityTypeInfo {
   icon: string;
   inputType: string;
   badge?: string;
+  outputTypes?: ('telos' | 'system-prompt' | 'skill')[];
 }
 
 export interface Question {

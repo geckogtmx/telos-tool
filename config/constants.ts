@@ -13,6 +13,7 @@ export const ENTITY_TYPES: EntityTypeInfo[] = [
     description: 'Create a personal TELOS. Start with a 5-question Quick Start, then optionally expand to the Full Profile.',
     icon: '👤',
     inputType: 'CV Upload + Questions',
+    outputTypes: ['telos'],
   },
   {
     id: 'organization',
@@ -20,13 +21,16 @@ export const ENTITY_TYPES: EntityTypeInfo[] = [
     description: 'Generate an organizational TELOS from your about page',
     icon: '🏢',
     inputType: 'About Page URL or Text',
+    outputTypes: ['telos'],
   },
   {
     id: 'agent',
-    name: 'Agent',
-    description: 'Build an AI agent TELOS from system prompts',
+    name: 'AI Agent',
+    description: 'Build TELOS documents, production system prompts, or installable skills for AI agents',
     icon: '🤖',
     inputType: 'System Prompt or Config',
+    badge: '3 outputs',
+    outputTypes: ['telos', 'system-prompt', 'skill'],
   },
 ];
 
